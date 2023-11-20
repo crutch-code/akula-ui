@@ -33,7 +33,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.monPort }}
+              port: {{ .Values.service.intPort }}
             initialDelaySeconds: {{ .Values.probe.liveness.initialDelay }}
             periodSeconds: {{ .Values.probe.liveness.period }}
           {{- end }}
@@ -42,7 +42,7 @@ spec:
             httpGet:
               scheme: HTTP
               path: /ready
-              port: {{ .Values.service.monPort }}
+              port: {{ .Values.service.intPort }}
             initialDelaySeconds: {{ .Values.probe.readiness.initialDelay }}
             periodSeconds: {{ .Values.probe.readiness.period }}
           {{- end }}

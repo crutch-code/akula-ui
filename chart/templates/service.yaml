@@ -9,10 +9,6 @@ spec:
       port: {{ .Values.service.intPort }}
       targetPort: {{ .Values.service.intPort }}
       protocol: TCP
-    - name: monitor
-      port: {{ .Values.service.monPort }}
-      targetPort: {{ .Values.service.monPort }}
-      protocol: TCP
   selector:
     app: {{ .Release.Name }}
   type: ClusterIP

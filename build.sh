@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export APP=$(cat settings.gradle | grep -m 1 '^rootProject.name' | awk -F '"' '$0=$2')
-export VERSION=$(cat build.gradle | grep -m 1 '^version' | awk -F '"' '$0=$2')
+export APP=$(cat package.json | jq -r '.name')
+export VERSION=$(cat package.json | jq -r '.version')
 
 npm install --package-lock || exit 1
 npm ci || exit 1
