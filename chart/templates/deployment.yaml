@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ coalesce ((.Values.global).image).registry (.Values.image).registry }}/{{ .Release.Name }}:{{ .Chart.AppVersion }}
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: {{ .Values.quota.memory.request }}
+              cpu:  {{ .Values.quota.cpu.request }}
+            limits:
+              memory: {{ .Values.quota.memory.limit }}
+              cpu: {{ .Values.quota.cpu.limit }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}
+          ports:
+            - name: {{ trunc 15 .Release.Name }}
+              containerPort: {{ .Values.service.intPort }}
+              protocol: TCP
+          {{- if eq .Values.probe.liveness.enabled true }}
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: {{ .Values.service.monPort }}
+            initialDelaySeconds: {{ .Values.probe.liveness.initialDelay }}
+            periodSeconds: {{ .Values.probe.liveness.period }}
+          {{- end }}
+          {{- if eq .Values.probe.readiness.enabled true }}
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /health/readiness
+              port: {{ .Values.service.monPort }}
+            initialDelaySeconds: {{ .Values.probe.readiness.initialDelay }}
+            periodSeconds: {{ .Values.probe.readiness.period }}
+          {{- end }}
+      imagePullSecrets:
+        - name: {{ coalesce ((.Values.global).image).secret (.Values.image).secret }}

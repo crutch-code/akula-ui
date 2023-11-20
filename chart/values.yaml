@@ -1,0 +1,35 @@
+image:
+  registry: repo.gcg.name/gcg-docker
+  secret: docker-ro
+
+quota:
+  memory:
+    limit: 512Mi
+    request: 256Mi
+  cpu:
+    limit: 500m
+    request: 200m
+
+configMap:
+  env:
+    JAVA_OPTS: '-Xmx512m -Djava.awt.headless=true -Duser.country=RU -Duser.language=ru -Dfile.encoding=UTF-8 -Dhibernate.types.print.banner=false -Dmicronaut.server.port=8080'
+
+probe:
+  liveness:
+    enabled: true
+    initialDelay: 60
+    period: 10
+  readiness:
+    enabled: true
+    initialDelay: 60
+    period: 10
+
+service:
+  intPort: 8080
+  monPort: 8081
+  name: s-akula
+
+ingress:
+  dns: akula.gcg.name
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1

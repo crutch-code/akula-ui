@@ -1,0 +1,16 @@
+{{- $existingConfigMap := (lookup "v1" "ConfigMap" .Release.Namespace .Release.Name) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
+  labels:
+    app: {{ .Release.Name }}
+data:
+{{- if not $existingConfigMap }}
+{{ toYaml .Values.configMap.env | indent 2 }}
+{{- else }}
+{{ toYaml $existingConfigMap.data | indent 2 }}
+{{- end -}}

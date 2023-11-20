@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ trunc 15 .Values.service.name }}
+spec:
+  ports:
+    - name: {{ trunc 15 .Release.Name }}
+      port: {{ .Values.service.intPort }}
+      targetPort: {{ .Values.service.intPort }}
+      protocol: TCP
+    - name: monitor
+      port: {{ .Values.service.monPort }}
+      targetPort: {{ .Values.service.monPort }}
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+  type: ClusterIP
