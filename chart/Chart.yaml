@@ -1,6 +1,6 @@
 apiVersion: v2
-name: akula
-description: A Helm chart for akula
+name: akula-ui
+description: A Helm chart for akula-ui
 type: application
 version: "1.0"
 appVersion: "1.0"

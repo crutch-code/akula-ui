@@ -25,9 +25,6 @@ spec:
             limits:
               memory: {{ .Values.quota.memory.limit }}
               cpu: {{ .Values.quota.cpu.limit }}
-          envFrom:
-            - configMapRef:
-                name: {{ .Release.Name }}
           ports:
             - name: {{ trunc 15 .Release.Name }}
               containerPort: {{ .Values.service.intPort }}
@@ -35,7 +32,7 @@ spec:
           {{- if eq .Values.probe.liveness.enabled true }}
           livenessProbe:
             httpGet:
-              path: /health/liveness
+              path: /
               port: {{ .Values.service.monPort }}
             initialDelaySeconds: {{ .Values.probe.liveness.initialDelay }}
             periodSeconds: {{ .Values.probe.liveness.period }}
@@ -44,7 +41,7 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /health/readiness
+              path: /ready
               port: {{ .Values.service.monPort }}
             initialDelaySeconds: {{ .Values.probe.readiness.initialDelay }}
             periodSeconds: {{ .Values.probe.readiness.period }}

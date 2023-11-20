@@ -4,30 +4,26 @@ image:
 
 quota:
   memory:
-    limit: 512Mi
-    request: 256Mi
+    limit: 64Mi
+    request: 32Mi
   cpu:
-    limit: 500m
-    request: 200m
-
-configMap:
-  env:
-    JAVA_OPTS: '-Xmx512m -Djava.awt.headless=true -Duser.country=RU -Duser.language=ru -Dfile.encoding=UTF-8 -Dhibernate.types.print.banner=false -Dmicronaut.server.port=8080'
+    limit: 50m
+    request: 25m
 
 probe:
   liveness:
     enabled: true
-    initialDelay: 60
+    initialDelay: 10
     period: 10
   readiness:
     enabled: true
-    initialDelay: 60
+    initialDelay: 10
     period: 10
 
 service:
   intPort: 8080
-  monPort: 8081
-  name: s-akula
+  monPort: 8080
+  name: s-akula-ui
 
 ingress:
   dns: akula.gcg.name
