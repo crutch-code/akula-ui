@@ -1,20 +1,17 @@
-import React, {Component, ReactElement, useEffect, useState} from 'react'
-import {REST} from "../api/REST";
+import React, {ReactElement, useEffect, useState} from 'react'
 import {UserType} from "../types/UserType";
+import {REST} from "../api/REST";
 
 export function NavBar(props: any): ReactElement {
     let [me, setMe] = useState<UserType>();
-    useEffect(() => {
-        if (me === undefined) {
-            REST.getMe().then((u: UserType) => {
-                setMe(u);
-            })
-        }
-    }, [me]);
+    let [fio, setFio] = useState<string>();
 
-    let fio = me?.fio!.includes(' ') ?
-        me?.fio!.split(' ')[1].substring(0, 1) + '. ' + me?.fio!.split(' ')[0] :
-        me?.fio!;
+    useEffect(() => {
+        setMe(props.me);
+        setFio(me?.fio!.includes(' ') ?
+            me?.fio!.split(' ')[1].substring(0, 1) + '. ' + me?.fio!.split(' ')[0] :
+            me?.fio!);
+    }, [me]);
 
     return (
         <header className={'header-global'}>
@@ -43,7 +40,7 @@ export function NavBar(props: any): ReactElement {
                         </div>
                         <ul className="navbar-nav navbar-nav-hover align-items-lg-center">
                             <li className="nav-item">
-                                <a href="/cources" className="nav-link" data-toggle="dropdown">Мои курсы</a>
+                                <a href="/teach" className="nav-link" data-toggle="dropdown">Курсы и уроки</a>
                             </li>
                             <li className="nav-item">
                                 <a href="/analytics" className="nav-link" data-toggle="dropdown">Анатилика и отчеты</a>
@@ -66,6 +63,16 @@ export function NavBar(props: any): ReactElement {
                                                 </div>
                                             </a>
 
+                                            <a href="/admin/news"
+                                               className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                                    <span className="icon icon-sm icon-secondary"><span
+                                                        className="fas fa-bullhorn"></span></span>
+                                                <div className="ml-4">
+                                                    <span className="text-dark d-block">Новости</span>
+                                                    <span className="small">Управление новостями</span>
+                                                </div>
+                                            </a>
+
                                             <a href="/admin/analytics"
                                                className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
                                                     <span className="icon icon-sm icon-secondary"><span
@@ -85,6 +92,16 @@ export function NavBar(props: any): ReactElement {
                                                     <span className="small">Управление пользователями и назначением курсов</span>
                                                 </div>
                                             </a>
+
+                                            <a href="/admin/storage"
+                                               className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                                    <span className="icon icon-sm icon-secondary"><span
+                                                        className="fas fa-database"></span></span>
+                                                <div className="ml-4">
+                                                    <span className="text-dark d-block">Хранилище</span>
+                                                    <span className="small">Управление хранилищем файлов</span>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +116,7 @@ export function NavBar(props: any): ReactElement {
                                     <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
                                 </a>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="/me">Настройки</a></li>
+                                    <li><a className="dropdown-item" href="/me">Профиль</a></li>
                                     <li><a className="dropdown-item" href="/logout">Выход</a>
                                     </li>
                                 </ul>

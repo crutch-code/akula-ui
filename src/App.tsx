@@ -4,23 +4,40 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {NewsPage} from "./pages/NewsPage";
 import {MainPage} from "./pages/MainPage";
 import {Footer} from "./components/Footer";
+import {useEffect, useState} from "react";
+import {UserType} from "./types/UserType";
+import {REST} from "./api/REST";
+import {TeachPage} from "./pages/TeachPage";
 
 export default function App() {
+    const [me, setMe] = useState<UserType>();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+            REST.getMe().then((u: UserType) => {
+                setMe(u);
+                setLoading(false);
+            })
+    }, []);
+
+    if(loading)
+        return (<div className="App"></div>)
+
     return (
         <div className="App">
-            <NavBar/>
+            <NavBar me={me}/>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainPage/>}/>
-                    <Route path="/news/:id" element={<NewsPage/>}/>
+                    <Route path="/" element={<MainPage me={me}/>}/>
+                    <Route path="/news/:id" element={<NewsPage me={me}/>}/>
+                    <Route path="/teach/" element={<TeachPage me={me}/>}/>
 
                     <Route path="*" element={<PageNotFound/>}/>
                 </Routes>
             </BrowserRouter>
             <Footer/>
         </div>
-    );
-}
+    )}
 
 export function PageNotFound() {
     return (

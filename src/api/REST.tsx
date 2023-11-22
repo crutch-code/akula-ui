@@ -1,5 +1,6 @@
 import {NewsType} from '../types/NewsType'
 import {UserType} from "../types/UserType";
+import {TeachType} from "../types/TeachType";
 
 export class REST {
     public static BASE: string = "";
@@ -17,16 +18,20 @@ export class REST {
     public static getNews(): Promise<NewsType[]> {
         return fetch(REST.BASE + "/api/news", {method: "GET"})
             .then((response) => response.json())
-            .then((data: any) => { return data.body.content; })
-            .then((data: NewsType[]) => { return data; });
-            //.catch((error) => console.warn(error));
+            .then((data: any) => {
+                return data.body.content;
+            })
+            .then((data: NewsType[]) => {
+                return data;
+            });
+        //.catch((error) => console.warn(error));
     }
 
     public static getNewsById(id: any): Promise<NewsType> {
         return fetch(REST.BASE + "/api/news/" + id, {method: "GET"})
             .then((response) => response.json())
             .then((data: any) => {
-                if(data.status === 'OK')
+                if (data.status === 'OK')
                     return data.body;
                 throw data;
             })
@@ -37,7 +42,7 @@ export class REST {
         return fetch(REST.BASE + "/api/user/me", {method: "GET"})
             .then((response) => response.json())
             .then((data: any) => {
-                if(data.status === 'OK')
+                if (data.status === 'OK')
                     return data.body;
                 throw data;
             })
@@ -48,11 +53,21 @@ export class REST {
         return fetch(REST.BASE + "/api/user/" + id, {method: "GET"})
             .then((response) => response.json())
             .then((data: any) => {
-                if(data.status === 'OK')
+                if (data.status === 'OK')
                     return data.body;
                 throw data;
             })
             .catch((error) => console.error(error));
     }
 
+    public static getAllAssignedTo(): Promise<TeachType[]> {
+        return fetch(REST.BASE + "/api/teach", {method: "GET"})
+            .then((response) => response.json())
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body.content;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
 }
