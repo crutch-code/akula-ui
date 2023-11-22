@@ -4,17 +4,17 @@ import {useParams} from "react-router-dom";
 import {NewsType} from '../types/NewsType'
 import {NewsCard} from "../components/NewsCard";
 
-export function NewsPage(): ReactElement {
-        const {id} = useParams();
+export function NewsPage(props: any): ReactElement {
+        const {id} = useParams<string>();
         const [news, setNews] = useState<NewsType>();
         const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-                REST.getNewsById(id).then((n: NewsType) => {
-                        setNews(n);
+                REST.getNewsById(id).then((n) => {
+                        setNews(n!);
                         setLoading(false);
                 });
-        }, [])
+        }, [id])
 
         if (loading)
                 return (<div>"Wait news..."</div>);
@@ -22,7 +22,7 @@ export function NewsPage(): ReactElement {
             <main>
                     <div className={'section'}>
                             <div className="container">
-                                    <NewsCard key={news?.id} news={news} />
+                                    <NewsCard key={news?.id} news={news}/>
                             </div>
                     </div>
             </main>

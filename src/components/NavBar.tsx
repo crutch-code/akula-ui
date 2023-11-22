@@ -1,218 +1,117 @@
-import React, {Component} from 'react'
+import React, {Component, ReactElement, useEffect, useState} from 'react'
+import {REST} from "../api/REST";
+import {UserType} from "../types/UserType";
 
-export class NavBar extends Component<any, any> {
+export function NavBar(props: any): ReactElement {
+    let [me, setMe] = useState<UserType>();
+    useEffect(() => {
+        if (me === undefined) {
+            REST.getMe().then((u: UserType) => {
+                setMe(u);
+            })
+        }
+    }, [me]);
 
-    render() {
-        return (
-            <header className={'header-global'}>
-                <nav id="navbar-main" aria-label="Primary navigation"
-                     className="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent headroom--not-bottom headroom--pinned headroom--top">
-                    <div className="container position-relative">
-                        <a className="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="/">
-                            <img className="navbar-brand-dark" src="/akula.png" alt="Logo light"/>
-                            <img className="navbar-brand-light" src="/akula.png" alt="Logo dark"/>
-                        </a>
-                        <div className="navbar-collapse collapse" id="navbar_global">
-                            <div className="navbar-collapse-header">
-                                <div className="row">
-                                    <div className="col-6 collapse-brand">
-                                        <a href="/"
-                                           className="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
-                                            <img src="/akula.png" alt="Themesberg logo"/>
-                                        </a>
-                                    </div>
-                                    <div className="col-6 collapse-close">
-                                        <a href="#navbar_global" className="fas fa-times" data-toggle="collapse"
-                                           data-target="#navbar_global" aria-controls="navbar_global"
-                                           aria-expanded="false" title="close" aria-label="Toggle navigation"></a>
-                                    </div>
+    let fio = me?.fio!.includes(' ') ?
+        me?.fio!.split(' ')[1].substring(0, 1) + '. ' + me?.fio!.split(' ')[0] :
+        me?.fio!;
+
+    return (
+        <header className={'header-global'}>
+            <nav id="navbar-main" aria-label="Primary navigation" style={{backgroundColor: '#e6e7ee'}}
+                 className="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent headroom--not-bottom headroom--pinned headroom--top">
+                <div className="container position-relative">
+                    <a className="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="/">
+                        <img className="navbar-brand-dark" src="/akula.png" alt="Logo light"/>
+                        <img className="navbar-brand-light" src="/akula.png" alt="Logo dark"/>
+                    </a>
+                    <div className="navbar-collapse collapse" id="navbar_global">
+                        <div className="navbar-collapse-header">
+                            <div className="row">
+                                <div className="col-6 collapse-brand">
+                                    <a href="/"
+                                       className="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
+                                        <img src="/akula.png" alt="Themesberg logo"/>
+                                    </a>
+                                </div>
+                                <div className="col-6 collapse-close">
+                                    <a href="#navbar_global" className="fas fa-times" data-toggle="collapse"
+                                       data-target="#navbar_global" aria-controls="navbar_global"
+                                       aria-expanded="false" title="close" aria-label="Toggle navigation"></a>
                                 </div>
                             </div>
-                            <ul className="navbar-nav navbar-nav-hover align-items-lg-center">
-                                <li className="nav-item dropdown">
-                                    <a href="#" className="nav-link" data-toggle="dropdown">
-                                        <span className="nav-link-inner-text">Pages</span>
-                                        <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" href="./html/pages/about.html">About</a></li>
-                                        <li><a className="dropdown-item" href="./html/pages/pricing.html">Pricing</a>
-                                        </li>
-                                        <li><a className="dropdown-item" href="./html/pages/contact.html">Contact</a>
-                                        </li>
-                                        <li><a className="dropdown-item" href="./html/pages/sign-in.html">Sign in</a>
-                                        </li>
-                                        <li><a className="dropdown-item" href="./html/pages/sign-up.html">Sign up</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li className="nav-item dropdown mega-dropdown">
-                                    <a href="#" className="nav-link" data-toggle="dropdown">
-                                        <span className="nav-link-inner-text">Components</span>
-                                        <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
-                                    </a>
-                                    <div className="dropdown-menu">
-                                        <div className="row">
-                                            <div className="col-lg-6 inside-bg d-none d-lg-block">
-                                                <div className="justify-content-center bg-primary text-white">
-                                                    <div className="px-6 pb-5 pt-3">
-                                                        img_here
-                                                    </div>
-                                                    <div className="z-2 pb-4 text-center">
-                                                        <a href="./html/components/all.html"
-                                                           className="btn btn-primary mb-2 mb-sm-0 mr-3 text-secondary">
-                                                            <span className="mr-1"><span
-                                                                className="fas fa-th-large"></span></span>
-                                                            All components
-                                                        </a>
-                                                        <a href="https://themesberg.com/docs/neumorphism-ui/components/alerts"
-                                                           target="_blank" className="btn btn-primary mb-2 mb-sm-0">
-                                                            <span className="mr-1"><span className="fas fa-book"></span></span>
-                                                            Docs v1.0
-                                                        </a>
-                                                    </div>
+                        </div>
+                        <ul className="navbar-nav navbar-nav-hover align-items-lg-center">
+                            <li className="nav-item">
+                                <a href="/cources" className="nav-link" data-toggle="dropdown">Мои курсы</a>
+                            </li>
+                            <li className="nav-item">
+                                <a href="/analytics" className="nav-link" data-toggle="dropdown">Анатилика и отчеты</a>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <a href="#" className="nav-link" data-toggle="dropdown">
+                                    <span className="nav-link-inner-text">Администрирование</span>
+                                    <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-lg">
+                                    <div className="col-auto px-0" data-dropdown-content="">
+                                        <div className="list-group list-group-flush">
+                                            <a href="/admin/cources"
+                                               className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                                    <span className="icon icon-sm icon-secondary"><span
+                                                        className="fas fa-graduation-cap"></span></span>
+                                                <div className="ml-4">
+                                                        <span className="text-dark d-block">Курсы и уроки</span>
+                                                    <span className="small">Управление курсами, уроками, тестами и их назначение</span>
                                                 </div>
-                                            </div>
-                                            <div className="col pl-0">
-                                                <ul className="list-style-none">
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/accordions.html">Accordions</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/alerts.html">Alerts</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/badges.html">Badges</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/bootstrap-carousels.html">Bootstrap
-                                                        Carousels</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/breadcrumbs.html">Breadcrumbs</a>
-                                                    </li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/buttons.html">Buttons</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/plugins/jquery-counters/"
-                                                        target="_blank">Counters <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/cards.html">Cards</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/components/e-commerce/"
-                                                        target="_blank">E-commerce <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                </ul>
-                                            </div>
-                                            <div className="col pl-0">
-                                                <ul className="list-style-none">
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/forms.html">Forms</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/components/icon-boxes/"
-                                                        target="_blank">Icon Boxes <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/modals.html">Modals</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/navs.html">Navs</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/plugins/owl-carousel/"
-                                                        target="_blank">Owl Carousels <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/pagination.html">Pagination</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/popovers.html">Popovers</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/progress-bars.html">Progress Bars</a>
-                                                    </li>
+                                            </a>
 
-                                                </ul>
-                                            </div>
-                                            <div className="col pl-0">
-                                                <ul className="list-style-none">
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/components/icon-boxes/#steps"
-                                                        target="_blank">Steps <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/tables.html">Tables</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/tabs.html">Tabs</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/toasts.html">Toasts</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://themesberg.com/docs/neumorphism-ui/components/timelines/"
-                                                        target="_blank">Timelines <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/tooltips.html">Tooltips</a></li>
-                                                    <li><a className="dropdown-item"
-                                                           href="./html/components/typography.html">Typography</a></li>
-                                                    <li><a
-                                                        className="dropdown-item d-flex align-items-center justify-content-between"
-                                                        href="https://demo.themesberg.com/neumorphism-ui-pro/html/components/widgets.html"
-                                                        target="_blank">Widgets <span
-                                                        className="badge badge-dark ml-3">Pro</span></a></li>
-                                                </ul>
-                                            </div>
+                                            <a href="/admin/analytics"
+                                               className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                                    <span className="icon icon-sm icon-secondary"><span
+                                                        className="fas fa-chart-line"></span></span>
+                                                <div className="ml-4">
+                                                    <span className="text-dark d-block">Аналитика и отчеты</span>
+                                                    <span className="small">Управление отчетными формами</span>
+                                                </div>
+                                            </a>
+
+                                            <a href="/admin/users"
+                                               className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                                    <span className="icon icon-sm icon-secondary"><span
+                                                        className="fas fa-users-cog"></span></span>
+                                                <div className="ml-4">
+                                                    <span className="text-dark d-block">Группы и пользователи</span>
+                                                    <span className="small">Управление пользователями и назначением курсов</span>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </li>
-                                <li className="nav-item dropdown">
-                                    <a href="#" className="nav-link" data-toggle="dropdown">
-                                        <span className="nav-link-inner-text">Support</span>
-                                        <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
-                                    </a>
-                                    <div className="dropdown-menu dropdown-menu-lg">
-                                        <div className="col-auto px-0" data-dropdown-content="">
-                                            <div className="list-group list-group-flush">
-                                                <a href="https://themesberg.com/docs/neumorphism-ui/getting-started/quick-start/"
-                                                   target="_blank"
-                                                   className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
-                                                    <span className="icon icon-sm icon-secondary"><span
-                                                        className="fas fa-file-alt"></span></span>
-                                                    <div className="ml-4">
-                                                        <span className="text-dark d-block">Documentation<span
-                                                            className="badge badge-sm badge-secondary ml-2">v1.0</span></span>
-                                                        <span className="small">Examples and guides</span>
-                                                    </div>
-                                                </a>
-                                                <a href="https://github.com/themesberg/neumorphism-ui/issues"
-                                                   target="_blank"
-                                                   className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
-                                                    <span className="icon icon-sm icon-secondary"><span
-                                                        className="fas fa-microphone-alt"></span></span>
-                                                    <div className="ml-4">
-                                                        <span className="text-dark d-block">Support</span>
-                                                        <span className="small">Looking for answers? Ask us!</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="d-flex align-items-center">
-                            <a href="https://themesberg.com/product/ui-kits/neumorphism-ui-pro" target="_blank"
-                               className="btn btn-primary text-secondary d-none d-md-inline-block mr-3"><i
-                                className="far fa-paper-plane mr-2"></i> Upgrade to PRO</a>
-                            <a href="https://themesberg.com/docs/neumorphism-ui/getting-started/quick-start/"
-                               target="_blank" className="btn btn-primary"><i className="fas fa-book"></i> Docs v1.0</a>
-                            <button className="navbar-toggler ml-2" type="button" data-toggle="collapse"
-                                    data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                        </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
-            </header>
-        )
-    }
+                    <div className="d-flex align-items-center">
+                        <ul className="navbar-nav navbar-nav-hover align-items-lg-center">
+                            <li className="nav-item dropdown">
+                                <a href="#" className="nav-link" data-toggle="dropdown">
+                                    <span className="nav-link-inner-text">{fio}</span>
+                                    <span className="fas fa-angle-down nav-link-arrow ml-2"></span>
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item" href="/me">Настройки</a></li>
+                                    <li><a className="dropdown-item" href="/logout">Выход</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    );
 }
+/*
+<img className="rounded-top rounded-bottom" style={{height: '25px'}} src={REST.BASE + '/api/storage/' + me?.photo!.name!}></img>&nbsp;
+<span className="badge badge-sm badge-secondary ml-2">v1.0</span>
+ */
