@@ -15,12 +15,12 @@ export function NavBar(props: any): ReactElement {
 
     return (
         <header className={'header-global'}>
-            <nav id="navbar-main" aria-label="Primary navigation" style={{backgroundColor: '#e6e7ee'}}
+            <nav id="navbar-main" aria-label="Навигация" style={{backgroundColor: '#e6e7ee'}}
                  className="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent headroom--not-bottom headroom--pinned headroom--top">
                 <div className="container position-relative">
                     <a className="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="/">
-                        <img className="navbar-brand-dark" src="/akula.png" alt="Logo light"/>
-                        <img className="navbar-brand-light" src="/akula.png" alt="Logo dark"/>
+                        <img className="navbar-brand-dark" src="/akula.png" alt="AkulaPlay light"/>
+                        <img className="navbar-brand-light" src="/akula.png" alt="AkulaPlay dark"/>
                     </a>
                     <div className="navbar-collapse collapse" id="navbar_global">
                         <div className="navbar-collapse-header">
@@ -28,7 +28,7 @@ export function NavBar(props: any): ReactElement {
                                 <div className="col-6 collapse-brand">
                                     <a href="/"
                                        className="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
-                                        <img src="/akula.png" alt="Themesberg logo"/>
+                                        <img src="/akula.png" alt="AkulaPlay"/>
                                     </a>
                                 </div>
                                 <div className="col-6 collapse-close">
@@ -53,7 +53,7 @@ export function NavBar(props: any): ReactElement {
                                 <div className="dropdown-menu dropdown-menu-lg">
                                     <div className="col-auto px-0" data-dropdown-content="">
                                         <div className="list-group list-group-flush">
-                                            <a href="/admin/cources"
+                                            <a href="/admin/courses"
                                                className="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
                                                     <span className="icon icon-sm icon-secondary"><span
                                                         className="fas fa-graduation-cap"></span></span>
@@ -117,7 +117,7 @@ export function NavBar(props: any): ReactElement {
                                 </a>
                                 <ul className="dropdown-menu">
                                     <li><a className="dropdown-item" href="/me">Профиль</a></li>
-                                    <li><a className="dropdown-item" href="/logout">Выход</a>
+                                    <li><a className="dropdown-item disabled" href="/logout">Выход</a>
                                     </li>
                                 </ul>
                             </li>
@@ -128,7 +128,3 @@ export function NavBar(props: any): ReactElement {
         </header>
     );
 }
-/*
-<img className="rounded-top rounded-bottom" style={{height: '25px'}} src={REST.BASE + '/api/storage/' + me?.photo!.name!}></img>&nbsp;
-<span className="badge badge-sm badge-secondary ml-2">v1.0</span>
- */

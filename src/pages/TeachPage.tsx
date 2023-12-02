@@ -13,13 +13,34 @@ export function TeachPage(props: any): ReactElement {
         });
     }, []);
 
+    if(teach?.length == 0) {
+        return (
+            <main className="section">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-12">
+                            <div className="shadow-soft rounded">
+
+                                <div className="card card-sm card-body bg-primary border-light mb-0">
+                                    <div className="accordion-panel-header">
+                                        Нет назначенных курсов и уроков
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
     return (
         <main className="section">
             <div className="container">
                 <div className="row justify-content-center">
-                    <div className="col-12 col-md-10 col-lg-8">
-
-                        <div className="accordion shadow-soft rounded">
+                    <div className="col-12">
+                        <div className="shadow-soft rounded">
                             {teach?.map((t, index) =>
                                     <div className="card card-sm card-body bg-primary border-light mb-0" key={index}>
                                         <a href={"/teach/" + (t.type === 0 ? 'course' : 'lesson') + "/" + t.id}

@@ -4,7 +4,8 @@ import {TeachType} from "../types/TeachType";
 
 export class REST {
     public static BASE: string = "";
-    //public static BASE: string = "http://localhost:8080";//"https://akula.gcg.name";
+    //public static BASE: string = "http://localhost:8080";
+    //public static BASE: string = "https://akula.gcg.name";
 
     protected static get(url: string): any {
         fetch(REST.BASE + url, {method: "GET"})
