@@ -1,5 +1,5 @@
-import './styles/bootstrap.css';
-import {NavBar} from './components/NavBar'
+import './styles/vkui.css';
+import {Header} from './components/Header'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {NewsPage} from "./pages/NewsPage";
 import {MainPage} from "./pages/MainPage";
@@ -16,6 +16,9 @@ import {AdminStoragePage} from "./pages/admin/AdminStoragePage";
 import {AdminUsersPage} from "./pages/admin/AdminUsersPage";
 import {AdminAnalyticsPage} from "./pages/admin/AdminAnalyticsPage";
 import {LoginPage} from "./pages/LoginPage";
+import {ForTestPage} from "./pages/ForTestPage";
+import {SideBar} from "./components/SideBar";
+import {PostsPage} from "./pages/PostsPage";
 
 export default function App() {
     const [me, setMe] = useState<UserType>();
@@ -31,33 +34,47 @@ export default function App() {
     if (loading)
         return (<div className="App"></div>)
 
-//TODO: hide NavBar if LoginPage
+//TODO: hide Header if LoginPage
+
     return (
         <div className="App">
-            <NavBar me={me}/>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<LoginPage/>}/>
+            <Header me={me}/>
+            <div className={"page"}>
+                <SideBar/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/login" element={<LoginPage/>}/>
 
-                    <Route path="/" element={<MainPage me={me}/>}/>
-                    <Route path="/news/:id" element={<NewsPage me={me}/>}/>
-                    <Route path="/teach/" element={<TeachPage me={me}/>}/>
-                    <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
-                    <Route path="/me" element={<MePage me={me}/>}/>
+                        <Route path="/" element={<ForTestPage/>}/>
 
-                    <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>
-                    <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
-                    <Route path="/admin/analytics" element={<AdminAnalyticsPage me={me}/>}/>
-                    <Route path="/admin/users" element={<AdminUsersPage me={me}/>}/>
-                    <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
+                        <Route path="/feed" element={<PostsPage me={me}/>}/>
 
-                    <Route path="*" element={<PageNotFound/>}/>
-                </Routes>
-            </BrowserRouter>
-            <Footer/>
+
+
+
+
+                        <Route path="/news/:id" element={<NewsPage me={me}/>}/>
+                        <Route path="/teach/" element={<TeachPage me={me}/>}/>
+                        <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
+                        <Route path="/me" element={<MePage me={me}/>}/>
+
+                        <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>
+                        <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
+                        <Route path="/admin/analytics" element={<AdminAnalyticsPage me={me}/>}/>
+                        <Route path="/admin/users" element={<AdminUsersPage me={me}/>}/>
+                        <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
+
+                        <Route path="*" element={<PageNotFound/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </div>
+            <Footer hidden={true}/>
         </div>
     )
 }
+/*
+<Route path="/main" element={<MainPage me={me}/>}/>
+ */
 
 export function PageNotFound() {
     return (

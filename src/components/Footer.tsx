@@ -2,23 +2,15 @@ import {ReactElement} from "react";
 import {REST} from "../api/REST";
 
 export function Footer(props: any): ReactElement {
+    const hidden: boolean = props.hidden;
+    if(hidden) {
+        return (<></>);
+    }
     return (
-        <footer className="d-flex pb-3 pt-3 pt-md-3 border-top border-light bg-primary">
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <a href="https://gcg.name" target="_blank" className="d-flex justify-content-center">
-                            <img src={REST.BASE + "/api/storage/tsowa.jpg"} height="25" className="mb-3"
-                                 alt="General Company Group Logo"/>
-                        </a>
-                        <div className="d-flex text-center justify-content-center align-items-center"
-                             role="contentinfo">
-                            <p className="font-weight-normal font-small mb-0">Copyright © <a href="https://gcg.name"
-                                                                                             target="_blank">General
-                                Company Group</a>,&nbsp;
-                                <span className="current-year">2023</span>. All rights reserved.</p>
-                        </div>
-                    </div>
+        <footer style={{backgroundColor: "rgb(34, 34, 34)", height: "32px", position: "fixed", bottom: "0", width: "100%"}}>
+            <div style={{width: "1076px", margin: "auto"}}>
+                <div style={{paddingTop: "8px", paddingBottom: "8px", margin: "auto",fontSize: "13px", textAlign: "center"}}>
+                    Copyright © <a href="https://gcg.name" target="_blank">General Company Group</a>,&nbsp;<span>{new Date().getFullYear()}</span>. All rights reserved.
                 </div>
             </div>
         </footer>

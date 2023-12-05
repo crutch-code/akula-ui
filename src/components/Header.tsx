@@ -1,8 +1,9 @@
 import React, {ReactElement, useEffect, useState} from 'react'
 import {UserType} from "../types/UserType";
 import {REST} from "../api/REST";
+import {SearchIcon} from "../data/Icons";
 
-export function NavBar(props: any): ReactElement {
+export function Header(props: any): ReactElement {
     let [me, setMe] = useState<UserType>();
     let [fio, setFio] = useState<string>();
 
@@ -14,9 +15,24 @@ export function NavBar(props: any): ReactElement {
     }, [me]);
 
     return (
-        <header className={'header-global'}>
-            <nav id="navbar-main" aria-label="Навигация" style={{backgroundColor: '#e6e7ee'}}
-                 className="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent headroom--not-bottom headroom--pinned headroom--top">
+        <header style={{backgroundColor: "rgb(34, 34, 34)", height: "48px"}}>
+            <nav style={{width: "1076px", margin: "auto"}}>
+                <div style={{width: "230px", paddingTop: "8px", paddingBottom: "8px"}} className={"elementsWrapper"}>
+
+
+                    <div className={"field"} style={{height: "32px", width: "100%", borderRadius: "8px", display: "flex", backgroundColor: "rgb(66, 66, 66)"}}>
+                        <SearchIcon color={"rgb(147, 147, 147)"}/>
+                        <input type={"search"} placeholder={"Поиск"} style={{color: "rgb(225, 227, 230)", backgroundColor: "rgba(0, 0, 0, 0)", appearance: "none", border: "none"}}/>
+                    </div>
+
+
+                </div>
+            </nav>
+        </header>
+    );
+}
+/*
+
                 <div className="container position-relative">
                     <a className="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="/">
                         <img className="navbar-brand-dark" src="/akula.png" alt="AkulaPlay light"/>
@@ -124,7 +140,4 @@ export function NavBar(props: any): ReactElement {
                         </ul>
                     </div>
                 </div>
-            </nav>
-        </header>
-    );
-}
+ */
