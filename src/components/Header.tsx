@@ -1,33 +1,60 @@
 import React, {ReactElement, useEffect, useState} from 'react'
 import {UserType} from "../types/UserType";
 import {REST} from "../api/REST";
-import {SearchIcon} from "../data/Icons";
+import {DownIcon, SearchIcon} from "../data/Icons";
+import {ProfileMenu} from "./parts/ProfileMenu";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 export function Header(props: any): ReactElement {
-    let [me, setMe] = useState<UserType>();
-    let [fio, setFio] = useState<string>();
+    let me: UserType = props.me;
+    let [showProfile, setShowProfile] = useState<boolean>(false);
 
     useEffect(() => {
-        setMe(props.me);
-        setFio(me?.fio!.includes(' ') ?
-            me?.fio!.split(' ')[1].substring(0, 1) + '. ' + me?.fio!.split(' ')[0] :
-            me?.fio!);
-    }, [me]);
+
+    }, []);
+
+    const showProfileMenu = () => {
+        setShowProfile(!showProfile);
+    }
 
     return (
         <header style={{backgroundColor: "rgb(34, 34, 34)", height: "48px"}}>
-            <nav style={{width: "1076px", margin: "auto"}}>
-                <div style={{width: "230px", paddingTop: "8px", paddingBottom: "8px"}} className={"elementsWrapper"}>
-
-
-                    <div className={"field"} style={{height: "32px", width: "100%", borderRadius: "8px", display: "flex", backgroundColor: "rgb(66, 66, 66)"}}>
-                        <SearchIcon color={"rgb(147, 147, 147)"}/>
-                        <input type={"search"} placeholder={"Поиск"} style={{color: "rgb(225, 227, 230)", backgroundColor: "rgba(0, 0, 0, 0)", appearance: "none", border: "none"}}/>
+            <nav style={{width: "1076px", margin: "auto", display: "flex"}}>
+                <div style={{paddingTop: "8px", paddingBottom: "8px", display: "flex", width: "100%"}}
+                     className={"elementsWrapper"}>
+                    <div className={"logo"} style={{}}>
+                        <img src={"/logo_white.svg"} alt={"logo"}
+                             style={{height: "32px", width: "136px", marginRight: "29px"}}/>
                     </div>
 
-
+                    <div className={"field searchField"} style={{
+                        marginRight: "15px",
+                        height: "32px",
+                        width: "100%",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "rgb(66, 66, 66)"
+                    }}>
+                        <FontAwesomeIcon icon={faSearch} className={"icon"}/>
+                        <input type={"search"} placeholder={"Поиск"}/>
+                    </div>
+                </div>
+                <div className={"profile"} onClick={showProfileMenu} style={{
+                    height: "48px",
+                    width: "58px",
+                    paddingLeft: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer"
+                }}>
+                    <img src={REST.BASE + "/api/storage/" + me?.photo.name} alt={"avatar"}
+                         style={{width: "32px", height: "32px", borderRadius: "50%"}}/>
+                    <DownIcon style={{marginLeft: "6px", marginRight: "6px"}}/>
                 </div>
             </nav>
+            {showProfile ? <ProfileMenu me={me}/> : ""}
         </header>
     );
 }

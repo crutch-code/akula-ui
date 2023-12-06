@@ -1,5 +1,5 @@
 import './styles/vkui.css';
-import {Header} from './components/Header'
+import {Header} from './components/Header';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {NewsPage} from "./pages/NewsPage";
 import {MainPage} from "./pages/MainPage";
