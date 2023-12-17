@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useState} from 'react'
 import {UserType} from "../types/UserType";
 import {REST} from "../api/REST";
-import {DownIcon, SearchIcon} from "../data/Icons";
+import {DownIcon} from "../data/Icons";
 import {ProfileMenu} from "./parts/ProfileMenu";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";

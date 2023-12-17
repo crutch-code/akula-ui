@@ -1,8 +1,6 @@
 import './styles/vkui.css';
 import {Header} from './components/Header';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {NewsPage} from "./pages/NewsPage";
-import {MainPage} from "./pages/MainPage";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Footer} from "./components/Footer";
 import {useEffect, useState} from "react";
 import {UserType} from "./types/UserType";
@@ -16,7 +14,6 @@ import {AdminStoragePage} from "./pages/admin/AdminStoragePage";
 import {AdminUsersPage} from "./pages/admin/AdminUsersPage";
 import {AdminAnalyticsPage} from "./pages/admin/AdminAnalyticsPage";
 import {LoginPage} from "./pages/LoginPage";
-import {ForTestPage} from "./pages/ForTestPage";
 import {SideBar} from "./components/SideBar";
 import {PostsPage} from "./pages/PostsPage";
 
@@ -45,18 +42,14 @@ export default function App() {
                     <Routes>
                         <Route path="/login" element={<LoginPage/>}/>
 
-                        <Route path="/" element={<ForTestPage/>}/>
-
+                        <Route path="/" element={<Navigate to={"/feed"}/>}/>
                         <Route path="/feed" element={<PostsPage me={me}/>}/>
-
-
-
-
-
-                        <Route path="/news/:id" element={<NewsPage me={me}/>}/>
-                        <Route path="/teach/" element={<TeachPage me={me}/>}/>
-                        <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
                         <Route path="/me" element={<MePage me={me}/>}/>
+                        <Route path="/teach/" element={<TeachPage me={me}/>}/>
+
+
+                        <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
+
 
                         <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>
                         <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
@@ -74,23 +67,19 @@ export default function App() {
 }
 /*
 <Route path="/main" element={<MainPage me={me}/>}/>
+
+<Route path="/news/:id" element={<NewsPage me={me}/>}/>
  */
 
 export function PageNotFound() {
-    return (
-        <main>
-            <div className={'section'}>
-                <div className="container">
-                    <div className="alert alert-danger shadow-soft mb-4 mb-lg-5" role="alert">
-                        <span className="alert-inner--icon icon-lg"><span className="fas fa-fire"></span></span>
-                        <span className="alert-heading">Ошибка 404</span>
-                        <br/><br/>
-                        <p>Страница, которую Вы пытаетесь посетить, не существует или перемещена по другому адресу.<br/></p>
-                        <hr/>
-                        <p className="mb-0">Попробуйте перейти на <a href="/">главную страницу</a>.</p>
+    return (<div className={"page_body"}>
+        <section className={"page_block col-12"} style={{display: "flex", justifyContent: "center", padding: "8px"}}>
+
+                    <div style={{width: "480px", padding: "48px 32px", fontSize: "14px", fontWeight: "400", lineHeight: "18px", color: "rgb(130, 130, 130)", textAlign: "center"}}>
+                        К сожалению, страница, которую Вы пытаетесь посетить, не существует или перемещена по другому адресу.
                     </div>
-                </div>
-            </div>
-        </main>
+
+        </section>
+        </div>
     );
 }

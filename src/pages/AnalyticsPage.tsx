@@ -1,60 +1,64 @@
 import React, {ReactElement} from "react";
+import { Chart } from "react-google-charts";
 
 export function AnalyticsPage(props: any): ReactElement {
 
-    return (
-        <main className="section">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12">
-                        <div className="shadow-soft rounded">
+    return (<div className={"page_body"}>
+        <section className={"page_block col-6"} style={{textAlign: "center", fontSize: "13px"}}>
+            <div>Статистика прохождения курсов</div>
+            <br/>
+            <Chart
+                chartType="PieChart"
+                data={[
+                    ["Прохождение", "Курсы"],
+                    ["Пройдено", Math.random() * 99 + 1],
+                    ["Не пройдено", Math.random() * 99 + 1],
+                ]}
+                options={{
+                    //sliceVisibilityThreshold: 0.1,
+                    //legend: "none",
+                    //pieSliceText: "label",
+                    /*slices: {
+                        0: {offset: 0.1, color: "green"},
+                        1: {color: "red"},
+                    },*/
+                }}
+                width={"100%"}
+            />
+        </section>
 
-
-                            <div className="table-responsive-sm shadow-soft rounded">
-                                <table className="table table-striped">
-                                    <tbody>
-                                    <tr>
-                                        <th className="border-0" scope="col" id="class2">Class</th>
-                                        <th className="border-0" scope="col" id="teacher2">Teacher</th>
-                                        <th className="border-0" scope="col" id="males2">Males</th>
-                                        <th className="border-0" scope="col" id="females2">Females</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="firstyear2" rowSpan={2}>First Year</th>
-                                        <th scope="row" id="Bolter2" headers="firstyear2 teacher2">D. Bolter</th>
-                                        <td headers="firstyear2 Bolter2 males2">5</td>
-                                        <td headers="firstyear2 Bolter2 females2">4</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="Cheetham2" headers="firstyear2 teacher2">A. Cheetham</th>
-                                        <td headers="firstyear2 Cheetham2 males2">7</td>
-                                        <td headers="firstyear2 Cheetham2 females2">9</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="secondyear2" rowSpan={3}>Second Year</th>
-                                        <th scope="row" id="Lam2" headers="secondyear2 teacher2">M. Lam</th>
-                                        <td headers="secondyear2 Lam2 males2">3</td>
-                                        <td headers="secondyear2 Lam2 females2">9</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="Crossy2" headers="secondyear2 teacher2">S. Crossy</th>
-                                        <td headers="secondyear2 Crossy2 males2">4</td>
-                                        <td headers="secondyear2 Crossy2 females2">3</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="Forsyth2" headers="secondyear2 teacher2">A. Forsyth</th>
-                                        <td headers="secondyear2 Forsyth2 males2">6</td>
-                                        <td headers="secondyear2 Forsyth2 females2">9</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    );
+        <section className={"page_block col-6"} style={{textAlign: "center", fontSize: "13px"}}>
+            <div>Статистика прохождения за 2023 год</div>
+            <br/>
+            <Chart
+                chartType="Line"
+                data={[
+                    [
+                        {type: "date"},
+                        "Курсы", "Уроки"
+                    ],
+                    [new Date(2023, 0), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 1), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 2), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 3), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 4), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 5), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 6), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 7), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 8), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 9), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 10), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                    [new Date(2023, 11), Math.random() * 50 + 1, Math.random() * 50 + 1],
+                ]}
+                options={{
+                    legend: "none",
+                    series: {
+                        0: {axis: "Temps"},
+                        1: {axis: "Daylight"},
+                    },
+                }}
+                width={"100%"}
+            />
+        </section>
+    </div>);
 }

@@ -1,9 +1,8 @@
 import {ReactElement} from "react";
-import {LogoutIcon} from "../../data/Icons";
 import {REST} from "../../api/REST";
 import {UserType} from "../../types/UserType";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import {faChevronRight, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 
 export function ProfileMenu(props: any): ReactElement {
     const me: UserType = props.me;
@@ -65,7 +64,7 @@ export function ProfileMenu(props: any): ReactElement {
                         display: "flex",
                         alignItems: "center"
                     }}>
-                        <LogoutIcon color={"rgb(113, 170, 235)"}/>
+                        <FontAwesomeIcon icon={faRightFromBracket} style={{width: "18px", height: "18px"}}/>
                         <a href={"/logout"}
                            style={{textDecorationLine: "none", height: "30px", marginLeft: "8px"}}>Выйти</a>
                     </div>

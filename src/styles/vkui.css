@@ -61,7 +61,7 @@ body {
 }
 
 .page_body {
-    width: 911px;
+    width: 912px;
     float: right;
     display: flex;
     flex-direction: row;
@@ -84,6 +84,9 @@ div.field:hover, div.field *:hover {
     background-color: #4a4a4a;
 }
 
+.page_block.col-12 {
+    margin-right: 0;
+}
 .col-6 {
     flex-basis: calc(100% / 2 - 20px - 20px - 15px);
 }
@@ -123,4 +126,9 @@ input:focus-visible {
     height: 100%;
     padding-left: 8px;
     font-size: 14px;
+}
+
+
+.ListItem:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
