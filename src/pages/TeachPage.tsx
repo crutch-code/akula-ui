@@ -2,6 +2,7 @@ import React, {ReactElement, useEffect, useState} from 'react'
 import {REST} from "../api/REST";
 import {CourseCard} from "../components/CourseCard";
 import {CourseType} from "../types/CourseType";
+import {Loading} from "../components/Loading";
 
 export function TeachPage(props: any): ReactElement {
     const [course, setCourse] = useState<CourseType[]>();
@@ -14,16 +15,20 @@ export function TeachPage(props: any): ReactElement {
         });
     }, []);
 
-    if (course?.length == 0) {
+    if(loading) {
+        return (<div className={"page_body"}>
+            <section className={"page_block col-12"}>
+                <Loading/>
+            </section>
+        </div>)
+    }
+
+    if (course?.length === 0) {
         return (<div className={"page_body"}>
             <section className={"page_block col-12"}>
                 Нет назначенных курсов и уроков
             </section>
         </div>);
-    }
-
-    if(loading) {
-        //TODO: loader
     }
 
     return (<div className={"page_body"}>

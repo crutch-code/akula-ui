@@ -2,6 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 import {REST} from "../api/REST";
 import {NewsType} from '../types/NewsType'
 import {NewsCard} from "../components/NewsCard";
+import {Loading} from "../components/Loading";
 
 export function PostsPage(props: any): ReactElement {
     const [news, setNews] = useState<NewsType[]>();
@@ -13,6 +14,14 @@ export function PostsPage(props: any): ReactElement {
             setLoading(false);
         });
     }, []);
+
+    if(loading) {
+        return (<div className={"page_body"}>
+            <section className={"page_block col-12"}>
+                <Loading/>
+            </section>
+        </div>)
+    }
 
     return (<div className={"page_body"}>
         {news?.map(n =>

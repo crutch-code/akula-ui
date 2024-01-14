@@ -4,8 +4,8 @@ import {CourseType} from "../types/CourseType";
 import {LessonType} from "../types/LessonType";
 
 export class REST {
-    //public static BASE: string = "";
-    public static BASE: string = "http://localhost:8080";
+    public static BASE: string = "";
+    //public static BASE: string = "http://localhost:8080";
     //public static BASE: string = "https://akula.gcg.name";
 
     protected static get(url: string): any {
