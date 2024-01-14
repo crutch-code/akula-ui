@@ -11,6 +11,7 @@ export function ListItem(props: any): ReactElement {
         display: "flex",
         alignItems: "center",
         borderTop: "1px solid rgb(54, 55, 56)",
+        borderBottom: "1px solid rgb(54, 55, 56)",
         cursor: "pointer",
         textDecorationLine: "none"
     }} href={link}>

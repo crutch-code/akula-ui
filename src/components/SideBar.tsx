@@ -17,8 +17,6 @@ export function SideBar(props: any): ReactElement {
             <LeftMenuItem href={"/me"} text={"Моя страница"} icon={<FontAwesomeIcon icon={faCircleUser} style={{width: "18px", height: "18px"}}/>}/>
             <LeftMenuItem href={"/feed"} text={"Новости"} icon={<FontAwesomeIcon icon={faNewspaper} style={{width: "18px", height: "18px"}}/>}/>
             <LeftMenuItem href={"/teach"} text={"Обучение"} icon={<FontAwesomeIcon icon={faGraduationCap} style={{width: "18px", height: "18px"}}/>} counter={0}/>
-            <LeftMenuItem href={"/im"} text={"Сообщения"} icon={<FontAwesomeIcon icon={faComments} style={{width: "18px", height: "18px"}}/>} counter={0}/>
-            <LeftMenuItem href={"/poll"} text={"Опросы"} icon={<FontAwesomeIcon icon={faBullhorn} style={{width: "18px", height: "18px"}}/>} counter={0}/>
             <Separator/>
             <LeftMenuItem href={"/analytics"} text={"Статистика"} icon={<FontAwesomeIcon icon={faChartPie} style={{width: "18px", height: "18px"}}/>}/>
             <Separator/>
@@ -27,3 +25,5 @@ export function SideBar(props: any): ReactElement {
         </ol>
     </nav>);
 }
+//<LeftMenuItem href={"/im"} text={"Сообщения"} icon={<FontAwesomeIcon icon={faComments} style={{width: "18px", height: "18px"}}/>} counter={0}/>
+//<LeftMenuItem href={"/poll"} text={"Опросы"} icon={<FontAwesomeIcon icon={faBullhorn} style={{width: "18px", height: "18px"}}/>} counter={0}/>

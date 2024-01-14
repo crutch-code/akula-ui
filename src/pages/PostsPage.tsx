@@ -1,9 +1,7 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {REST} from "../api/REST";
-import {useParams} from "react-router-dom";
 import {NewsType} from '../types/NewsType'
 import {NewsCard} from "../components/NewsCard";
-import {Loading} from "../components/Loading";
 
 export function PostsPage(props: any): ReactElement {
     const [news, setNews] = useState<NewsType[]>();
