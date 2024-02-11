@@ -2,7 +2,7 @@ import './styles/vkui.css';
 import {Header} from './components/Header';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Footer} from "./components/Footer";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {UserType} from "./types/UserType";
 import {REST} from "./api/REST";
 import {TeachPage} from "./pages/TeachPage";
@@ -18,22 +18,18 @@ import {SideBar} from "./components/SideBar";
 import {PostsPage} from "./pages/PostsPage";
 import {CoursePage} from "./pages/CoursePage";
 import {LessonPage} from "./pages/LessonPage";
+import {TestWelcomePage} from "./pages/TestWelcomePage";
+import {TestPage} from "./pages/TestPage";
+import {AdminPage} from "./pages/admin/AdminPage";
 
 export default function App() {
-    const [me, setMe] = useState<UserType>();
-    const [loading, setLoading] = useState(true);
+    const me: UserType = JSON.parse(sessionStorage.getItem("me") ?? '{}');
 
-    useEffect(() => {
-        REST.getMe().then((u: UserType) => {
-            setMe(u);
-            setLoading(false);
-        })
-    }, []);
-
-    if (loading)
-        return (<div className="App"></div>)
-
-//TODO: hide Header if LoginPage
+    if (Object.keys(me).length === 0) {
+        return (<div className="App">
+            <LoginPage/>
+        </div>);
+    }
 
     return (
         <div className="App">
@@ -42,17 +38,18 @@ export default function App() {
                 <SideBar/>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/login" element={<LoginPage/>}/>
-
                         <Route path="/" element={<Navigate to={"/feed"}/>}/>
                         <Route path="/feed" element={<PostsPage me={me}/>}/>
                         <Route path="/me" element={<MePage me={me}/>}/>
                         <Route path="/teach/" element={<TeachPage me={me}/>}/>
-                        <Route path="/teach/course/:id" element={<CoursePage me={me}/>}/>
-                        <Route path="/teach/lesson/:id" element={<LessonPage me={me}/>}/>
+                        <Route path="/teach/:id" element={<CoursePage me={me}/>}/>
+                        <Route path="/teach/:cid/:id" element={<LessonPage me={me}/>}/>
+                        <Route path="/teach/:cid/:lid/:id/welcome" element={<TestWelcomePage me={me}/>}/>
+                        <Route path="/teach/:cid/:lid/:id/" element={<TestPage me={me}/>}/>
 
                         <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
 
+                        <Route path="/admin" element={<AdminPage me={me}/>}/>
                         <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>
                         <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
                         <Route path="/admin/analytics" element={<AdminAnalyticsPage me={me}/>}/>

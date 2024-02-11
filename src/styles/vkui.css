@@ -314,5 +314,37 @@ input:focus-visible {
     background-color: var(--red_nice);
 }
 .backButton:hover {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.08) 50%,transparent);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.08) 50%, transparent);
+}
+
+.forwardButton:hover {
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.08) 50%, transparent);
+}
+
+.loader1, .loader2 {
+    width: 20px;
+    height: 20px;
+    padding: 0 7px 0 7px;
+    margin: 3px;
+    border: 1px solid #4a4a4a;
+    background-color: #4a4a4a;
+    border-radius: 50%;
+}
+.loader1 {
+    animation-name: loader1;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+.loader2 {
+    animation-name: loader2;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+@keyframes loader1 {
+    0% {background-color: #4a4a4a;}
+    100% {background-color: transparent;}
+}
+@keyframes loader2 {
+    0% {background-color: transparent;}
+    100% {background-color: #4a4a4a;}
 }

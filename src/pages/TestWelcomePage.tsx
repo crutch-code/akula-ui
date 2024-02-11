@@ -1,21 +1,21 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {REST} from "../api/REST";
-import {useParams} from "react-router-dom";
-import {LessonType} from "../types/LessonType";
-import {Loading} from "../components/Loading";
-import {Button} from "../components/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {useParams} from "react-router-dom";
+import {Loading} from "../components/Loading";
+import {TestType} from "../types/TestType";
+import {REST} from "../api/REST";
 
-export function LessonPage(props: any): ReactElement {
+export function TestWelcomePage(props: any) : ReactElement {
     const {id} = useParams<string>();
     const {cid} = useParams<string>();
-    const [lesson, setLesson] = useState<LessonType>();
-    const [loading, setLoading] = useState(true);
+    const {lid} = useParams<string>();
+    const [test, setTest] = useState<TestType>();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        REST.getLessonById(id).then(l => {
-            setLesson(l!);
+        REST.getTestById(id).then(t => {
+            setTest(t!);
             setLoading(false);
         });
     }, [id]);
@@ -32,7 +32,7 @@ export function LessonPage(props: any): ReactElement {
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"}
                  style={{height: "48px", borderBottom: "1px solid rgb(54, 55, 56)", display: "flex"}}>
-                <a href={"/teach/" + cid!} className={"backButton"} style={{
+                <a href={"/teach/" + cid + "/" + lid} className={"backButton"} style={{
                     width: "148px",
                     color: "rgb(129, 140, 153)",
                     display: "flex",
@@ -46,36 +46,41 @@ export function LessonPage(props: any): ReactElement {
                     <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
                     Назад
                 </a>
-                <div style={{
-                    padding: "15px",
-                    textAlign: "center",
-                    width: "100%",
-                    fontSize: "13px",
-                    fontWeight: "500"
-                }}>{lesson?.name}</div>
                 <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
             </div>
 
-            <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}
-                 dangerouslySetInnerHTML={{__html: lesson?.content!}}>
+            <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
+                <div>Тема теста: <b>{test?.theme}</b></div>
+                <div>Проходной балл: <b>{test?.min_ball}</b></div>
             </div>
 
-            <div style={{padding: "15px", display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
-                {lesson?.tests?.map((t, index) =>
-                    <Button text={t.theme} href={"/teach/" + cid! + "/" + id + "/" + t.id + "/welcome"}/>
-                )}
-            </div>
 
             <div className={"TeachListFooter"} style={{
-                minHeight: "48px",
+                height: "48px",
                 borderTop: "1px solid rgb(54, 55, 56)",
                 display: "flex",
                 alignItems: "center",
-                padding: "15px 15px 15px 15px",
                 fontSize: "13px",
-                textAlign: "justify"
+                textAlign: "justify",
+                justifyContent: "right"
             }}>
-                <div>{lesson?.description}</div>
+
+                <a href={"/teach/" + cid + "/" + lid + "/" + test?.id + "/"} className={"forwardButton"} style={{
+                    width: "148px",
+                    color: "rgb(129, 140, 153)",
+                    display: "flex",
+                    alignItems: "center",
+                    height: "100%",
+                    padding: "0 8px 0 20px",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    justifyContent: "flex-end",
+                    textDecoration: "none"
+                }}>
+                    Начать тест
+                    <FontAwesomeIcon icon={faAngleRight} style={{width: "24px", height: "24px"}}/>
+                </a>
+
             </div>
         </section>
     </div>);

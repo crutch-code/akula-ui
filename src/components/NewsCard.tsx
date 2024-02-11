@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useState} from 'react'
+import React, {ReactElement, useState} from 'react'
 import {NewsType} from "../types/NewsType";
 import {REST} from "../api/REST";
 
@@ -48,7 +48,7 @@ export function NewsCard(props: any): ReactElement {
                     {isPreview ? <div style={{color: "rgb(113, 170, 235)", fontWeight: "bold", cursor: "pointer"}} onClick={showFull}>Показать ещё</div> : ""}
                 </div>
                 <div className={"primary-image"} style={{marginTop: "12px"}}>
-                    <img src={REST.BASE + '/api/storage/' + news?.photo!.name!} alt='image'
+                    <img src={REST.BASE + '/api/storage/' + news?.photo!.name!} alt='news'
                          style={{width: "100%", borderRadius: "8px"}}/>
                 </div>
             </div>

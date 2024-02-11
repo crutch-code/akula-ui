@@ -1,72 +1,78 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useRef, useState} from "react";
+import {REST} from "../api/REST";
 
 export function LoginPage(props: any): ReactElement {
+    const username = useRef<HTMLInputElement | null>(null);
+    const password = useRef<HTMLInputElement | null>(null);
+    const [error, hasError] = useState<boolean>(false);
+    const auth = () => {
+        hasError(false);
+        REST.login(
+            username.current?.value ?? '',
+            password.current?.value ?? ''
+        ).then(() => document.location = "/")
+            .catch((error) => {
+                console.error(error);
+                hasError(true);
+            });
+    }
 
-    return (
-        <main className="section">
-            <div className="container">
-
-                <div className="row justify-content-md-around">
-                    <div className="col-12 col-md-6 col-lg-5 mb-5 mb-lg-0">
-                        <div className="card bg-primary shadow-soft border-light p-4">
-                            <div className="card-header text-center pb-0">
-                                <h2 className="h4">Обучающая платформа AkulaPlay</h2>
-                            </div>
-                            <div className="card-body">
-                                <form action="#" className="mt-4">
-
-                                    <div className="form-group">
-                                        <label htmlFor="exampleInputIcon333">Логин:</label>
-                                        <div className="input-group mb-4">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text"><span className="fas fa-user"></span></span>
-                                            </div>
-                                            <input className="form-control" id="exampleInputIcon333"
-                                                   placeholder="Иванов Иван" type="text" aria-label="Логин"/>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group">
-
-                                        <div className="form-group">
-                                            <label htmlFor="exampleInputPassword777">Пароль:</label>
-                                            <div className="input-group mb-4">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text"><span
-                                                        className="fas fa-unlock-alt"></span></span>
-                                                </div>
-                                                <input className="form-control" id="exampleInputPassword777"
-                                                       placeholder="Пароль" type="password" aria-label="Пароль"
-                                                       required/>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            className="d-block d-sm-flex justify-content-between align-items-center mb-4">
-                                            <div className="form-check">
-                                                <input className="form-check-input" type="checkbox" value=""
-                                                       id="defaultCheck545"/>
-                                                <label className="form-check-label" htmlFor="defaultCheck545">
-                                                    Запомнить меня
-                                                </label>
-                                            </div>
-                                            <div><a href="#" className="small text-right">Забыли пароль?</a></div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" className="btn btn-block btn-primary">Войти</button>
-                                </form>
-                                <div className="d-block d-sm-flex justify-content-center align-items-center mt-4">
-                            <span className="font-weight-normal">
-                                Не зарегистрированы?&nbsp;
-                                <a href="#" className="font-weight-bold">Создать аккаунт</a>
-                            </span>
-                                </div>
-                            </div>
-                        </div>
+    return (<div className={"page"}>
+            <div className={"page_body"} style={{display: "flex", justifyContent: "center"}}>
+                <section className={"page_block col-4"}>
+                    <div className={"TeachListHeader"} style={{margin: "0 0 16px 0", fontSize: "20px", textAlign: "center"}}>
+                        <img src={"/logo_white.svg"} alt={"logo"} style={{height: "32px", width: "136px"}}/>
                     </div>
 
-                </div>
+
+                    <input style={{
+                        appearance: "auto",
+                        width: "calc(100% - 24px)",
+                        height: "18px",
+                        backgroundColor: "rgb(51, 51, 51)",
+                        border: "1px solid rgba(255, 255, 255, 0.16)",
+                        borderRadius: "8px",
+                        fontSize: "13px",
+                        color: "white",
+                        padding: "8px 11px 8px 11px",
+                        marginTop: "12px",
+                        cursor: "text"
+                    }}
+                           placeholder="логин" type="text" ref={username}/>
+                    <input style={{
+                        appearance: "auto",
+                        width: "calc(100% - 24px)",
+                        height: "18px",
+                        backgroundColor: "rgb(51, 51, 51)",
+                        border: "1px solid rgba(255, 255, 255, 0.16)",
+                        borderRadius: "8px",
+                        fontSize: "13px",
+                        color: "white",
+                        padding: "8px 11px 8px 11px",
+                        marginTop: "12px",
+                        cursor: "text"
+                    }} placeholder="пароль" type="password" ref={password}/>
+
+                    <button type="submit" style={{
+                        backgroundColor: "white",
+                        color: "rgb(34,34,34)",
+                        border: "1px solid rgb(34,34,34)",
+                        borderRadius: "8px",
+                        height: "36px",
+                        padding: "0 16px 0 16px",
+                        width: "100%",
+                        fontSize: "14px",
+                        marginTop: "24px",
+                        cursor: "pointer"
+                    }} onClick={(e) => {
+                        e.preventDefault();
+                        auth();
+                    }}>Войти
+                    </button>
+
+
+                </section>
             </div>
-        </main>
+        </div>
     );
 }

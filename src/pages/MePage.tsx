@@ -19,7 +19,7 @@ export function MePage(props: any): ReactElement {
 
                 <div style={{display: "flex", padding: "20px", borderRadius: "12px", margin: "calc(-16px - 25px) -20px -16px -20px", background: "rgb(34, 34, 34)"}}>
 
-                    <img src={REST.BASE + '/api/storage/' + me.photo.name} alt="user photo"
+                    <img src={REST.BASE + '/api/storage/' + me.photo.name} alt="user"
                          style={{
                              width: "150px",
                              height: "150px",
