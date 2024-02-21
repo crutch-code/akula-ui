@@ -7,7 +7,7 @@ export function QuestionSingle(props: any): ReactElement {
     return (<>
         {question.answers.map((a, i) =>
             <div>
-                <input type="radio" id={"a" + i} name={"a" + i} value={a as string}/>
+                <input type="radio" id={"a" + i} name={"q" + question.id} value={a as string}/>
                 <label htmlFor={"a" + i}>{a as string}</label>
             </div>
         )}

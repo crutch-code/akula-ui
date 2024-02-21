@@ -65,7 +65,7 @@ export function ProfileMenu(props: any): ReactElement {
                         alignItems: "center"
                     }}>
                         <FontAwesomeIcon icon={faRightFromBracket} style={{width: "18px", height: "18px"}}/>
-                        <a href={"/logout"}
+                        <a href={"/"} onClick={() => REST.logout()}
                            style={{textDecorationLine: "none", height: "30px", marginLeft: "8px"}}>Выйти</a>
                     </div>
 

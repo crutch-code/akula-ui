@@ -87,7 +87,7 @@ export function TestPage(props: any): ReactElement {
                     fontSize: "14px",
                     justifyContent: "flex-end"
                 }} onClick={nextQuestion}>
-                    Далее
+                    {question?.position === question?.amount ? "Завершить" : "Далее"}
                     <FontAwesomeIcon icon={faAngleRight} style={{width: "24px", height: "24px"}}/>
                 </div>
 

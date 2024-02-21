@@ -348,3 +348,77 @@ input:focus-visible {
     0% {background-color: transparent;}
     100% {background-color: #4a4a4a;}
 }
+
+.LoginPage {
+    justify-content: center;
+    margin: 16px;
+    background-color: rgb(34, 34, 34);
+    border-radius: 12px;
+    box-shadow: rgb(54, 55, 56) 0 0 0 1px;
+    color: rgb(225, 227, 230);
+    padding: 16px 20px 16px 20px;
+}
+.LoginInput,
+/*.LoginInput:autofill,*/
+.LoginInput:-webkit-autofill,
+.LoginInput:-webkit-autofill:hover,
+.LoginInput:-webkit-autofill:focus {
+    appearance: auto;
+    width: calc(100% - 24px);
+    height: 18px;
+    background-color: rgb(51, 51, 51);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    font-size: 13px;
+    color: white;
+    padding: 8px 11px 8px 11px;
+    margin-top: 12px;
+    cursor: text;
+}
+.LoginButton {
+    background-color: white;
+    color: rgb(34,34,34);
+    border: 1px solid rgb(34,34,34);
+    border-radius: 8px;
+    height: 36px;
+    padding: 0 16px 0 16px;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 24px;
+    cursor: pointer;
+}
+.LoginButton:hover, .LoginInput:hover, .LoginInput:focus {
+    opacity: 0.88;
+}
+.LoginError {
+    color: var(--red_nice);
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: -12px;
+    font-size: 11px;
+}
+
+@media (min-width: 576px) {
+    .LoginPage {
+        width: 400px;
+        margin: 16px auto 0 auto;
+    }
+}
+.ListItem {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgb(54, 55, 56);
+    border-bottom: 1px solid rgb(54, 55, 56);
+    cursor: pointer;
+    text-decoration-line: none;
+}
+.ListItem.disabled {
+    background: repeating-linear-gradient(
+            45deg,
+            rgb(54, 55, 56),
+            rgb(54, 55, 56) 10px,
+            rgb(34,34,34) 10px,
+            rgb(34,34,34) 20px
+    );
+}

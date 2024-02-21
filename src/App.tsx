@@ -56,6 +56,8 @@ export default function App() {
                         <Route path="/admin/users" element={<AdminUsersPage me={me}/>}/>
                         <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
 
+
+
                         <Route path="*" element={<PageNotFound/>}/>
                     </Routes>
                 </BrowserRouter>
@@ -64,6 +66,8 @@ export default function App() {
         </div>
     )
 }
+
+//<Route path="/admin/users/:id" element={<AdminUsersPage me={me}/>}/>
 
 export function PageNotFound() {
     return (<div className={"page_body"}>
@@ -87,3 +91,6 @@ export function PageNotFound() {
         </div>
     );
 }
+/*
+resolution: 1366x768
+ */

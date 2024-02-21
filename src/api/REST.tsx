@@ -10,8 +10,6 @@ import {Jwt} from "../types/Jwt";
 export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
 
-    //public static BASE: string = "https://akula.gcg.name";
-
     protected static get(url: string): any {//FIXME: remove
         fetch(REST.BASE + url, {method: "GET"})
             .then((response) => response.json())
@@ -227,7 +225,7 @@ export class REST {
     }
 
     public static startTest(id: any): Promise<QuestionType> {
-        return fetch(REST.BASE + "/api/test/start/" + id, {
+        return fetch(REST.BASE + "/api/test/" + id + "/start", {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -271,6 +269,27 @@ export class REST {
 
     public static getCourses(): Promise<CourseType[]> {
         return fetch(REST.BASE + "/api/course/", {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetUsers(): Promise<UserType[]> {
+        return fetch(REST.BASE + "/api/admin/users/", {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })

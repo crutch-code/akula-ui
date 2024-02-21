@@ -8,4 +8,5 @@ export type NewsType = {
     author: UserType;
     publishDate: string;
     photo: StorageType;
+    disabled: boolean
 }
