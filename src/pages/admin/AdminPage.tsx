@@ -2,6 +2,7 @@ import React, {ReactElement} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
+import {REST} from "../../api/REST";
 
 export function AdminPage(props: any): ReactElement {
 
@@ -36,23 +37,25 @@ export function AdminPage(props: any): ReactElement {
 
             <ListItem link={"/admin/courses"}
                       name={"Курсы и уроки"} label=""
-                      image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                      image={REST.AKULA}
             />
             <ListItem link={"/admin/news"}
                       name={"Новости"} label=""
-                      image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                      image={REST.AKULA}
             />
             <ListItem link={"/admin/analytics"}
                       name={"Отчеты и аналитика"} label=""
-                      image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                      image={REST.AKULA}
+                      disabled={true}
             />
             <ListItem link={"/admin/users"}
                       name={"Пользователи"} label=""
-                      image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                      image={REST.AKULA}
             />
             <ListItem link={"/admin/storage"}
                       name={"Хранилище файлов"} label=""
-                      image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                      image={REST.AKULA}
+                      disabled={true}
             />
 
             <div className={"TeachListFooter"} style={{

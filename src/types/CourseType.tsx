@@ -5,5 +5,6 @@ export type CourseType = {
     id: bigint,
     name: string,
     lessons: LessonType[],
-    photo: StorageType
+    photo: StorageType,
+    disabled: boolean
 }

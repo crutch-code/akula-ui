@@ -8,5 +8,5 @@ export type LessonType = {
     content: string,
     description: string,
     tests: TestType[],
-
+    disabled: boolean
 }

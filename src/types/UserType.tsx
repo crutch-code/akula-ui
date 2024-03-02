@@ -6,4 +6,5 @@ export type UserType = {
     fio: string,
     department: DepartmentType,
     photo: StorageType
+    disabled: boolean
 }

@@ -3,7 +3,13 @@ import {NewsType} from "../../types/NewsType";
 import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faCheckCircle, faCircleCheck, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {
+    faAngleLeft,
+    faAngleRight,
+    faCheckCircle,
+    faCircleCheck, faNewspaper, faPlus,
+    faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
 
 export function AdminNewsPage(props: any): ReactElement {
@@ -11,7 +17,7 @@ export function AdminNewsPage(props: any): ReactElement {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        REST.getNews().then((n) => {
+        REST.adminGetNews().then((n) => {
             setNews(n!);
             setLoading(false);
         });
@@ -27,7 +33,7 @@ export function AdminNewsPage(props: any): ReactElement {
 
     return (<div className={"page_body"}>
             <section className={"page_block col-12"} style={{padding: 0}}>
-                <div className={"TeachListHeader"} style={{height: "48px"}}>
+                <div className={"TeachListHeader"} style={{height: "48px", display: "flex", justifyContent: "space-between"}}>
                     <a href={"/admin"} className={"backButton"} style={{
                         width: "148px",
                         color: "rgb(129, 140, 153)",
@@ -39,11 +45,25 @@ export function AdminNewsPage(props: any): ReactElement {
                         fontSize: "14px",
                         textDecoration: "none"
                     }}>
-                        <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                         Назад
                     </a>
-                </div>
 
+                    <div className={"forwardButton"} style={{
+                        width: "148px",
+                        color: "rgb(129, 140, 153)",
+                        display: "flex",
+                        alignItems: "center",
+                        height: "100%",
+                        padding: "0 8px 0 20px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        justifyContent: "flex-end"
+                    }}>
+                        Создать новость
+                        <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
+                    </div>
+                </div>
 
                 {news!.map((n, index) =>
                     <ListItem key={index} link={"/admin/news/" + n.id}
@@ -64,24 +84,3 @@ export function AdminNewsPage(props: any): ReactElement {
     );
 
 }
-
-/*
-<div className="card card-sm card-body bg-primary border-light mb-0" key={n.id}>
-                                        <div className="accordion-panel-header">
-                            <span>
-                                {n.disabled
-                                    ? <FontAwesomeIcon icon={faTimesCircle}/>
-                                    : <FontAwesomeIcon icon={faCircleCheck} style={{color: "#00aa00",}}/>
-                                }
-                                &nbsp;{n.title}
-                            </span>
-                                            <span className="h6 small">
-                                                {new Date(Date.parse(n.publishDate!)).toLocaleString("ru-RU", {
-                                                    day: '2-digit',
-                                                    month: 'long',
-                                                    year: 'numeric'
-                                                })}
-                                            </span>
-                                        </div>
-                                    </div>
- */

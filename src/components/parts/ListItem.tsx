@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 
 export function ListItem(props: any): ReactElement {
-    const disabled: string = props.disabled ?? false;
+    const disabled: boolean = props.disabled ?? false;
     const image: string = props.image;
     const link: string = props.link;
     const name: string = props.name;

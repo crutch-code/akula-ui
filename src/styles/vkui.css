@@ -149,6 +149,11 @@
     --lavender_700: #5965b3;
     --lavender_800: #404980;
     --lavender_900: #262b4d;
+
+    --vkui--color_background_accent_themed: #447bba;
+    --vkui--color_separator_primary: #dce1e6;
+    --vkui--color_icon_tertiary: #aeb7c2;
+    --vkui--color_background_accent: #447bba;
 }
 
 * {
@@ -421,4 +426,37 @@ input:focus-visible {
             rgb(34,34,34) 10px,
             rgb(34,34,34) 20px
     );
+}
+
+.primary {
+    background-color: var(--vkui--color_background_accent_themed);
+}
+.button.primary:not(.disabled):hover {
+    background-color: var(--vkui--color_background_accent_themed);
+    opacity: 0.88;
+}
+
+.Toggler {
+    margin-top: 4px;
+    width: 28px;
+    height: 9px;
+    border-radius: 45px;
+    background-color: var(--vkui--color_separator_primary);
+    cursor: pointer;
+}
+.Toggler.on::after {
+    background-color: var(--vkui--color_background_accent);
+    left: 13px;
+}
+.Toggler::after {
+    content: "";
+    float: left;
+    position: relative;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--vkui--color_icon_tertiary);
+    top: -3px;
+    left: 0;
+    transition: left .1s ease;
 }

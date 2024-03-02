@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {Loading} from "../../components/Loading";
 import {REST} from "../../api/REST";
 import {UserType} from "../../types/UserType";
@@ -45,10 +45,11 @@ export function AdminUsersPage(props: any): ReactElement {
                 </div>
 
                 {users?.map((u, index) =>
-                    //TODO: modal
+                    //TODO: modal ???
                     <ListItem key={index} link={"/admin/users/" + u.id}
                               name={u.fio} label="Пользователь"
                               image={REST.BASE + "/api/storage/" + u.photo.name}
+                              disabled={u.disabled}
                     />
                 )}
 

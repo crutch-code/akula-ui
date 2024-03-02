@@ -49,7 +49,8 @@ export function CoursePage(props: any): ReactElement {
                 {course?.lessons?.map((l, index) =>
                     <ListItem key={index} link={"/teach/" + id + "/" + l.id}
                               name={l.name} label="Урок"
-                              image={"https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1"}
+                              image={REST.AKULA}
+                              disabled={l.completed}
                     />
                 )}
 

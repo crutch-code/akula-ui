@@ -4,18 +4,20 @@ import {faAngleLeft, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
 import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
-import {CourseType} from "../../types/CourseType";
+import {LessonType} from "../../types/LessonType";
+import {useParams} from "react-router-dom";
 
-export function AdminCoursesPage(props: any): ReactElement {
-    const [courses, setCourses] = useState<CourseType[]>();
+export function AdminLessonsPage(props: any): ReactElement {
+    const {cid} = useParams<string>();
+    const [lessons, setLessons] = useState<LessonType[]>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        REST.adminGetCourses().then((c) => {
-            setCourses(c)
+        REST.adminGetLessons(parseInt(cid!)).then((l) => {
+            setLessons(l)
             setLoading(false);
         });
-    }, [])
+    }, [cid])
 
     if (loading) {
         return (<div className={"page_body"}>
@@ -28,7 +30,7 @@ export function AdminCoursesPage(props: any): ReactElement {
     return (<div className={"page_body"}>
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"} style={{height: "48px", display: "flex", justifyContent: "space-between"}}>
-                <a href={"/admin"} className={"backButton"} style={{
+                <a href={"/admin/courses/" + cid} className={"backButton"} style={{
                     width: "148px",
                     color: "rgb(129, 140, 153)",
                     display: "flex",
@@ -54,15 +56,15 @@ export function AdminCoursesPage(props: any): ReactElement {
                     fontSize: "14px",
                     justifyContent: "flex-end"
                 }}>
-                    Создать курс
+                    Создать урок
                     <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                 </div>
             </div>
 
-            {courses?.map((c, index) =>
-                <ListItem key={index} link={"/admin/courses/" + c.id}
-                          name={c.name} label="Курс"
-                          image={REST.BASE + "/api/storage/" + c.photo.name}
+            {lessons?.map((c, index) =>
+                <ListItem key={index} link={"/admin/courses/" + cid + "/lessons/" + c.id}
+                          name={c.name} label="Урок"
+                          image={REST.AKULA}
                           disabled={c.disabled}
                 />
             )}
