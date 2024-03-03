@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
 import {REST} from "../../api/REST";
+import {BackButton} from "../../components/parts/BackButton";
 
 export function AdminPage(props: any): ReactElement {
 
@@ -10,20 +11,7 @@ export function AdminPage(props: any): ReactElement {
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"}
                  style={{height: "48px", borderBottom: "1px solid rgb(54, 55, 56)", display: "flex"}}>
-                <a href={"/"} className={"backButton"} style={{
-                    width: "148px",
-                    color: "rgb(129, 140, 153)",
-                    display: "flex",
-                    alignItems: "center",
-                    height: "100%",
-                    padding: "0 20px 0 8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    textDecoration: "none"
-                }}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
-                    Назад
-                </a>
+                <BackButton link={"/"}/>
                 <div style={{
                     padding: "15px",
                     textAlign: "center",

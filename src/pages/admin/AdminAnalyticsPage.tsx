@@ -3,31 +3,33 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
 import {REST} from "../../api/REST";
+import {BackButton} from "../../components/parts/BackButton";
 
 export function AdminAnalyticsPage(props: any): ReactElement {
 
     return (<div className={"page_body"}>
             <section className={"page_block col-12"} style={{padding: 0}}>
-                <div className={"TeachListHeader"} style={{height: "48px"}}>
-                    <a href={"/admin"} className={"backButton"} style={{
-                        width: "148px",
-                        color: "rgb(129, 140, 153)",
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                        padding: "0 20px 0 8px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        textDecoration: "none"
-                    }}>
-                        <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
-                        Назад
-                    </a>
+                <div className={"TeachListHeader"} style={{height: "48px", display: "flex", borderBottom: "1px solid rgb(54, 55, 56)", justifyContent: "space-between"}}>
+                    <BackButton link={"/admin"}/>
+                    <div style={{
+                        padding: "15px",
+                        textAlign: "center",
+                        width: "100%",
+                        fontSize: "13px",
+                        fontWeight: "500"
+                    }}>Отчеты и аналитика
+                    </div>
+                    <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
                 </div>
 
                 TODO: Администрирование Отчетных форм
 
-                <div className={"TeachListFooter"} style={{height: "48px"}}>
+                <div className={"TeachListFooter"} style={{
+                    height: "48px",
+                    borderTop: "1px solid rgb(54, 55, 56)",
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}>
 
                 </div>
             </section>

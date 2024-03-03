@@ -289,8 +289,8 @@ export class REST {
             .catch((error) => console.error(error));
     }
 
-    public static adminGetUsers(): Promise<UserType[]> {
-        return fetch(REST.BASE + "/api/admin/users/", {
+    public static adminGetUsers(page: number): Promise<UserType[]> {
+        return fetch(REST.BASE + "/api/admin/user/" + (page===0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -304,14 +304,14 @@ export class REST {
             })
             .then((data: any) => {
                 if (data.status === 'OK')
-                    return data.body;
+                    return data.body.content;
                 throw data;
             })
             .catch((error) => console.error(error));
     }
 
-    public static adminGetNews(): Promise<NewsType[]> {
-        return fetch(REST.BASE + "/api/admin/news", {
+    public static adminGetNews(page: number): Promise<NewsType[]> {
+        return fetch(REST.BASE + "/api/admin/news/" + (page===0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -332,8 +332,8 @@ export class REST {
         //.catch((error) => console.warn(error));
     }
 
-    public static adminGetCourses(): Promise<CourseType[]> {
-        return fetch(REST.BASE + "/api/admin/course/", {
+    public static adminGetCourses(page: number): Promise<CourseType[]> {
+        return fetch(REST.BASE + "/api/admin/course/" + (page===0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -416,8 +416,8 @@ export class REST {
             .catch((error) => console.error(error));
     }
 
-    public static adminGetLessons(cid: number): Promise<LessonType[]> {
-        return fetch(REST.BASE + "/api/admin/course/" + cid + "/lesson", {
+    public static adminGetLessons(cid: number, page: number): Promise<LessonType[]> {
+        return fetch(REST.BASE + "/api/admin/course/" + cid + "/lesson/" + (page===0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -432,6 +432,69 @@ export class REST {
             .then((data: any) => {
                 if (data.status === 'OK')
                     return data.body.content;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetNewsById(id: number): Promise<NewsType> {
+        return fetch(REST.BASE + "/api/admin/news/" + id, {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetNewsEnable(id: number): void {
+        fetch(REST.BASE + "/api/admin/news/" + id + "/enable", {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetNewsDisable(id: number): void {
+        fetch(REST.BASE + "/api/admin/news/" + id + "/disable", {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
                 throw data;
             })
             .catch((error) => console.error(error));

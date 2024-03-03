@@ -1,21 +1,19 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
-import {CourseType} from "../../types/CourseType";
 import {useParams} from "react-router-dom";
 import {Toggler} from "../../components/parts/Toggler";
+import {NewsType} from "../../types/NewsType";
 import {BackButton} from "../../components/parts/BackButton";
 
-export function AdminCoursePage(props: any): ReactElement {
+export function AdminOneNewsPage(props: any): ReactElement {
     const {id} = useParams<string>();
-    const [course, setCourse] = useState<CourseType>();
+    const [news, setNews] = useState<NewsType>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        REST.adminGetCourseById(parseInt(id!)).then((c) => {
-            setCourse(c)
+        REST.adminGetNewsById(parseInt(id!)).then((c) => {
+            setNews(c)
             setLoading(false);
         });
     }, [id])
@@ -30,16 +28,16 @@ export function AdminCoursePage(props: any): ReactElement {
 
     const callBack = (disabled: boolean) => {
         if(disabled) {
-            REST.adminGetCourseDisable(parseInt(id!));
+            REST.adminGetNewsDisable(parseInt(id!));
         } else {
-            REST.adminGetCourseEnable(parseInt(id!));
+            REST.adminGetNewsEnable(parseInt(id!));
         }
     }
 
     return (<div className={"page_body"}>
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"} style={{height: "48px", display: "flex", justifyContent: "space-between", borderBottom: "1px solid rgb(54, 55, 56)",}}>
-                <BackButton link={"/admin/courses"}/>
+                <BackButton link={"/admin/news"}/>
 
                 <div style={{
                     display: "flex",
@@ -50,12 +48,12 @@ export function AdminCoursePage(props: any): ReactElement {
                     fontSize: "14px",
                     justifyContent: "center"
                 }}>
-                    <Toggler disabled={course!.disabled ?? false} callback={callBack}/>
+                    <Toggler disabled={news!.disabled ?? false} callback={callBack}/>
                 </div>
             </div>
 
             <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
-                {course!.name}
+                {news!.content}
             </div>
 
 
@@ -65,22 +63,6 @@ export function AdminCoursePage(props: any): ReactElement {
                 display: "flex",
                 justifyContent: "space-between"
             }}>
-                <div style={{width: "148px", padding: "0 20px 0 8px"}}></div>
-                <a href={"/admin/courses/" + course!.id + "/lessons/"} className={"forwardButton"} style={{
-                    width: "148px",
-                    color: "rgb(129, 140, 153)",
-                    display: "flex",
-                    alignItems: "center",
-                    height: "100%",
-                    padding: "0 8px 0 20px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    justifyContent: "flex-end",
-                    textDecoration: "none"
-                }}>
-                    Список уроков
-                    <FontAwesomeIcon icon={faAngleRight} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
-                </a>
 
             </div>
 
