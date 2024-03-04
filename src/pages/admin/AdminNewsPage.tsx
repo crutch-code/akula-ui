@@ -6,18 +6,20 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft, faAngleRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {ListItem} from "../../components/parts/ListItem";
 import {BackButton} from "../../components/parts/BackButton";
+import {NewsModal} from "../../components/NewsModal";
 
 export function AdminNewsPage(props: any): ReactElement {
     const [news, setNews] = useState<NewsType[]>();
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     useEffect(() => {
         REST.adminGetNews(page).then((n) => {
             setNews(n!);
             setLoading(false);
         });
-    }, [])
+    }, [page])
 
     const loadNext = () => {
         setLoading(true);
@@ -66,11 +68,12 @@ export function AdminNewsPage(props: any): ReactElement {
                         cursor: "pointer",
                         fontSize: "14px",
                         justifyContent: "flex-end"
-                    }}>
+                    }} onClick={() => setShowModal(true)}>
                         Создать&nbsp;новость
                         <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                     </div>
                 </div>
+
                 <Loading/>
 
                 <div className={"TeachListFooter"} style={{
@@ -113,7 +116,7 @@ export function AdminNewsPage(props: any): ReactElement {
                         cursor: "pointer",
                         fontSize: "14px",
                         justifyContent: "flex-end"
-                    }}>
+                    }} onClick={() => setShowModal(true)}>
                         Создать&nbsp;новость
                         <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                     </div>
@@ -155,7 +158,7 @@ export function AdminNewsPage(props: any): ReactElement {
                         </div>
                     }
                     <div style={{width: "148px", padding: "0 20px 0 8px"}}></div>
-                    {news!.length > 0
+                    {news!.length >= REST.PAGE_SIZE
                     ? <div className={"forwardButton"} style={{
                         width: "148px",
                         color: "rgb(129, 140, 153)",
@@ -176,6 +179,8 @@ export function AdminNewsPage(props: any): ReactElement {
                     }
                 </div>
             </section>
+
+            <NewsModal visibleState={[showModal, setShowModal]}/>
         </div>
     );
 

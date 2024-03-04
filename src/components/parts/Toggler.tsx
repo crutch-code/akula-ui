@@ -1,4 +1,4 @@
-import {ReactElement, useEffect, useState} from "react";
+import {ReactElement, useState} from "react";
 
 export function Toggler(props: any): ReactElement {
     const [disabled, setDisabled] = useState<boolean>(props.disabled);

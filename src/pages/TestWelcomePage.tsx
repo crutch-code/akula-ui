@@ -1,17 +1,18 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {useParams} from "react-router-dom";
 import {Loading} from "../components/Loading";
 import {TestType} from "../types/TestType";
 import {REST} from "../api/REST";
+import {BackButton} from "../components/parts/BackButton";
 
 export function TestWelcomePage(props: any) : ReactElement {
     const {id} = useParams<string>();
     const {cid} = useParams<string>();
     const {lid} = useParams<string>();
     const [test, setTest] = useState<TestType>();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         REST.getTestById(id).then(t => {
@@ -22,8 +23,26 @@ export function TestWelcomePage(props: any) : ReactElement {
 
     if (loading) {
         return (<div className={"page_body"}>
-            <section className={"page_block col-12"}>
+            <section className={"page_block col-12"} style={{padding: 0}}>
+                <div className={"TeachListHeader"}
+                     style={{height: "48px", borderBottom: "1px solid rgb(54, 55, 56)", display: "flex"}}>
+                    <BackButton link={"/teach/" + cid + "/" + lid}/>
+                    <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
+                </div>
+
                 <Loading/>
+
+                <div className={"TeachListFooter"} style={{
+                    height: "48px",
+                    borderTop: "1px solid rgb(54, 55, 56)",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "13px",
+                    textAlign: "justify",
+                    justifyContent: "right"
+                }}>
+
+                </div>
             </section>
         </div>)
     }
@@ -32,26 +51,13 @@ export function TestWelcomePage(props: any) : ReactElement {
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"}
                  style={{height: "48px", borderBottom: "1px solid rgb(54, 55, 56)", display: "flex"}}>
-                <a href={"/teach/" + cid + "/" + lid} className={"backButton"} style={{
-                    width: "148px",
-                    color: "rgb(129, 140, 153)",
-                    display: "flex",
-                    alignItems: "center",
-                    height: "100%",
-                    padding: "0 20px 0 8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    textDecoration: "none"
-                }}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
-                    Назад
-                </a>
+                <BackButton link={"/teach/" + cid + "/" + lid}/>
                 <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
             </div>
 
             <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
-                <div>Тема теста: <b>{test?.theme}</b></div>
-                <div>Проходной балл: <b>{test?.min_ball}</b></div>
+                <div>Тема теста: <b>{test!.theme}</b></div>
+                <div>Проходной балл: <b>{test!.min_ball}</b></div>
             </div>
 
 

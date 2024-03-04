@@ -29,3 +29,5 @@ export function PostsPage(props: any): ReactElement {
         )}
     </div>);
 }
+//
+// https://blog.logrocket.com/3-ways-implement-infinite-scroll-react/

@@ -3,10 +3,8 @@ import {Separator} from "./parts/Separator";
 import {LeftMenuItem} from "./parts/LeftMenuItem";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faBullhorn,
     faChartPie,
     faCircleUser,
-    faComments,
     faGraduationCap,
     faNewspaper, faSliders
 } from "@fortawesome/free-solid-svg-icons";

@@ -6,18 +6,20 @@ import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
 import {CourseType} from "../../types/CourseType";
 import {BackButton} from "../../components/parts/BackButton";
+import {CourseModal} from "../../components/CourseModal";
 
 export function AdminCoursesPage(props: any): ReactElement {
     const [courses, setCourses] = useState<CourseType[]>();
-    const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [page, setPage] = useState<number>(0);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     useEffect(() => {
         REST.adminGetCourses(page).then((c) => {
             setCourses(c)
             setLoading(false);
         });
-    }, [])
+    }, [page])
 
     const loadNext = () => {
         setLoading(true);
@@ -39,8 +41,47 @@ export function AdminCoursesPage(props: any): ReactElement {
 
     if (loading) {
         return (<div className={"page_body"}>
-            <section className={"page_block col-12"}>
+            <section className={"page_block col-12"} style={{padding: 0}}>
+                <div className={"TeachListHeader"} style={{
+                    height: "48px",
+                    display: "flex",
+                    borderBottom: "1px solid rgb(54, 55, 56)",
+                    justifyContent: "space-between"
+                }}>
+                    <BackButton link={"/admin"}/>
+                    <div style={{
+                        padding: "15px",
+                        textAlign: "center",
+                        width: "100%",
+                        fontSize: "13px",
+                        fontWeight: "500"
+                    }}>Курсы и уроки
+                    </div>
+                    <div className={"forwardButton"} style={{
+                        width: "148px",
+                        color: "rgb(129, 140, 153)",
+                        display: "flex",
+                        alignItems: "center",
+                        height: "100%",
+                        padding: "0 8px 0 20px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        justifyContent: "flex-end"
+                    }} onClick={() => setShowModal(true)}>
+                        Создать&nbsp;курс
+                        <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
+                    </div>
+                </div>
+
                 <Loading/>
+
+                <div className={"TeachListFooter"} style={{
+                    height: "48px",
+                    borderTop: "1px solid rgb(54, 55, 56)",
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}>
+                </div>
             </section>
         </div>)
     }
@@ -72,7 +113,7 @@ export function AdminCoursesPage(props: any): ReactElement {
                     cursor: "pointer",
                     fontSize: "14px",
                     justifyContent: "flex-end"
-                }}>
+                }} onClick={() => setShowModal(true)}>
                     Создать&nbsp;курс
                     <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                 </div>
@@ -110,7 +151,7 @@ export function AdminCoursesPage(props: any): ReactElement {
                     </div>
                 }
                 <div style={{width: "148px", padding: "0 20px 0 8px"}}></div>
-                {courses!.length > 0
+                {courses!.length >= REST.PAGE_SIZE
                     ? <div className={"forwardButton"} style={{
                         width: "148px",
                         color: "rgb(129, 140, 153)",
@@ -131,6 +172,8 @@ export function AdminCoursesPage(props: any): ReactElement {
                 }
             </div>
         </section>
+
+        <CourseModal visibleState={[showModal, setShowModal]}/>
     </div>);
 
 }

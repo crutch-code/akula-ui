@@ -1,8 +1,4 @@
 import React, {ReactElement} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
-import {ListItem} from "../../components/parts/ListItem";
-import {REST} from "../../api/REST";
 import {BackButton} from "../../components/parts/BackButton";
 
 export function AdminAnalyticsPage(props: any): ReactElement {

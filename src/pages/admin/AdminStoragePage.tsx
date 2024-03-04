@@ -1,7 +1,4 @@
 import React, {ReactElement} from "react";
-import {Loading} from "../../components/Loading";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import {BackButton} from "../../components/parts/BackButton";
 
 export function AdminStoragePage(props: any): ReactElement {

@@ -17,7 +17,7 @@ export function AdminUsersPage(props: any): ReactElement {
             setUsers(u!);
             setLoading(false);
         });
-    }, []);
+    }, [page]);
 
     const loadNext = () => {
         setLoading(true);
@@ -94,7 +94,7 @@ export function AdminUsersPage(props: any): ReactElement {
                 {users?.map((u, index) =>
                     //TODO: modal ???
                     <ListItem key={index} link={"/admin/users/" + u.id}
-                              name={u.fio} label="Пользователь"
+                              name={u.fio} label={u.department.name}
                               image={REST.BASE + "/api/storage/" + u.photo.name}
                               disabled={u.disabled}
                     />
@@ -125,7 +125,7 @@ export function AdminUsersPage(props: any): ReactElement {
                         </div>
                     }
                     <div style={{width: "148px", padding: "0 20px 0 8px"}}></div>
-                    {users!.length > 0
+                    {users!.length >= REST.PAGE_SIZE
                         ? <div className={"forwardButton"} style={{
                             width: "148px",
                             color: "rgb(129, 140, 153)",

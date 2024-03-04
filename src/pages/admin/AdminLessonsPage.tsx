@@ -19,7 +19,7 @@ export function AdminLessonsPage(props: any): ReactElement {
             setLessons(l)
             setLoading(false);
         });
-    }, [cid])
+    }, [cid, page])
 
     const loadNext = () => {
         setLoading(true);
@@ -152,7 +152,7 @@ export function AdminLessonsPage(props: any): ReactElement {
                     </div>
                 }
                 <div style={{width: "148px", padding: "0 20px 0 8px"}}></div>
-                {lessons!.length > 0
+                {lessons!.length >= REST.PAGE_SIZE
                     ? <div className={"forwardButton"} style={{
                         width: "148px",
                         color: "rgb(129, 140, 153)",

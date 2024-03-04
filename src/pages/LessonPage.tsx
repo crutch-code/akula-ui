@@ -4,8 +4,7 @@ import {useParams} from "react-router-dom";
 import {LessonType} from "../types/LessonType";
 import {Loading} from "../components/Loading";
 import {Button} from "../components/Button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
+import {BackButton} from "../components/parts/BackButton";
 
 export function LessonPage(props: any): ReactElement {
     const {id} = useParams<string>();
@@ -32,20 +31,8 @@ export function LessonPage(props: any): ReactElement {
         <section className={"page_block col-12"} style={{padding: 0}}>
             <div className={"TeachListHeader"}
                  style={{height: "48px", borderBottom: "1px solid rgb(54, 55, 56)", display: "flex"}}>
-                <a href={"/teach/" + cid!} className={"backButton"} style={{
-                    width: "148px",
-                    color: "rgb(129, 140, 153)",
-                    display: "flex",
-                    alignItems: "center",
-                    height: "100%",
-                    padding: "0 20px 0 8px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                    textDecoration: "none"
-                }}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{width: "24px", height: "24px"}}/>
-                    Назад
-                </a>
+                <BackButton link={"/teach/" + cid!}/>
+
                 <div style={{
                     padding: "15px",
                     textAlign: "center",

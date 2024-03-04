@@ -154,6 +154,7 @@
     --vkui--color_separator_primary: #dce1e6;
     --vkui--color_icon_tertiary: #aeb7c2;
     --vkui--color_background_accent: #447bba;
+    --vkui--color_text_primary: #e1e3e6;
 }
 
 * {
@@ -459,4 +460,71 @@ input:focus-visible {
     top: -3px;
     left: 0;
     transition: left .1s ease;
+}
+.hidden {
+    display: none;
+}
+.modalBackground {
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+}
+.modal {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    min-width: 500px;
+    max-width: 800px;
+    background-color: rgb(41, 41, 41);
+}
+.modalHeader {
+    display: flex;
+    height: 55px;
+    border-bottom: 1px solid rgb(54, 55, 56);
+    color: rgb(225, 227, 230);
+    font-size: 16px;
+    padding: 0 24px 0 24px;
+    align-items: center;
+}
+.modalFooter {
+    display: flex;
+    height: 55px;
+    border-top: 1px solid rgb(54, 55, 56);
+    color: rgb(225, 227, 230);
+    padding: 0 24px 0 24px;
+    align-items: center;
+    justify-content: right;
+}
+.modalClose {
+    cursor: pointer;
+    color: rgb(225, 227, 230);
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.7);
+    margin-left: 20px;
+    font-size: 16px;
+}
+.inputGroup input, .inputGroup textarea {
+    color: rgb(225, 227, 230);
+    background-color: rgb(41, 41, 41);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 5px 9px 7px 9px;
+}
+.inputGroup textarea {
+    min-height: 100px;
+    min-width: 300px;
+    resize: none;
+    overflow: hidden;
+}
+.inputGroup textarea:focus {
+    outline: 0;
+}
+.inputGroup textarea:focus::placeholder, .inputGroup input:focus::placeholder {
+    color: rgb(147, 147, 147);
 }

@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 import {QuestionType} from "../types/QuestionType";
 import {QuestionSingle} from "../components/parts/QuestionSingle";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {QuestionMultiply} from "../components/parts/QuestionMultiply";
 
 export function TestPage(props: any): ReactElement {
