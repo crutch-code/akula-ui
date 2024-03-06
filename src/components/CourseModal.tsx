@@ -1,13 +1,32 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useRef} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {REST} from "../api/REST";
 
 export function CourseModal(props: any): ReactElement {
     const [visible, setVisible] = props.visibleState;
+    const name = useRef<HTMLInputElement>(null);
+    const photo = useRef<HTMLInputElement>(null);
 
     if (!visible) {
         return (<></>);
     }
+
+    const createCourse = () => {
+        console.log(photo.current!.files![0].name);
+        /*let newCourse = {
+            name: '',
+            photo: {
+                name: name,
+                type: 'course',
+                data: []
+            }
+        }*/
+        /*REST.adminNewCourse(newCourse).then((c) => {
+            console.log(JSON.stringify(c));//FIXME: ???
+        });*/
+    }
+
 // onClick={(e) => {e.stopPropagation(); setVisible(false)}}
     return (<div className={"modalBackground"}>
         <div className={"modal"}>
@@ -18,16 +37,23 @@ export function CourseModal(props: any): ReactElement {
                 </div>
             </div>
 
-            <div className={"modalBody"} style={{padding: "20px 24px 20px 24px", fontSize: "13px", display: "flex", flexDirection: "column"}}>
+            <div className={"modalBody"}
+                 style={{padding: "20px 24px 20px 24px", fontSize: "13px", display: "flex", flexDirection: "column"}}>
 
-                <div className={"inputGroup"} style={{padding: "20px 0 15px 0", display: "flex", width: "100%"}}>
-                    <label style={{color: "rgb(147, 147, 147)", fontSize: "13px", padding: "6px 10px 0 0", whiteSpace: "nowrap"}}>Название курса:</label>
-                    <textarea placeholder={"Полное название курса"} style={{width: "100%"}}></textarea>
+                <div className={"inputPhoto"} onClick={() => {photo.current!.click()}}>
+                    <input type={"file"} style={{display: "none"}} ref={photo}/>
+                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faPlus}/></span>
+                    Загрузить фотографию
                 </div>
 
-                <div className={"inputGroup"} style={{padding: "20px 0 15px 0", display: "flex", width: "100%"}}>
-                    <label style={{color: "rgb(147, 147, 147)", fontSize: "13px", padding: "6px 10px 0 0", whiteSpace: "nowrap"}}>Название курса:</label>
-                    <input placeholder={"Полное название курса"} style={{width: "100%"}}></input>
+                <div className={"inputGroup"} style={{padding: "15px 0 15px 0", display: "flex", width: "100%"}}>
+                    <label style={{
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "13px",
+                        padding: "6px 10px 0 0",
+                        whiteSpace: "nowrap"
+                    }}>Название курса:</label>
+                    <input placeholder={"Полное название курса"} style={{width: "100%"}} ref={name}></input>
                 </div>
 
             </div>
@@ -38,7 +64,7 @@ export function CourseModal(props: any): ReactElement {
                     border: "1px solid rgb(34, 34, 34)",
                     borderRadius: "8px",
                     color: "rgb(34, 34, 34)"
-                }}>Сохранить
+                }} onClick={() => createCourse()}>Сохранить
                 </div>
             </div>
         </div>

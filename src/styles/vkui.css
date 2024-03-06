@@ -528,3 +528,17 @@ input:focus-visible {
 .inputGroup textarea:focus::placeholder, .inputGroup input:focus::placeholder {
     color: rgb(147, 147, 147);
 }
+.inputPhoto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(51, 51, 51);
+    color: rgb(113, 170, 235);
+    cursor: pointer;
+    padding: 8.5px 10px 8.5px 10px;
+    height: 29px;
+    border-radius: 8px;
+}
+.inputPhoto:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+}

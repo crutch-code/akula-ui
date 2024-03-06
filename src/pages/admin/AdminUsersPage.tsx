@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faAngleRight, faRotate} from "@fortawesome/free-solid-svg-icons";
 import {Loading} from "../../components/Loading";
 import {REST} from "../../api/REST";
 import {UserType} from "../../types/UserType";
@@ -88,7 +88,25 @@ export function AdminUsersPage(props: any): ReactElement {
                         fontWeight: "500"
                     }}>Пользователи
                     </div>
-                    <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
+
+                    <div className={"forwardButton"} style={{
+                        width: "148px",
+                        color: "rgb(129, 140, 153)",
+                        display: "flex",
+                        alignItems: "center",
+                        height: "100%",
+                        padding: "0 8px 0 20px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        justifyContent: "flex-end",
+                        textDecoration: "none",
+                        whiteSpace: "nowrap"
+                    }} onClick={() => REST.adminSyncUsers()}>
+                        Синхронизировать с 1С
+                        <FontAwesomeIcon icon={faRotate} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
+                    </div>
+
+
                 </div>
 
                 {users?.map((u, index) =>
