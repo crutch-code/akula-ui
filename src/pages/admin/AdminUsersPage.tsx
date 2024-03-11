@@ -102,7 +102,7 @@ export function AdminUsersPage(props: any): ReactElement {
                         textDecoration: "none",
                         whiteSpace: "nowrap"
                     }} onClick={() => REST.adminSyncUsers()}>
-                        Синхронизировать с 1С
+                        Загрузить из 1С
                         <FontAwesomeIcon icon={faRotate} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                     </div>
 
@@ -113,7 +113,7 @@ export function AdminUsersPage(props: any): ReactElement {
                     //TODO: modal ???
                     <ListItem key={index} link={"/admin/users/" + u.id}
                               name={u.fio} label={u.department.name}
-                              image={REST.BASE + "/api/storage/" + u.photo.name}
+                              image={REST.BASE + "/api/storage/" + u.photo.id}
                               disabled={u.disabled}
                     />
                 )}

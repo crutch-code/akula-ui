@@ -122,7 +122,7 @@ export function AdminCoursesPage(props: any): ReactElement {
             {courses?.map((c, index) =>
                 <ListItem key={index} link={"/admin/courses/" + c.id}
                           name={c.name} label="Курс"
-                          image={REST.BASE + "/api/storage/" + c.photo.name}
+                          image={REST.BASE + "/api/storage/" + c.photo.id}
                           disabled={c.disabled}
                 />
             )}

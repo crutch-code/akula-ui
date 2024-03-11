@@ -49,7 +49,7 @@ export function Header(props: any): ReactElement {
                     alignItems: "center",
                     cursor: "pointer"
                 }}>
-                    <img src={REST.BASE + "/api/storage/" + me?.photo.name} alt={"avatar"}
+                    <img src={REST.BASE + "/api/storage/" + me?.photo.id} alt={"avatar"}
                          style={{width: "32px", height: "32px", borderRadius: "50%"}}/>
                     <DownIcon style={{marginLeft: "6px", marginRight: "6px"}}/>
                 </div>

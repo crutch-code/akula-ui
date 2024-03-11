@@ -9,6 +9,7 @@ import {BackButton} from "../../components/parts/BackButton";
 import {NewsModal} from "../../components/NewsModal";
 
 export function AdminNewsPage(props: any): ReactElement {
+    const me = props.me;
     const [news, setNews] = useState<NewsType[]>();
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
@@ -19,7 +20,7 @@ export function AdminNewsPage(props: any): ReactElement {
             setNews(n!);
             setLoading(false);
         });
-    }, [page])
+    }, [page, showModal])
 
     const loadNext = () => {
         setLoading(true);
@@ -129,7 +130,7 @@ export function AdminNewsPage(props: any): ReactElement {
                         month: 'long',
                         year: 'numeric'
                     })}
-                              image={REST.BASE + "/api/storage/" + n.photo.name}
+                              image={REST.BASE + "/api/storage/" + n.photo.id}
                               disabled={n.disabled}/>
                 )}
 
@@ -180,7 +181,7 @@ export function AdminNewsPage(props: any): ReactElement {
                 </div>
             </section>
 
-            <NewsModal visibleState={[showModal, setShowModal]}/>
+            <NewsModal visibleState={[showModal, setShowModal]} me={me}/>
         </div>
     );
 

@@ -6,6 +6,7 @@ import {LessonType} from "../types/LessonType";
 import {TestType} from "../types/TestType";
 import {QuestionType} from "../types/QuestionType";
 import {Jwt} from "../types/Jwt";
+import {StorageType} from "../types/StorageType";
 
 export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
@@ -313,7 +314,7 @@ export class REST {
     }
 
     public static adminGetUsers(page: number): Promise<UserType[]> {
-        return fetch(REST.BASE + "/api/admin/user/" + (page===0 ? "" : "?page=" + page), {
+        return fetch(REST.BASE + "/api/admin/user/" + (page === 0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -334,7 +335,7 @@ export class REST {
     }
 
     public static adminGetNews(page: number): Promise<NewsType[]> {
-        return fetch(REST.BASE + "/api/admin/news/" + (page===0 ? "" : "?page=" + page), {
+        return fetch(REST.BASE + "/api/admin/news/" + (page === 0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -356,7 +357,7 @@ export class REST {
     }
 
     public static adminGetCourses(page: number): Promise<CourseType[]> {
-        return fetch(REST.BASE + "/api/admin/course/" + (page===0 ? "" : "?page=" + page), {
+        return fetch(REST.BASE + "/api/admin/course/" + (page === 0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -399,7 +400,7 @@ export class REST {
 
     public static adminGetCourseEnable(id: number): void {
         fetch(REST.BASE + "/api/admin/course/" + id + "/enable", {
-            method: "GET",
+            method: "PUT",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
             .then((response) => {
@@ -420,7 +421,7 @@ export class REST {
 
     public static adminGetCourseDisable(id: number): void {
         fetch(REST.BASE + "/api/admin/course/" + id + "/disable", {
-            method: "GET",
+            method: "PUT",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
             .then((response) => {
@@ -462,7 +463,7 @@ export class REST {
     }
 
     public static adminGetLessons(cid: number, page: number): Promise<LessonType[]> {
-        return fetch(REST.BASE + "/api/admin/course/" + cid + "/lesson/" + (page===0 ? "" : "?page=" + page), {
+        return fetch(REST.BASE + "/api/admin/course/" + cid + "/lesson/" + (page === 0 ? "" : "?page=" + page), {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
@@ -505,7 +506,7 @@ export class REST {
 
     public static adminGetNewsEnable(id: number): void {
         fetch(REST.BASE + "/api/admin/news/" + id + "/enable", {
-            method: "GET",
+            method: "PUT",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
             .then((response) => {
@@ -526,8 +527,74 @@ export class REST {
 
     public static adminGetNewsDisable(id: number): void {
         fetch(REST.BASE + "/api/admin/news/" + id + "/disable", {
-            method: "GET",
+            method: "PUT",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static uploadFile(form: FormData): Promise<StorageType> {
+        return fetch(REST.BASE + "/api/storage/", {
+            method: "POST",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: form
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminUpdateNews(n: any): Promise<NewsType> {
+        return fetch(REST.BASE + "/api/admin/news/", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(n)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminCreateNews(n: any): Promise<NewsType> {
+        return fetch(REST.BASE + "/api/admin/news/", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(n, (_, v) => typeof v === 'bigint' ? v.toString() : v)
         })
             .then((response) => {
                 if (response.status === 401) {

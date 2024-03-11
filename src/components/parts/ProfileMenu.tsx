@@ -44,7 +44,7 @@ export function ProfileMenu(props: any): ReactElement {
                             color: "rgb(101, 101, 101)"
                         }}>
                             <img style={{width: "40px", height: "40px", marginRight: "12px", borderRadius: "50%"}}
-                                 src={REST.BASE + "/api/storage/" + me.photo.name} alt={"avatar"}/>
+                                 src={REST.BASE + "/api/storage/" + me.photo.id} alt={"avatar"}/>
                             <div style={{display: "flex", flexDirection: "column", lineHeight: "20px", width: "100%"}}>
                                 <div>{me.fio}</div>
                                 <div style={{color: "rgb(130, 130, 130)"}}>Должность</div>

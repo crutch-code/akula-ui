@@ -25,7 +25,7 @@ export function NewsCard(props: any): ReactElement {
             <div className={"header"} style={{height: "40px", display: "flex"}}>
                 <a className={"avatar"} href={'/user/' + news?.author!.id!}><img
                     style={{height: "40px", width: "40px", borderRadius: "50%", marginRight: "12px"}}
-                    src={REST.BASE + '/api/storage/' + news?.author!.photo!.name!} alt={'Автор'}/></a>
+                    src={REST.BASE + '/api/storage/' + news?.author!.photo!.id!} alt={'Автор'}/></a>
                 <div style={{display: "flex", flexDirection: "column"}}>
                     <a href={'/user/' + news?.author!.id!} style={{
                         fontSize: "13px",
@@ -48,7 +48,7 @@ export function NewsCard(props: any): ReactElement {
                     {isPreview ? <div style={{color: "rgb(113, 170, 235)", fontWeight: "bold", cursor: "pointer"}} onClick={showFull}>Показать ещё</div> : ""}
                 </div>
                 <div className={"primary-image"} style={{marginTop: "12px"}}>
-                    <img src={REST.BASE + '/api/storage/' + news?.photo!.name!} alt='news'
+                    <img src={REST.BASE + '/api/storage/' + news?.photo!.id!} alt='news'
                          style={{width: "100%", borderRadius: "8px"}}/>
                 </div>
             </div>

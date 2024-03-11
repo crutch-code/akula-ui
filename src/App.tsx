@@ -65,7 +65,7 @@ export default function App() {
 
 
 
-                        <Route path="*" element={<PageNotFound/>}/>
+                        <Route path="*" element={<PageNotFound me={me}/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>
@@ -76,7 +76,7 @@ export default function App() {
 
 //<Route path="/admin/users/:id" element={<AdminUsersPage me={me}/>}/>
 
-export function PageNotFound() {
+export function PageNotFound(props: any) {
     return (<div className={"page_body"}>
             <section className={"page_block col-12"}
                      style={{display: "flex", justifyContent: "center", padding: "8px"}}>
