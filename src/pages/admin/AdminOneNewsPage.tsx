@@ -165,17 +165,29 @@ export function AdminOneNewsPage(props: any): ReactElement {
 
             </div>
 
-            <div className={"modalFooter"}>
-                {canSave
-                    ? <div className={"button"} style={{
-                        backgroundColor: "rgb(225, 227, 230)",
-                        border: "1px solid rgb(34, 34, 34)",
-                        borderRadius: "8px",
-                        color: "rgb(34, 34, 34)"
-                    }} onClick={() => saveNews()}>Сохранить
-                    </div>
-                    : ""
-                }
+            <div className={"TeachListFooter"} style={{
+                height: "48px",
+                borderTop: "1px solid rgb(54, 55, 56)",
+                display: "flex",
+                justifyContent: "space-between"
+            }}>
+
+                <div style={{
+                    width: "148px",
+                    color: "rgb(129, 140, 153)",
+                    display: "flex",
+                    alignItems: "center",
+                    height: "100%",
+                    padding: "0 20px 0 8px",
+                    fontSize: "14px",
+                    textDecoration: "none"
+                }}>
+                    {canSave
+                        ? <div className={"button primary"}
+                               onClick={() => saveNews()}>Сохранить</div>
+                        : ""
+                    }
+                </div>
             </div>
 
 

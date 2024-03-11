@@ -611,4 +611,26 @@ export class REST {
             })
             .catch((error) => console.error(error));
     }
+
+    public static adminUpdateCourse(n: any): Promise<CourseType> {
+        return fetch(REST.BASE + "/api/admin/course/", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(n)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
 }

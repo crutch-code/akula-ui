@@ -35,7 +35,7 @@ export function AdminPage(props: any): ReactElement {
                       disabled={true}
             />
             <ListItem link={"/admin/users"}
-                      name={"Пользователи"} label=""
+                      name={"Пользователи и роли"} label=""
                       image={REST.AKULA}
             />
             <ListItem link={"/admin/storage"}
