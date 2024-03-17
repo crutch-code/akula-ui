@@ -3,31 +3,38 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {REST} from "../api/REST";
 
-export function CourseModal(props: any): ReactElement {
+export function LessonModal(props: any): ReactElement {
     const [visible, setVisible] = props.visibleState;
+    const cid = props.cid;
+    const lastIndex = props.lastIndex;
     const name = useRef<HTMLInputElement>(null);
     const photo = useRef<HTMLInputElement>(null);
+    const contentInput = useRef<HTMLTextAreaElement>(null);
+    const descriptionInput = useRef<HTMLTextAreaElement>(null);
 
     if (!visible) {
         return (<></>);
     }
 
-    const createCourse = () => {
+    const createLesson = () => {
         if (photo.current?.files?.length ?? 0 > 0) {
             let storage: FormData = new FormData();
-            storage.append("type", "course");
+            storage.append("type", "lesson");
             storage.append("name", photo.current!.files!.item(0)!.name);
             storage.append("data", photo.current!.files!.item(0)!)
 
             REST.uploadFile(storage).then(s => {
-                let c: any = {
+                let l: any = {
                     id: null,
                     name: name.current!.value,
+                    content: contentInput.current!.value,
+                    description: descriptionInput.current!.value,
                     disabled: false,
-                    photo: {id: s.id}
+                    photo: {id: s.id},
+                    index: lastIndex
                 }
 
-                REST.adminNewCourse(c).then((cc) =>
+                REST.adminNewLesosn(l, parseInt(cid!)).then((ll) =>
                     setVisible(false)
                 );
             });
@@ -36,11 +43,10 @@ export function CourseModal(props: any): ReactElement {
         }
     }
 
-// onClick={(e) => {e.stopPropagation(); setVisible(false)}}
     return (<div className={"modalBackground"}>
         <div className={"modal"}>
             <div className={"modalHeader"} style={{justifyContent: "space-between"}}>
-                Курс
+                Урок
                 <div onClick={() => setVisible(false)} style={{cursor: "pointer"}}>
                     <FontAwesomeIcon icon={faXmark}/>
                 </div>
@@ -61,8 +67,18 @@ export function CourseModal(props: any): ReactElement {
                         fontSize: "13px",
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
-                    }}>Название курса:</label>
-                    <input placeholder={"Полное название курса"} style={{width: "100%"}} ref={name}></input>
+                    }}>Заголовок:</label>
+                    <input placeholder={"Заголовок урока"} style={{width: "100%"}} ref={name}></input>
+                </div>
+
+                <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
+                    <label style={{color: "rgb(147, 147, 147)", fontSize: "13px", padding: "6px 10px 0 0", whiteSpace: "nowrap"}}>Содержимое:</label>
+                    <textarea placeholder={"Содержимое"} style={{width: "100%", height: "300px"}} ref={contentInput}></textarea>
+                </div>
+
+                <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
+                    <label style={{color: "rgb(147, 147, 147)", fontSize: "13px", padding: "6px 10px 0 0", whiteSpace: "nowrap"}}>Описание:</label>
+                    <textarea placeholder={"Описание"} style={{width: "100%", height: "100px"}} ref={descriptionInput}></textarea>
                 </div>
 
             </div>
@@ -73,7 +89,7 @@ export function CourseModal(props: any): ReactElement {
                     border: "1px solid rgb(34, 34, 34)",
                     borderRadius: "8px",
                     color: "rgb(34, 34, 34)"
-                }} onClick={() => createCourse()}>Сохранить
+                }} onClick={() => createLesson()}>Сохранить
                 </div>
             </div>
         </div>

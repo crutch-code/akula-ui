@@ -7,19 +7,22 @@ import {Loading} from "../../components/Loading";
 import {LessonType} from "../../types/LessonType";
 import {useParams} from "react-router-dom";
 import {BackButton} from "../../components/parts/BackButton";
+import {LessonModal} from "../../components/LessonModal";
 
 export function AdminLessonsPage(props: any): ReactElement {
+    const me = props.me;
     const {cid} = useParams<string>();
     const [lessons, setLessons] = useState<LessonType[]>();
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     useEffect(() => {
         REST.adminGetLessons(parseInt(cid!), page).then((l) => {
             setLessons(l)
             setLoading(false);
         });
-    }, [cid, page])
+    }, [cid, page, showModal])
 
     const loadNext = () => {
         setLoading(true);
@@ -67,7 +70,7 @@ export function AdminLessonsPage(props: any): ReactElement {
                         cursor: "pointer",
                         fontSize: "14px",
                         justifyContent: "flex-end"
-                    }}>
+                    }} onClick={() => setShowModal(true)}>
                         Создать&nbsp;урок
                         <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                     </div>
@@ -114,7 +117,7 @@ export function AdminLessonsPage(props: any): ReactElement {
                     cursor: "pointer",
                     fontSize: "14px",
                     justifyContent: "flex-end"
-                }}>
+                }} onClick={() => setShowModal(true)}>
                     Создать&nbsp;урок
                     <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                 </div>
@@ -173,6 +176,8 @@ export function AdminLessonsPage(props: any): ReactElement {
                 }
             </div>
         </section>
+
+        <LessonModal visibleState={[showModal, setShowModal]} me={me} cid={cid} lastIndex={lessons!.length}/>
     </div>);
 
 }

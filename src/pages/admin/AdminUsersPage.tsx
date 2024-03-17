@@ -113,7 +113,7 @@ export function AdminUsersPage(props: any): ReactElement {
                     //TODO: modal ???
                     <ListItem key={index} link={"/admin/users/" + u.id}
                               name={u.fio} label={u.department.name}
-                              image={REST.BASE + "/api/storage/" + u.photo.id}
+                              image={REST.BASE + "/api/storage/" + (u.disabled ? '0' : u.photo.id)}
                               disabled={u.disabled}
                     />
                 )}

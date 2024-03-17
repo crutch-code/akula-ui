@@ -23,6 +23,7 @@ import {AdminPage} from "./pages/admin/AdminPage";
 import {AdminLessonsPage} from "./pages/admin/AdminLessonsPage";
 import {AdminCoursePage} from "./pages/admin/AdminCoursePage";
 import {AdminOneNewsPage} from "./pages/admin/AdminOneNewsPage";
+import {AdminUserPage} from "./pages/admin/AdminUserPage";
 
 export default function App() {
     const me: UserType = JSON.parse(sessionStorage.getItem("me") ?? '{}');
@@ -61,6 +62,8 @@ export default function App() {
 
                         <Route path="/admin/analytics" element={<AdminAnalyticsPage me={me}/>}/>
                         <Route path="/admin/users" element={<AdminUsersPage me={me}/>}/>
+                        <Route path="/admin/users/:id" element={<AdminUserPage me={me}/>}/>
+
                         <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
 
 

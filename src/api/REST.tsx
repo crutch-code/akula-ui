@@ -334,6 +334,27 @@ export class REST {
             .catch((error) => console.error(error));
     }
 
+    public static adminGetUserById(id: number): Promise<UserType> {
+        return fetch(REST.BASE + "/api/admin/user/" + id, {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
     public static adminGetNews(page: number): Promise<NewsType[]> {
         return fetch(REST.BASE + "/api/admin/news/" + (page === 0 ? "" : "?page=" + page), {
             method: "GET",
@@ -445,6 +466,28 @@ export class REST {
             method: "POST",
             headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
             body: JSON.stringify(course)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminNewLesosn(lesson: any, cid: number): Promise<LessonType> {
+        return fetch(REST.BASE + "/api/admin/lesson/" + cid, {
+            method: "POST",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(lesson)
         })
             .then((response) => {
                 if (response.status === 401) {

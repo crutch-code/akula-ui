@@ -19,7 +19,7 @@ export function AdminCoursesPage(props: any): ReactElement {
             setCourses(c)
             setLoading(false);
         });
-    }, [page])
+    }, [page, showModal])
 
     const loadNext = () => {
         setLoading(true);
