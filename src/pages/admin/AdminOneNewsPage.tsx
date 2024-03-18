@@ -132,7 +132,7 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Автор:</label>
-                    <div className={"input"} placeholder={"Автор"} style={{width: "100%"}}>{news!.author.fio}</div>
+                    <div className={"input"} placeholder={"Автор"} style={{width: "100%", cursor: "not-allowed"}}>{news!.author.fio}</div>
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
@@ -142,7 +142,7 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Дата публикации:</label>
-                    <div className={"input"} placeholder={"Дата публикации"} style={{width: "100%"}}>{publishDate}</div>
+                    <div className={"input"} placeholder={"Дата публикации"} style={{width: "100%", cursor: "not-allowed"}}>{publishDate}</div>
                 </div>
 
                 <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>

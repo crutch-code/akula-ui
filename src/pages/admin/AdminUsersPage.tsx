@@ -9,7 +9,7 @@ import {BackButton} from "../../components/parts/BackButton";
 
 export function AdminUsersPage(props: any): ReactElement {
     const [users, setUsers] = useState<UserType[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
 
     useEffect(() => {
@@ -114,7 +114,7 @@ export function AdminUsersPage(props: any): ReactElement {
                     <ListItem key={index} link={"/admin/users/" + u.id}
                               name={u.fio} label={u.department.name}
                               image={REST.BASE + "/api/storage/" + (u.disabled ? '0' : u.photo.id)}
-                              disabled={u.disabled}
+                              disabled={u.disabled} active={!u.disabled}
                     />
                 )}
 

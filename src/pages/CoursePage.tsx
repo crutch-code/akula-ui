@@ -36,7 +36,7 @@ export function CoursePage(props: any): ReactElement {
                     <ListItem key={index} link={"/teach/" + id + "/" + l.id}
                               name={l.name} label="Урок"
                               image={REST.AKULA}
-                              disabled={l.completed}
+                              disabled={l.completed} active={true}
                     />
                 )}
 

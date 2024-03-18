@@ -32,7 +32,7 @@ export function AdminPage(props: any): ReactElement {
             <ListItem link={"/admin/analytics"}
                       name={"Отчеты и аналитика"} label=""
                       image={REST.AKULA}
-                      disabled={true}
+                      disabled={true} active={false}
             />
             <ListItem link={"/admin/users"}
                       name={"Пользователи и роли"} label=""
@@ -41,7 +41,7 @@ export function AdminPage(props: any): ReactElement {
             <ListItem link={"/admin/storage"}
                       name={"Хранилище файлов"} label=""
                       image={REST.AKULA}
-                      disabled={true}
+                      disabled={true} active={false}
             />
 
             <div className={"TeachListFooter"} style={{

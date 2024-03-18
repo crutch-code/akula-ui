@@ -2,17 +2,19 @@ import React, {ReactElement, useEffect, useState} from "react";
 import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
 import {useParams} from "react-router-dom";
-import {Toggler} from "../../components/parts/Toggler";
-import {BackButton} from "../../components/parts/BackButton";
 import {UserType} from "../../types/UserType";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {ListItem} from "../../components/parts/ListItem";
+import {RoleType} from "../../types/RoleType";
+import {Checkbox} from "../../components/parts/Checkbox";
+import {CourseType} from "../../types/CourseType";
 
 export function AdminUserPage(props: any): ReactElement {
     const {id} = useParams<string>();
     const [user, setUser] = useState<UserType>();
+    const [roles, setRoles] = useState<RoleType[]>();
+    const [courses, setCourses] = useState<CourseType[]>();
     const [loading, setLoading] = useState(true);
+    const [loadingRoles, setLoadingRoles] = useState(true);
+    const [loadingCourses, setLoadingCourses] = useState(true);
     const [canSave, setCanSave] = useState<boolean>(false);
 
     //const imageInput = useRef<HTMLInputElement>(null);
@@ -22,6 +24,14 @@ export function AdminUserPage(props: any): ReactElement {
         REST.getUserById(parseInt(id!)).then((u) => {
             setUser(u)
             setLoading(false);
+        });
+        REST.adminGetAssignedCourses(parseInt(id!)).then((c) => {
+            setCourses(c);
+            setLoadingCourses(false);
+        });
+        REST.adminGetAssignedRoles(parseInt(id!)).then((r) => {
+            setRoles(r);
+            setLoadingRoles(false);
         });
     }, [id])
 
@@ -44,7 +54,13 @@ export function AdminUserPage(props: any): ReactElement {
             }}></div>
 
 
-            <div style={{display: "flex", padding: "20px", borderRadius: "12px", margin: "calc(-16px - 25px) -20px -16px -20px", background: "rgb(34, 34, 34)"}}>
+            <div style={{
+                display: "flex",
+                padding: "20px",
+                borderRadius: "12px",
+                margin: "calc(-16px - 25px) -20px -16px -20px",
+                background: "rgb(34, 34, 34)"
+            }}>
 
                 <img src={REST.BASE + '/api/storage/' + user!.photo.id} alt="user"
                      style={{
@@ -65,13 +81,22 @@ export function AdminUserPage(props: any): ReactElement {
         </section>
 
         <section className={"page_block col-6"}>
-            TODO: список курсов
+            {loadingCourses
+                ? <Loading/>
+                : courses?.map(c =>
+                    <Checkbox key={c.id} checked={c.assigned} text={c.name}/>
+                )
+            }
         </section>
 
         <section className={"page_block col-6"} style={{marginRight: "0", marginLeft: "15px"}}>
-            TODO: список ролей
+            {loadingRoles
+                ? <Loading/>
+                : roles?.map(r =>
+                    <Checkbox key={r.id} checked={r.assigned} text={r.role_name} description={r.role_description}/>
+                )
+            }
         </section>
 
     </div>);
-
 }

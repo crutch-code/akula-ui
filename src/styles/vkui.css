@@ -542,3 +542,7 @@ input:focus-visible {
 .inputPhoto:hover {
     background-color: rgba(255, 255, 255, 0.10);
 }
+
+input[type='checkbox'] {
+    border: 1px solid red;
+}

@@ -6,5 +6,7 @@ export type CourseType = {
     name: string,
     lessons: LessonType[],
     photo: StorageType,
-    disabled: boolean
+    disabled: boolean,
+
+    assigned: boolean
 }
