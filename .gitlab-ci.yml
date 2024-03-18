@@ -42,8 +42,11 @@ build:helm:
 build:npm:
   stage: build
   image: node:10
+  before_script:
+    - npm install --package-lock
+    - npm ci
   script:
-    - time gradle build -x test
+    - npm run build
   artifacts:
     paths:
       - build/
