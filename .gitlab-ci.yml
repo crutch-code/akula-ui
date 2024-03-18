@@ -26,7 +26,7 @@ build:helm:
       if [ $CI_COMMIT_TAG ]; then
       export CHART_VERSION=${CI_COMMIT_TAG:1} ;
       else
-      export CHART_VERSION="0.0.0+snap"${APP_VERSION} ;
+      export CHART_VERSION=${APP_VERSION}-${CI_COMMIT_SHORT_SHA} ;
       fi
   script:
     - echo $APP_VERSION
@@ -47,6 +47,10 @@ build:npm:
     - npm ci
   script:
     - npm run build
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
   artifacts:
     paths:
       - build/
@@ -88,7 +92,7 @@ publish:helm:
       if [ $CI_COMMIT_TAG ]; then
       export CHART_VERSION=${CI_COMMIT_TAG:1} ;
       else
-      export CHART_VERSION="0.0.0+snap"${APP_VERSION} ;
+      export CHART_VERSION=${APP_VERSION}-${CI_COMMIT_SHORT_SHA} ;
       fi
   script:
     - curl -u ${HELM_USER_RW}:${HELM_PASSWORD_RW} -X PUT "${HELM_REPO}/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz" -T ./chart/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz
@@ -104,7 +108,7 @@ deploy:helm:
       if [ $CI_COMMIT_TAG ]; then
       export CHART_VERSION=${CI_COMMIT_TAG:1} ;
       else
-      export CHART_VERSION="0.0.0+snap"${APP_VERSION} ;
+      export CHART_VERSION=${APP_VERSION}-${CI_COMMIT_SHORT_SHA} ;
       fi
     - curl -L https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64 -o /usr/local/bin/helm
     - chmod +x /usr/local/bin/helm
@@ -113,14 +117,13 @@ deploy:helm:
     - kubectl config set-context default --cluster=k8s --user=gitlab --namespace=${NS}
     - kubectl config use-context default
 
-    - helm repo add ${NS} --force-update --username "$HELM_USER_RO" --password "$HELM_PASSWORD_RO" "${HELM_REPO}"
+    - helm repo add ${HELM_REPO_ALIAS} --force-update --username "$HELM_USER_RO" --password "$HELM_PASSWORD_RO" "${HELM_REPO}"
     - helm repo update
   script:
     - helm version
-    - time helm upgrade ${CI_PROJECT_NAME} ${NS}/${NS}-${CI_PROJECT_NAME}
+    - time helm upgrade ${CI_PROJECT_NAME} ${HELM_REPO_ALIAS}/${CI_PROJECT_NAME}
       --install
       --wait
-      --recreate-pods
       --version ${CHART_VERSION}
       --namespace ${NS}
     - helm list -n ${NS}
