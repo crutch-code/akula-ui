@@ -41,7 +41,7 @@ build:helm:
 
 build:npm:
   stage: build
-  image: node:10
+  image: node:21.2.0
   before_script:
     - npm install --package-lock
     - npm ci
