@@ -45,6 +45,7 @@ build:npm:
   before_script:
     - npm install --package-lock
     - npm ci
+    - unset CI
   script:
     - npm run build
   cache:
