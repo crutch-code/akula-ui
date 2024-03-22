@@ -71,6 +71,7 @@ publish:docker:
       exists:
         - "Dockerfile"
   before_script:
+    - apk add jq
     - export APP_VERSION=$(cat package.json | jq -r '.version')
     - echo "{\"auths\":{\"$DOCKER_REPO\":{\"username\":\"$DOCKER_USER_RW\",\"password\":\"$DOCKER_PASSWORD_RW\"}}}" > /kaniko/.docker/config.json
   script:
