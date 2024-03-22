@@ -14,10 +14,12 @@ export function TestPage(props: any): ReactElement {
     const {lid} = useParams<string>();
     const [question, setQuestion] = useState<QuestionType>();
     const [loading, setLoading] = useState(false);
+    let answeredQuestion: any = {};
 
     useEffect(() => {
         REST.startTest(id).then(q => {
             setQuestion(q!);
+            answeredQuestion = {id: q!.id, type: q!.type, answers: []};
             setLoading(false);
         });
     }, [id]);
@@ -30,11 +32,24 @@ export function TestPage(props: any): ReactElement {
         </div>)
     }
 
+    const callback = (answers: any) => {
+        answeredQuestion.id = question!.id;
+        answeredQuestion.type = question!.type;
+        answeredQuestion.answers = answers;
+    }
+
     const nextQuestion = (event: any) => {
         setLoading(true);
-        REST.nextQuestion(question!).then(q => {
-            setQuestion(q!);
-            setLoading(false);
+        if (answeredQuestion.id === undefined) {
+            answeredQuestion = {id: question!.id, type: question!.type, answers: []};
+        }
+        REST.nextQuestion(answeredQuestion).then(q => {
+            if (question?.position === question?.amount) {
+                window.location.href = '/teach/' + cid + '/' + lid + '/' + id + '/result';
+            } else {
+                setQuestion(q!);
+                setLoading(false);
+            }
         });
     }
 
@@ -53,9 +68,9 @@ export function TestPage(props: any): ReactElement {
 
             <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
                 {question?.type === "SINGLE"
-                    ? <QuestionSingle question={question}/>
+                    ? <QuestionSingle question={question} callback={callback}/>
                     : question?.type === "MULTIPLE"
-                        ? <QuestionMultiply question={question}/>
+                        ? <QuestionMultiply question={question} callback={callback}/>
                         : question?.title
                 }
             </div>

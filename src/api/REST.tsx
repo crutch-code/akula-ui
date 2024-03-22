@@ -254,7 +254,7 @@ export class REST {
         return fetch(REST.BASE + "/api/test/next/", {
             method: "PUT",
             headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
-            body: JSON.stringify(answer)
+            body: JSON.stringify(answer, (_, v) => typeof v === 'bigint' ? v.toString() : v)
         })
             .then((response) => {
                 if (response.status === 401) {

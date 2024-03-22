@@ -1,14 +1,19 @@
-import {ReactElement} from "react";
-import {QuestionType} from "../../types/QuestionType";
+import {ChangeEvent, ReactElement} from "react";
+import {AnswerType, QuestionType} from "../../types/QuestionType";
 
 export function QuestionSingle(props: any): ReactElement {
     const question = props.question as QuestionType;
 
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        let answers: any[] = [{ id: BigInt(e.target.id.substring(1)) }];
+        props.callback(answers);
+    }
+
     return (<>
         {question.answers.map((a, i) =>
-            <div>
-                <input type="radio" id={"a" + i} name={"q" + question.id} value={a as string}/>
-                <label htmlFor={"a" + i}>{a as string}</label>
+            <div key={(a as AnswerType).id}>
+                <input type="radio" id={"a" + (a as AnswerType).id} name={"q" + question.id} onChange={handleOnChange}/>
+                <label htmlFor={"a" + (a as AnswerType).id}>{(a as AnswerType).content}</label>
             </div>
         )}
     </>);
