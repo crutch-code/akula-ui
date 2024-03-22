@@ -24,6 +24,8 @@ import {AdminLessonsPage} from "./pages/admin/AdminLessonsPage";
 import {AdminCoursePage} from "./pages/admin/AdminCoursePage";
 import {AdminOneNewsPage} from "./pages/admin/AdminOneNewsPage";
 import {AdminUserPage} from "./pages/admin/AdminUserPage";
+import {AdminLessonPage} from "./pages/admin/AdminLessonPage";
+import {AdminTestsPage} from "./pages/admin/AdminTestsPage";
 
 export default function App() {
     const me: UserType = JSON.parse(sessionStorage.getItem("me") ?? '{}');
@@ -56,6 +58,8 @@ export default function App() {
                         <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>
                         <Route path="/admin/courses/:id" element={<AdminCoursePage me={me}/>}/>
                         <Route path="/admin/courses/:cid/lessons" element={<AdminLessonsPage me={me}/>}/>
+                        <Route path="/admin/courses/:cid/lessons/:lid" element={<AdminLessonPage me={me}/>}/>
+                        <Route path="/admin/courses/:cid/lessons/:lid/tests" element={<AdminTestsPage me={me}/>}/>
 
                         <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
                         <Route path="/admin/news/:id" element={<AdminOneNewsPage me={me}/>}/>
@@ -66,8 +70,6 @@ export default function App() {
 
                         <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
 
-
-
                         <Route path="*" element={<PageNotFound me={me}/>}/>
                     </Routes>
                 </BrowserRouter>
@@ -76,8 +78,6 @@ export default function App() {
         </div>
     )
 }
-
-//<Route path="/admin/users/:id" element={<AdminUsersPage me={me}/>}/>
 
 export function PageNotFound(props: any) {
     return (<div className={"page_body"}>

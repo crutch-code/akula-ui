@@ -34,7 +34,7 @@ export function LessonModal(props: any): ReactElement {
                     index: lastIndex
                 }
 
-                REST.adminNewLesosn(l, parseInt(cid!)).then((ll) =>
+                REST.adminNewLesson(l, parseInt(cid!)).then((ll) =>
                     setVisible(false)
                 );
             });

@@ -12,7 +12,7 @@ import {RoleType} from "../types/RoleType";
 export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
     public static AKULA: string = "https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1";
-    public static PAGE_SIZE: number = 10;
+    public static PAGE_SIZE: number = parseInt(process.env.REACT_PAGE_SIZE ?? "10");
     public static MCE_API: string = "ogrpozowmgba715r5s18gjjia35w1j89rcbf9r6xod87a2na";
 
     protected static get(url: string): any {//FIXME: remove
@@ -484,7 +484,7 @@ export class REST {
             .catch((error) => console.error(error));
     }
 
-    public static adminNewLesosn(lesson: any, cid: number): Promise<LessonType> {
+    public static adminNewLesson(lesson: any, cid: number): Promise<LessonType> {
         return fetch(REST.BASE + "/api/admin/lesson/" + cid, {
             method: "POST",
             headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
@@ -522,6 +522,91 @@ export class REST {
             .then((data: any) => {
                 if (data.status === 'OK')
                     return data.body.content;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetLessonById(id: number): Promise<LessonType> {
+        return fetch(REST.BASE + "/api/admin/lesson/" + id, {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetLessonEnable(id: number): void {
+        fetch(REST.BASE + "/api/admin/lesson/" + id + "/enable", {
+            method: "PUT",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetLessonDisable(id: number): void {
+        fetch(REST.BASE + "/api/admin/lesson/" + id + "/disable", {
+            method: "PUT",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminUpdateLesson(l: any): Promise<LessonType> {
+        return fetch(REST.BASE + "/api/admin/lesson/", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(l)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
                 throw data;
             })
             .catch((error) => console.error(error));
@@ -585,6 +670,27 @@ export class REST {
             .then((data: any) => {
                 if (data.status === 'OK')
                     return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminGetTests(lid: number, page: number): Promise<TestType[]> {
+        return fetch(REST.BASE + "/api/admin/lesson/" + lid + "/tests" + (page === 0 ? "" : "?page=" + page), {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body.content;
                 throw data;
             })
             .catch((error) => console.error(error));

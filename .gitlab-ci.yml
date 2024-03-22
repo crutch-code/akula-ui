@@ -49,7 +49,7 @@ build:npm:
   script:
     - npm run build
   cache:
-    key: $CI_COMMIT_REF_SLUG
+    key: $CI_PROJECT_NAME
     paths:
       - node_modules/
   artifacts:
