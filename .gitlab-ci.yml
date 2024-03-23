@@ -43,9 +43,8 @@ build:npm:
   stage: build
   image: node:21.2.0
   before_script:
-    - npm install --package-lock
-    - npm ci
     - unset CI
+    - npm install --package-lock
   script:
     - npm run build
   cache:
