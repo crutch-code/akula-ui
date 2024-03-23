@@ -1,24 +1,22 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {useParams} from "react-router-dom";
 import {Loading} from "../components/Loading";
-import {TestType} from "../types/TestType";
 import {REST} from "../api/REST";
 import {BackButton} from "../components/parts/BackButton";
+import {TestResultType} from "../types/TestResultType";
 
 export function TestResultPage(props: any) : ReactElement {
     const {id} = useParams<string>();
     const {cid} = useParams<string>();
     const {lid} = useParams<string>();
-    const [test, setTest] = useState<TestType>();
+    const [result, setResult] = useState<TestResultType[]>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        //REST.getTestById(id).then(t => {
-            //setTest(t!);
+        REST.resultTest(id).then(r => {
+            setResult(r!);
             setLoading(false);
-        //});
+        });
     }, [id]);
 
     if (loading) {
@@ -56,9 +54,11 @@ export function TestResultPage(props: any) : ReactElement {
             </div>
 
             <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
-                TODO: Результаты теста
+                <div>Тема теста: <b>{result![0].theme}</b></div>
+                <div>Проходной балл: <b>{result![0].min_ball}</b></div>
+                <div>Набрано баллов: <b>{result![0].taked_ball}</b></div>
+                <div>Результат: {result![0].taked_ball >= result![0].min_ball ? <b color={"green"}>Тест сдан</b> : <b color={"red"}>Тест не сдан</b>}</div>
             </div>
-
 
             <div className={"TeachListFooter"} style={{
                 height: "48px",

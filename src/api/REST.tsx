@@ -8,6 +8,7 @@ import {QuestionType} from "../types/QuestionType";
 import {Jwt} from "../types/Jwt";
 import {StorageType} from "../types/StorageType";
 import {RoleType} from "../types/RoleType";
+import {TestResultType} from "../types/TestResultType";
 
 export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
@@ -231,6 +232,27 @@ export class REST {
 
     public static startTest(id: any): Promise<QuestionType> {
         return fetch(REST.BASE + "/api/test/" + id + "/start", {
+            method: "GET",
+            headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static resultTest(id: any): Promise<TestResultType[]> {
+        return fetch(REST.BASE + "/api/test/" + id + "/result", {
             method: "GET",
             headers: {'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")}
         })
