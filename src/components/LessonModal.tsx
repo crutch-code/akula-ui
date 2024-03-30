@@ -2,6 +2,7 @@ import React, {ReactElement, useRef} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {REST} from "../api/REST";
+import {Editor} from "@tinymce/tinymce-react";
 
 export function LessonModal(props: any): ReactElement {
     const [visible, setVisible] = props.visibleState;
@@ -9,7 +10,7 @@ export function LessonModal(props: any): ReactElement {
     const lastIndex = props.lastIndex;
     const name = useRef<HTMLInputElement>(null);
     const photo = useRef<HTMLInputElement>(null);
-    const contentInput = useRef<HTMLTextAreaElement>(null);
+    const contentInput = useRef<Editor>(null);
     const descriptionInput = useRef<HTMLTextAreaElement>(null);
 
     if (!visible) {
@@ -17,7 +18,7 @@ export function LessonModal(props: any): ReactElement {
     }
 
     const createLesson = () => {
-        if (photo.current?.files?.length ?? 0 > 0) {
+        if ((photo.current?.files?.length ?? 0) > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "lesson");
             storage.append("name", photo.current!.files!.item(0)!.name);
@@ -27,7 +28,7 @@ export function LessonModal(props: any): ReactElement {
                 let l: any = {
                     id: null,
                     name: name.current!.value,
-                    content: contentInput.current!.value,
+                    content: contentInput.current!.editor?.getContent(),
                     description: descriptionInput.current!.value,
                     disabled: false,
                     photo: {id: s.id},
@@ -73,7 +74,22 @@ export function LessonModal(props: any): ReactElement {
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
                     <label style={{color: "rgb(147, 147, 147)", fontSize: "13px", padding: "6px 10px 0 0", whiteSpace: "nowrap"}}>Содержимое:</label>
-                    <textarea placeholder={"Содержимое"} style={{width: "100%", height: "300px"}} ref={contentInput}></textarea>
+                    <Editor
+                        apiKey={REST.MCE_API}
+                        onInit={(evt, editor) => {
+                        }}
+                        ref={contentInput}
+                        init={{
+                            height: 400,
+                            width: "100%",
+                            menubar: false,
+                            plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
+                            toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
+                                'alignleft aligncenter alignright alignjustify | ' +
+                                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:13px }'
+                        }}
+                    />
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>

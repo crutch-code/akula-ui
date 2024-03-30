@@ -44,6 +44,12 @@ export function AdminPage(props: any): ReactElement {
                       disabled={true} active={false}
             />
 
+            <ListItem link={"/admin/presets"}
+                      name={"Предустановки"} label=""
+                      image={REST.AKULA}
+                      disabled={true} active={false}
+            />
+
             <div className={"TeachListFooter"} style={{
                 height: "24px",
                 borderTop: "1px solid rgb(54, 55, 56)",

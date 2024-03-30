@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {UserType} from "../types/UserType";
 import {REST} from "../api/REST";
-import {NewsType} from "../types/NewsType";
 
 export function NewsModal(props: any): ReactElement {
     const me = props.me as UserType;
@@ -19,7 +18,7 @@ export function NewsModal(props: any): ReactElement {
     }
 
     const createNews = () => {
-        if(imageInput.current?.files?.length ?? 0 > 0) {
+        if((imageInput.current?.files?.length ?? 0) > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "news");
             storage.append("name", imageInput.current!.files!.item(0)!.name);

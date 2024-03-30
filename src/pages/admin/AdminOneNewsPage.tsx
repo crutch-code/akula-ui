@@ -7,7 +7,7 @@ import {NewsType} from "../../types/NewsType";
 import {BackButton} from "../../components/parts/BackButton";
 import { Editor } from '@tinymce/tinymce-react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faRotate} from "@fortawesome/free-solid-svg-icons";
 
 export function AdminOneNewsPage(props: any): ReactElement {
     const {id} = useParams<string>();
@@ -17,7 +17,7 @@ export function AdminOneNewsPage(props: any): ReactElement {
 
     const imageInput = useRef<HTMLInputElement>(null);
     const titleInput = useRef<HTMLInputElement>(null);
-    const contentInput = useRef<HTMLTextAreaElement>(null);
+    const contentInput = useRef<Editor>(null);
 
     useEffect(() => {
         REST.adminGetNewsById(parseInt(id!)).then((c) => {
@@ -50,6 +50,10 @@ export function AdminOneNewsPage(props: any): ReactElement {
         }
     }
 
+    const handleOnContentChange = (e: string) => {
+        setCanSave(true);
+    }
+
     const saveNews = () => {
         let n: any = {
             id: news!.id,
@@ -58,10 +62,10 @@ export function AdminOneNewsPage(props: any): ReactElement {
             disabled: news!.disabled,
 
             title: titleInput.current!.value,
-            content: contentInput.current!.value,
-            photo: { id: news!.photo.id }
+            content: contentInput.current!.editor?.getContent(),
+            photo: {id: news!.photo.id}
         }
-        if(imageInput.current?.files?.length ?? 0 > 0) {
+        if ((imageInput.current?.files?.length ?? 0) > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "news");
             storage.append("name", imageInput.current!.files!.item(0)!.name);
@@ -147,7 +151,7 @@ export function AdminOneNewsPage(props: any): ReactElement {
 
                 <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
-                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faPlus}/></span>
+                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
                     Обновить фотографию
                 </div>
 
@@ -158,8 +162,26 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Содержимое:</label>
-                    <textarea placeholder={"Содержимое"} style={{width: "100%", height: "400px"}}
-                              ref={contentInput} onChange={handleOnChange}>{news!.content}</textarea>
+
+                    <Editor
+                        apiKey={REST.MCE_API}
+                        onInit={(evt, editor) => {
+                        }}
+                        initialValue={news!.content}
+                        onEditorChange={(e) => handleOnContentChange(e)}
+                        ref={contentInput}
+                        init={{
+                            height: 500,
+                            width: "100%",
+                            menubar: false,
+                            plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
+                            toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
+                                'alignleft aligncenter alignright alignjustify | ' +
+                                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:13px }'
+                        }}
+                    />
+
                 </div>
 
 
@@ -196,23 +218,5 @@ export function AdminOneNewsPage(props: any): ReactElement {
 
 }
 /*
-                <Editor
-                    apiKey={REST.MCE_API}
-                    onInit={(evt, editor) => {
-                    }}
-                    initialValue={news!.content}
-                    init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
-                            'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-                            'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                        ],
-                        toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
-                            'alignleft aligncenter alignright alignjustify | ' +
-                            'bullist numlist checklist outdent indent | removeformat | a11ycheck code table',
-                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                    }}
-                />
+<textarea placeholder={"Содержимое"} style={{width: "100%", height: "400px"}} onChange={handleOnChange}>{news!.content}</textarea>
  */

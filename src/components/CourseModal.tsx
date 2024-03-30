@@ -13,7 +13,7 @@ export function CourseModal(props: any): ReactElement {
     }
 
     const createCourse = () => {
-        if (photo.current?.files?.length ?? 0 > 0) {
+        if ((photo.current?.files?.length ?? 0) > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "course");
             storage.append("name", photo.current!.files!.item(0)!.name);

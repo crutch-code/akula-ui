@@ -1,6 +1,6 @@
 import React, {ChangeEvent, ReactElement, useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleRight, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faAngleRight, faRotate} from "@fortawesome/free-solid-svg-icons";
 import {REST} from "../../api/REST";
 import {Loading} from "../../components/Loading";
 import {CourseType} from "../../types/CourseType";
@@ -56,7 +56,7 @@ export function AdminCoursePage(props: any): ReactElement {
             disabled: course!.disabled
         }
 
-        if(imageInput.current?.files?.length ?? 0 > 0) {
+        if((imageInput.current?.files?.length ?? 0) > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "news");
             storage.append("name", imageInput.current!.files!.item(0)!.name);
@@ -101,7 +101,7 @@ export function AdminCoursePage(props: any): ReactElement {
 
                 <div className={"inputPhoto"} style={{margin: "20px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
-                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faPlus}/></span>
+                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
                     Обновить фотографию
                 </div>
 

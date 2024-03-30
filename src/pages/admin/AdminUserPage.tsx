@@ -15,7 +15,6 @@ export function AdminUserPage(props: any): ReactElement {
     const [loading, setLoading] = useState(true);
     const [loadingRoles, setLoadingRoles] = useState(true);
     const [loadingCourses, setLoadingCourses] = useState(true);
-    const [canSave, setCanSave] = useState<boolean>(false);
 
     //const imageInput = useRef<HTMLInputElement>(null);
     //const nameInput = useRef<HTMLInputElement>(null);

@@ -5,8 +5,9 @@ import {useParams} from "react-router-dom";
 import {Toggler} from "../../components/parts/Toggler";
 import {BackButton} from "../../components/parts/BackButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleRight, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faAngleRight, faRotate} from "@fortawesome/free-solid-svg-icons";
 import {LessonType} from "../../types/LessonType";
+import {Editor} from "@tinymce/tinymce-react";
 
 export function AdminLessonPage(props: any): ReactElement {
     const {cid} = useParams<string>();
@@ -17,7 +18,7 @@ export function AdminLessonPage(props: any): ReactElement {
 
     const imageInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
-    const contentInput = useRef<HTMLTextAreaElement>(null);
+    const contentInput = useRef<Editor>(null);
     const descriptionInput = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -51,6 +52,10 @@ export function AdminLessonPage(props: any): ReactElement {
         }
     }
 
+    const handleOnContentChange = (e: string) => {
+        setCanSave(true);
+    }
+
     const saveLesson = () => {
         let l: any = {
             id: lesson!.id,
@@ -58,7 +63,7 @@ export function AdminLessonPage(props: any): ReactElement {
             index: lesson!.index,
 
             name: nameInput.current!.value,
-            content: contentInput.current!.value,
+            content: contentInput.current!.editor?.getContent(),
             description: descriptionInput.current!.value,
             //photo: { id: lesson!.photo.id }
         }
@@ -105,7 +110,7 @@ export function AdminLessonPage(props: any): ReactElement {
 
                 <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
-                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faPlus}/></span>
+                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
                     Обновить фотографию
                 </div>
 
@@ -116,8 +121,25 @@ export function AdminLessonPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Содержимое:</label>
-                    <textarea placeholder={"Содержимое"} style={{width: "100%", height: "400px"}}
-                              ref={contentInput} onChange={handleOnChange}>{lesson!.content}</textarea>
+
+                    <Editor
+                        apiKey={REST.MCE_API}
+                        onInit={(evt, editor) => {
+                        }}
+                        initialValue={lesson!.content}
+                        onEditorChange={(e) => handleOnContentChange(e)}
+                        ref={contentInput}
+                        init={{
+                            height: 500,
+                            width: "100%",
+                            menubar: false,
+                            plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
+                            toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
+                                'alignleft aligncenter alignright alignjustify | ' +
+                                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:13px }'
+                        }}
+                    />
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 6px 0", display: "flex", width: "100%"}}>
@@ -127,7 +149,7 @@ export function AdminLessonPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Описание:</label>
-                    <textarea placeholder={"Описание"} style={{width: "100%", height: "400px"}}
+                    <textarea placeholder={"Описание"} style={{width: "100%", height: "200px"}}
                               ref={descriptionInput} onChange={handleOnChange}>{lesson!.description}</textarea>
                 </div>
 
