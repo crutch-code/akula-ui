@@ -6,10 +6,13 @@ export type QuestionType = {
     title: string
     position: number
     amount: number
-    answers: string[] | AnswerType[]
+    answers: AnswerType[]
 }
 
 export type AnswerType = {
     id: bigint
     content: string
+
+    correct: boolean | null,
+    _index: number | null,
 }

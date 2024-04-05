@@ -17,6 +17,7 @@ export function AdminTestsPage(props: any): ReactElement {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [currentTest, setCurrentTest] = useState<TestType | null>(null);
 
     useEffect(() => {
         REST.adminGetTests(parseInt(lid!), page).then((t) => {
@@ -125,7 +126,8 @@ export function AdminTestsPage(props: any): ReactElement {
             </div>
 
             {tests?.map((t, index) =>
-                <ListItem key={index} link={"/admin/courses/" + cid + "/lessons/" + lid + "/tests/" + t.id}
+                <ListItem key={index} onClick={() => { setShowModal(true); setCurrentTest(t);}}
+                    //href={"/admin/courses/" + cid + "/lessons/" + lid + "/tests/" + t.id}
                           name={t.theme} label="Тест"
                           image={REST.AKULA}
                           disabled={false}
@@ -178,7 +180,7 @@ export function AdminTestsPage(props: any): ReactElement {
             </div>
         </section>
 
-        <TestModal visibleState={[showModal, setShowModal]} me={me} lid={lid}/>
+        <TestModal visibleState={[showModal, setShowModal]} me={me} lid={lid} test={currentTest}/>
     </div>);
 
 }

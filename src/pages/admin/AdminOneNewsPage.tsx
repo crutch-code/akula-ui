@@ -43,7 +43,7 @@ export function AdminOneNewsPage(props: any): ReactElement {
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if(event.target.value.length > 0) {
+        if (event.target.value.length > 0) {
             setCanSave(true);
         } else {
             setCanSave(false);
@@ -126,7 +126,8 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Заголовок:</label>
-                    <input placeholder={"Заголовок"} style={{width: "100%"}} defaultValue={news!.title} ref={titleInput} onChange={handleOnChange}/>
+                    <input placeholder={"Заголовок"} style={{width: "100%"}} defaultValue={news!.title} ref={titleInput}
+                           onChange={handleOnChange}/>
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
@@ -136,7 +137,8 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Автор:</label>
-                    <div className={"input"} placeholder={"Автор"} style={{width: "100%", cursor: "not-allowed"}}>{news!.author.fio}</div>
+                    <div className={"input"} placeholder={"Автор"}
+                         style={{width: "100%", cursor: "not-allowed"}}>{news!.author.fio}</div>
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
@@ -146,10 +148,13 @@ export function AdminOneNewsPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Дата публикации:</label>
-                    <div className={"input"} placeholder={"Дата публикации"} style={{width: "100%", cursor: "not-allowed"}}>{publishDate}</div>
+                    <div className={"input"} placeholder={"Дата публикации"}
+                         style={{width: "100%", cursor: "not-allowed"}}>{publishDate}</div>
                 </div>
 
-                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
+                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {
+                    imageInput.current!.click()
+                }}>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
                     <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
                     Обновить фотографию
@@ -178,9 +183,12 @@ export function AdminOneNewsPage(props: any): ReactElement {
                             skin: 'oxide-dark',
                             content_css: 'dark',
                             menu: {
-                                insert: { title: 'Insert', items: 'image link media addcomment pageembed codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                                insert: {
+                                    title: 'Вставить',
+                                    items: 'image link media addcomment pageembed codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime'
+                                },
                             },
-                            plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
+                            plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'],
                             toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
                                 'alignleft aligncenter alignright alignjustify | ' +
                                 'bullist numlist checklist outdent indent removeformat code table image',

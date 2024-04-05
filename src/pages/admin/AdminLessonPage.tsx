@@ -40,12 +40,12 @@ export function AdminLessonPage(props: any): ReactElement {
         if (disabled) {
             REST.adminGetLessonDisable(parseInt(lid!));
         } else {
-           REST.adminGetLessonEnable(parseInt(lid!));
+            REST.adminGetLessonEnable(parseInt(lid!));
         }
     }
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if(event.target.value.length > 0) {
+        if (event.target.value.length > 0) {
             setCanSave(true);
         } else {
             setCanSave(false);
@@ -105,10 +105,13 @@ export function AdminLessonPage(props: any): ReactElement {
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
                     }}>Название:</label>
-                    <input placeholder={"Название"} style={{width: "100%"}} defaultValue={lesson!.name} ref={nameInput} onChange={handleOnChange}/>
+                    <input placeholder={"Название"} style={{width: "100%"}} defaultValue={lesson!.name} ref={nameInput}
+                           onChange={handleOnChange}/>
                 </div>
 
-                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
+                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {
+                    imageInput.current!.click()
+                }}>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
                     <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
                     Обновить фотографию
@@ -137,9 +140,12 @@ export function AdminLessonPage(props: any): ReactElement {
                             skin: 'oxide-dark',
                             content_css: 'dark',
                             menu: {
-                                insert: { title: 'Insert', items: 'image link media addcomment pageembed codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                                insert: {
+                                    title: 'Вставить',
+                                    items: 'image link media addcomment pageembed codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime'
+                                },
                             },
-                            plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
+                            plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'],
                             toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
                                 'alignleft aligncenter alignright alignjustify | ' +
                                 'bullist numlist checklist outdent indent removeformat code table',

@@ -546,3 +546,9 @@ input:focus-visible {
 input[type='checkbox'] {
     border: 1px solid red;
 }
+.hr {
+    margin: 5px 0 20px 0;
+    border-top: 1px solid rgb(54, 55, 56);
+    color: rgb(225, 227, 230);
+    height: 0;
+}
