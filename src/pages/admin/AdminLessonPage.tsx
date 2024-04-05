@@ -132,11 +132,17 @@ export function AdminLessonPage(props: any): ReactElement {
                         init={{
                             height: 500,
                             width: "100%",
-                            menubar: false,
+                            language: 'ru_RU',
+                            menubar: "edit insert format table",
+                            skin: 'oxide-dark',
+                            content_css: 'dark',
+                            menu: {
+                                insert: { title: 'Insert', items: 'image link media addcomment pageembed codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                            },
                             plugins: [ 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount' ],
                             toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
                                 'alignleft aligncenter alignright alignjustify | ' +
-                                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table',
+                                'bullist numlist checklist outdent indent removeformat code table',
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:13px }'
                         }}
                     />

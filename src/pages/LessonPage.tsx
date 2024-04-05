@@ -49,7 +49,11 @@ export function LessonPage(props: any): ReactElement {
 
             <div style={{padding: "15px", display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
                 {lesson?.tests?.map((t, index) =>
-                    <Button text={t.theme} href={"/teach/" + cid! + "/" + id + "/" + t.id + "/welcome"} className={"primary"}/>
+                    t.success
+                        ? <Button text={t.theme} href={"/teach/" + cid! + "/" + id + "/" + t.id + "/result"}
+                                  className={"success"}/>
+                        : <Button text={t.theme} href={"/teach/" + cid! + "/" + id + "/" + t.id + "/welcome"}
+                                  className={t.success == null ? "primary" : "danger"}/>
                 )}
             </div>
 
