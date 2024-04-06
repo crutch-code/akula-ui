@@ -36,6 +36,15 @@ export function AddQuestionSingle(props: any): ReactElement {
                 }}>Текст вопроса:</label>
                 <input type="text" placeholder={"Текст вопроса"} style={{width: "100%"}} defaultValue={question.title}/>
             </div>
+            <div className={"inputGroup"} style={{padding: "0 0 15px 0", display: "flex", width: "100%"}}>
+                <label style={{
+                    color: "rgb(147, 147, 147)",
+                    fontSize: "13px",
+                    padding: "6px 10px 0 0",
+                    whiteSpace: "nowrap"
+                }}>Балл:</label>
+                <input type="number" min={1} placeholder={"Балл за вопрос"} style={{width: "100%"}} defaultValue={question.points}/>
+            </div>
 
             {answers.map((a, i) =>
                 <div key={i} className={"inputGroup"}

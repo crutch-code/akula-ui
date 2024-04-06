@@ -72,7 +72,7 @@ export function AdminTestsPage(props: any): ReactElement {
                         cursor: "pointer",
                         fontSize: "14px",
                         justifyContent: "flex-end"
-                    }} onClick={() => setShowModal(true)}>
+                    }} onClick={() => { setShowModal(true); setCurrentTest(null);}}>
                         Создать&nbsp;тест
                         <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                     </div>
@@ -119,7 +119,7 @@ export function AdminTestsPage(props: any): ReactElement {
                     cursor: "pointer",
                     fontSize: "14px",
                     justifyContent: "flex-end"
-                }} onClick={() => setShowModal(true)}>
+                }} onClick={() => { setShowModal(true); setCurrentTest(null);}}>
                     Создать&nbsp;тест
                     <FontAwesomeIcon icon={faPlus} style={{marginLeft: "5px", width: "24px", height: "24px"}}/>
                 </div>

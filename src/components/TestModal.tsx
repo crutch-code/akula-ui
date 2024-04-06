@@ -17,9 +17,6 @@ export function TestModal(props: any): ReactElement {
     const min_ball = useRef<HTMLInputElement>(null);
     const [questions, setQuestions] = useState<QuestionType[]>([]);
 
-    const [singleQuestionFields, showSingleQuestionFields] = useState<boolean>(false)
-    const [multipleQuestionFields, showMultipleQuestionFields] = useState<boolean>(false)
-
     useEffect(() => {
         setQuestions(test?.questions ?? []);
     }, [test])
@@ -32,15 +29,16 @@ export function TestModal(props: any): ReactElement {
         const type = e.target.value;
         e.target.value = "NO";
 
-        showSingleQuestionFields(false);
-        showMultipleQuestionFields(false);
-        if (type === "SINGLE") {
-            showSingleQuestionFields(true);
-        } else if (type === "MULTIPLE") {
-            showMultipleQuestionFields(true);
-        } else {
-
+        let q: QuestionType = {
+            id: BigInt(0),
+            type: type,
+            points: 1,
+            title: '',
+            position: questions.length,
+            amount: 0,
+            answers: []
         }
+        setQuestions((prev) => [...prev, q])
     }
 
     const createTest = () => {
@@ -109,18 +107,11 @@ export function TestModal(props: any): ReactElement {
                             ? <AddQuestionSingle question={q} index={i}/>
                             : q.type === "MULTIPLE"
                                 ? <AddQuestionMultiple question={q} index={i}/>
-                                : <div>COMPARISON</div>
+                                : <div>TODO: COMPARISON</div>
                         }
                         <div className={"hr"}></div>
                     </>
                 )}
-
-                {singleQuestionFields
-                    ? <AddQuestionSingle/>
-                    : ""}
-                {multipleQuestionFields
-                    ? "multipleQuestionFields"
-                    : ""}
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>
                     <select style={{width: "100%"}} onChange={onNewQuestionChange} multiple={false}
@@ -128,6 +119,7 @@ export function TestModal(props: any): ReactElement {
                         <option value={"NO"} disabled={true}>Добавить вопрос</option>
                         <option value={"SINGLE"}>Одиночный</option>
                         <option value={"MULTIPLE"}>Множественный</option>
+                        <option value={"COMPARISON"} disabled={true}>Сопоставление</option>
                     </select>
                 </div>
             </div>
