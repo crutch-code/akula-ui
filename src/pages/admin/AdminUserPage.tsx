@@ -34,6 +34,26 @@ export function AdminUserPage(props: any): ReactElement {
         });
     }, [id])
 
+    const onRoleChange = (rid: number, prev: boolean): boolean => {
+        if(prev) {
+            REST.adminRemoveRole(rid, parseInt(id as string));
+            return false;
+        } else {
+            REST.adminAddRole(rid, parseInt(id as string));
+            return true;
+        }
+    }
+
+    const onCourseChange = (cid: number, prev: boolean): boolean => {
+        if(prev) {
+            //REST.adminRemoveCourse(cid, parseInt(id as string));
+            return false;
+        } else {
+            //REST.adminAddCourse(cid, parseInt(id as string));
+            return true;
+        }
+    }
+
     if (loading) {
         return (<div className={"page_body"}>
             <section className={"page_block col-12"}>
@@ -83,7 +103,7 @@ export function AdminUserPage(props: any): ReactElement {
             {loadingCourses
                 ? <Loading/>
                 : courses?.map(c =>
-                    <Checkbox key={c.id} checked={c.assigned} text={c.name}/>
+                    <Checkbox key={c.id} id={c.id} checked={c.assigned} text={c.name} onChange={onCourseChange}/>
                 )
             }
         </section>
@@ -92,7 +112,7 @@ export function AdminUserPage(props: any): ReactElement {
             {loadingRoles
                 ? <Loading/>
                 : roles?.map(r =>
-                    <Checkbox key={r.id} checked={r.assigned} text={r.role_name} description={r.role_description}/>
+                    <Checkbox key={r.id} id={r.id} checked={r.assigned} text={r.role_name} description={r.role_description} onChange={onRoleChange}/>
                 )
             }
         </section>
