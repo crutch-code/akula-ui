@@ -29,3 +29,4 @@ ingress:
   dns: akula.gcg.name
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    "cert-manager.io/cluster-issuer": letsencrypt
