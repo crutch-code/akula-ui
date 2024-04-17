@@ -143,12 +143,8 @@ deploy:prod:
       fi
     - curl -L https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64 -o /usr/local/bin/helm
     - chmod +x /usr/local/bin/helm
-    - sshpass -p ${PROD_PASSWORD} ssh -o StrictHostKeyChecking=no -fNT -L 56443:127.0.0.1:6443 ${PROD_USER}@${PROD_HOST}
-
-    - kubectl config set-cluster k8s --server="https://127.0.0.1:56443/" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials gitlab --token="${PROD_KUBE_TOKEN}"
-    - kubectl config set-context default --cluster=k8s --user=gitlab --namespace=${PROD_NS}
-    - kubectl config use-context default
+    - sshpass -p ${PROD_PASSWORD} ssh -o StrictHostKeyChecking=no -fNT -L 6443:127.0.0.1:6443 ${PROD_USER}@${PROD_HOST}
+    - export KUBECONFIG=${PROD_KUBECONFIG}
     - kubectl get nodes
 
     - helm repo add ${HELM_REPO_ALIAS} --force-update --username "$HELM_USER_RO" --password "$HELM_PASSWORD_RO" "${HELM_REPO}"
@@ -156,7 +152,6 @@ deploy:prod:
   script:
     - helm version
     - time helm upgrade ${CI_PROJECT_NAME} ${HELM_REPO_ALIAS}/${CI_PROJECT_NAME}
-      --kube-context default
       --install
       --wait
       --version ${CHART_VERSION}
