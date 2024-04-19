@@ -5,7 +5,6 @@ import {Footer} from "./components/Footer";
 import React from "react";
 import {UserType} from "./types/UserType";
 import {TeachPage} from "./pages/TeachPage";
-import {AnalyticsPage} from "./pages/AnalyticsPage";
 import {MePage} from "./pages/MePage";
 import {AdminCoursesPage} from "./pages/admin/AdminCoursesPage";
 import {AdminNewsPage} from "./pages/admin/AdminNewsPage";
@@ -53,8 +52,6 @@ export default function App() {
                         <Route path="/teach/:cid/:lid/:id/welcome" element={<TestWelcomePage me={me}/>}/>
                         <Route path="/teach/:cid/:lid/:id/" element={<TestPage me={me}/>}/>
                         <Route path="/teach/:cid/:lid/:id/result" element={<TestResultPage me={me}/>}/>
-
-                        <Route path="/analytics" element={<AnalyticsPage me={me}/>}/>
 
                         <Route path="/admin" element={<AdminPage me={me}/>}/>
                         <Route path="/admin/courses" element={<AdminCoursesPage me={me}/>}/>

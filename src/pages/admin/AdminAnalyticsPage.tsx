@@ -18,7 +18,7 @@ export function AdminAnalyticsPage(props: any): ReactElement {
                     <div style={{width: "148px", padding: "0 8px 0 20px"}}></div>
                 </div>
 
-                TODO: Администрирование Отчетных форм
+                Администрирование Отчетных форм
 
                 <div className={"TeachListFooter"} style={{
                     height: "48px",
