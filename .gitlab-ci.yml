@@ -15,13 +15,32 @@ validate:helm:
     - helm version
     - helm lint ./chart/
 
-build:helm:
+build:helm:test:
   stage: build
   image: dtzar/helm-kubectl:3
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "master"'
+  only:
+    - test
   before_script:
-    - export APP_VERSION=$(cat package.json | jq -r '.version')
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)-${CI_COMMIT_SHORT_SHA}
+    - export CHART_VERSION=${APP_VERSION}
+  script:
+    - echo $APP_VERSION
+    - echo $CHART_VERSION
+    - helm version
+    - cd ./chart/
+    - helm package . --app-version ${APP_VERSION} --version ${CHART_VERSION}
+  artifacts:
+    paths:
+      - ./chart/*.tgz
+    expire_in: 1 day
+
+build:helm:prod:
+  stage: build
+  image: dtzar/helm-kubectl:3
+  only:
+    - master
+  before_script:
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)
     - export CHART_VERSION=${APP_VERSION}
   script:
     - echo $APP_VERSION
@@ -55,17 +74,17 @@ build:npm:
       exists:
         - "package.json"
 
-publish:docker:
+publish:docker:test:
   stage: publish
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "test"'
       exists:
         - "Dockerfile"
   before_script:
-    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)-${CI_COMMIT_SHORT_SHA}
     - echo "{\"auths\":{\"$DOCKER_REPO\":{\"username\":\"$DOCKER_USER_RW\",\"password\":\"$DOCKER_PASSWORD_RW\"}}}" > /kaniko/.docker/config.json
   script:
     - echo $APP_VERSION
@@ -78,15 +97,49 @@ publish:docker:
         --verbosity=debug
     - echo "Docker Image Name:" $DOCKER_REPO/$CI_PROJECT_NAME:$APP_VERSION
 
-publish:helm:
+publish:docker:prod:
+  stage: publish
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      exists:
+        - "Dockerfile"
+  before_script:
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)
+    - echo "{\"auths\":{\"$DOCKER_REPO\":{\"username\":\"$DOCKER_USER_RW\",\"password\":\"$DOCKER_PASSWORD_RW\"}}}" > /kaniko/.docker/config.json
+  script:
+    - echo $APP_VERSION
+    - time /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile $CI_PROJECT_DIR/Dockerfile
+      --destination $DOCKER_REPO/$CI_PROJECT_NAME:$APP_VERSION
+      --destination $DOCKER_REPO/$CI_PROJECT_NAME:$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)
+      --cache=false
+      --verbosity=debug
+    - echo "Docker Image Name:" $DOCKER_REPO/$CI_PROJECT_NAME:$APP_VERSION
+
+publish:helm:test:
   image: alpine:3
   stage: publish
   only:
     - test
+  before_script:
+    - apk add curl
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)-${CI_COMMIT_SHORT_SHA}
+    - export CHART_VERSION=${APP_VERSION}
+  script:
+    - curl -u ${HELM_USER_RW}:${HELM_PASSWORD_RW} -X PUT "${HELM_REPO}/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz" -T ./chart/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz
+
+publish:helm:prod:
+  image: alpine:3
+  stage: publish
+  only:
     - master
   before_script:
-    - apk add curl jq
-    - export APP_VERSION=$(cat package.json | jq -r '.version')
+    - apk add curl
+    - export APP_VERSION=$(sed -n 's/.*"version":[ ]*"\([^"]*\).*/\1/p' package.json)
     - export CHART_VERSION=${APP_VERSION}
   script:
     - curl -u ${HELM_USER_RW}:${HELM_PASSWORD_RW} -X PUT "${HELM_REPO}/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz" -T ./chart/${CI_PROJECT_NAME}-${CHART_VERSION}.tgz
@@ -97,7 +150,7 @@ deploy:test:
   only:
     - test
   before_script:
-    - export APP_VERSION=$(cat package.json | jq -r '.version')
+    - export APP_VERSION=$(cat package.json | jq -r '.version')-${CI_COMMIT_SHORT_SHA}
     - export CHART_VERSION=${APP_VERSION}
     - curl -L https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64 -o /usr/local/bin/helm
     - chmod +x /usr/local/bin/helm
