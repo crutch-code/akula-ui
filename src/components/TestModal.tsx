@@ -42,33 +42,42 @@ export function TestModal(props: any): ReactElement {
     }
 
     const createTest = () => {
-        console.log(JSON.stringify(questions, (_, v) => typeof v === 'bigint' ? v.toString() : v));
         //TODO: [{"id":"0","type":"SINGLE","points":3,"title":"fdfgfh","position":0,"amount":0,"answers":[{"id":"0","content":"an2","correct":true,"_index":1},{"id":"0","content":"an1","correct":false,"_index":2}]},{"id":"0","type":"SINGLE","points":2,"title":"q2","position":1,"amount":0,"answers":[{"id":"0","content":"sadf","correct":true,"_index":1},{"id":"0","content":"dasf","correct":false,"_index":2}]}]
-
-        /*if (photo.current?.files?.length ?? 0 > 0) {
-            let storage: FormData = new FormData();
-            storage.append("type", "test");
-            storage.append("name", photo.current!.files!.item(0)!.name);
-            storage.append("data", photo.current!.files!.item(0)!)
-
-            REST.uploadFile(storage).then(s => {
-                let t: any = {
-                    id: null,
-                    theme: theme.current!.value,
-                    //content: contentInput.current!.value,
-                    //description: descriptionInput.current!.value,
-                    //disabled: false,
-                    //photo: {id: s.id},
-                    //index: lastIndex
+        let data = {
+            id: test === null ? null : test.id,
+            disabled: false,
+            success: false,
+            minBall: min_ball,
+            theme: theme,
+            questions: questions.map(q => {
+                return {
+                    id: q.id === BigInt(0) ? null : q.id,
+                    type: q.type,
+                    title: q.title,
+                    points: q.points,
+                    answers: q.answers.map(a => {
+                        return {
+                            id: a.id === BigInt(0) ? null : a.id,
+                            content: a.content,
+                            correct: a.correct
+                        }
+                    }),
+                    comparisons: []//TODO: impl
                 }
-
-                REST.adminNewTest(t, parseInt(tid!)).then((tt) =>
-                    setVisible(false)
-                );
-            });
-        } else {
-            //TODO: error image selecting
-        }*/
+            })
+            /*
+            comparisons: [
+                        {
+                            id: null,
+                            lid: { id: null, content: '', isLeft: true },
+                            rid: { id: null, content: '', isLeft: false }
+                        }
+                    ]*/
+        };
+        console.log(JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v));
+        REST.adminUpdateTest(data).then((t) => {
+            setVisible(false);
+        });
     }
 
     return (<div className={"modalBackground"}>

@@ -889,4 +889,26 @@ export class REST {
             })
             .catch((error) => console.error(error));
     }
+
+    public static adminUpdateTest(t: any): Promise<TestType> {
+        return fetch(REST.BASE + "/api/admin/test/", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify(t, (_, v) => typeof v === 'bigint' ? v.toString() : v)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
 }
