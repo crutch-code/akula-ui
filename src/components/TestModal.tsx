@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, ReactElement, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, ReactElement, useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {REST} from "../api/REST";
@@ -42,6 +42,9 @@ export function TestModal(props: any): ReactElement {
     }
 
     const createTest = () => {
+        console.log(JSON.stringify(questions, (_, v) => typeof v === 'bigint' ? v.toString() : v));
+        //TODO: [{"id":"0","type":"SINGLE","points":3,"title":"fdfgfh","position":0,"amount":0,"answers":[{"id":"0","content":"an2","correct":true,"_index":1},{"id":"0","content":"an1","correct":false,"_index":2}]},{"id":"0","type":"SINGLE","points":2,"title":"q2","position":1,"amount":0,"answers":[{"id":"0","content":"sadf","correct":true,"_index":1},{"id":"0","content":"dasf","correct":false,"_index":2}]}]
+
         /*if (photo.current?.files?.length ?? 0 > 0) {
             let storage: FormData = new FormData();
             storage.append("type", "test");
@@ -104,10 +107,10 @@ export function TestModal(props: any): ReactElement {
                 <div className={"hr"}></div>
                 {questions.map((q, i) => <>
                         {q.type === "SINGLE"
-                            ? <AddQuestionSingle question={q} index={i}/>
+                            ? <AddQuestionSingle key={i} question={q} index={i} arr={[questions, setQuestions]}/>
                             : q.type === "MULTIPLE"
-                                ? <AddQuestionMultiple question={q} index={i}/>
-                                : <div>TODO: COMPARISON</div>
+                                ? <AddQuestionMultiple key={i} question={q} index={i}/>
+                                : <div key={i}>TODO: COMPARISON</div>
                         }
                         <div className={"hr"}></div>
                     </>
