@@ -45,10 +45,11 @@ export function TestModal(props: any): ReactElement {
         //TODO: [{"id":"0","type":"SINGLE","points":3,"title":"fdfgfh","position":0,"amount":0,"answers":[{"id":"0","content":"an2","correct":true,"_index":1},{"id":"0","content":"an1","correct":false,"_index":2}]},{"id":"0","type":"SINGLE","points":2,"title":"q2","position":1,"amount":0,"answers":[{"id":"0","content":"sadf","correct":true,"_index":1},{"id":"0","content":"dasf","correct":false,"_index":2}]}]
         let data = {
             id: test === null ? null : test.id,
+            lid: lid,
             disabled: false,
             success: false,
-            minBall: min_ball,
-            theme: theme,
+            min_ball: min_ball.current!.valueAsNumber,
+            theme: theme.current!.value,
             questions: questions.map(q => {
                 return {
                     id: q.id === BigInt(0) ? null : q.id,
@@ -74,7 +75,7 @@ export function TestModal(props: any): ReactElement {
                         }
                     ]*/
         };
-        console.log(JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v));
+        //console.log(JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v));
         REST.adminUpdateTest(data).then((t) => {
             setVisible(false);
         });
