@@ -152,12 +152,13 @@ export function AdminOneNewsPage(props: any): ReactElement {
                          style={{width: "100%", cursor: "not-allowed"}}>{publishDate}</div>
                 </div>
 
-                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0"}} onClick={() => {
+                <div className={"inputPhoto"} style={{margin: "0px 0 15px 0", padding: 0}} onClick={() => {
                     imageInput.current!.click()
                 }}>
+                    <img src={REST.BASE + '/api/storage/' + news!.photo?.id!} alt={news!.photo?.name!}  style={{width: "100%", borderRadius: "8px"}}/>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
-                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
-                    Обновить фотографию
+                    <div style={{position: "absolute"}} className={"inputPhotoBtn"}><span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
+                        Обновить фотографию</div>
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 6px 0", display: "flex", width: "100%"}}>

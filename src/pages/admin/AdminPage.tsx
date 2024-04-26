@@ -29,11 +29,6 @@ export function AdminPage(props: any): ReactElement {
                       name={"Новости"} label=""
                       image={REST.AKULA}
             />
-            <ListItem link={"/admin/analytics"}
-                      name={"Отчеты и аналитика"} label=""
-                      image={REST.AKULA}
-                      disabled={true} active={false}
-            />
             <ListItem link={"/admin/users"}
                       name={"Пользователи и роли"} label=""
                       image={REST.AKULA}

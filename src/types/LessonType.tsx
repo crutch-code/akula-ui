@@ -1,4 +1,5 @@
 import {TestType} from "./TestType";
+import {StorageType} from "./StorageType";
 
 export type LessonType = {
     id: bigint,
@@ -8,5 +9,6 @@ export type LessonType = {
     content: string,
     description: string,
     tests: TestType[],
-    disabled: boolean
+    disabled: boolean,
+    photo: StorageType,
 }

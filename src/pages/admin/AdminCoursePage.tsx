@@ -99,10 +99,11 @@ export function AdminCoursePage(props: any): ReactElement {
 
             <div className={"modalBody"} style={{padding: "0px 24px 20px 24px", fontSize: "13px", display: "flex", flexDirection: "column"}}>
 
-                <div className={"inputPhoto"} style={{margin: "20px 0 15px 0"}} onClick={() => {imageInput.current!.click()}}>
+                <div className={"inputPhoto"} style={{margin: "20px 0 15px 0", padding: 0}} onClick={() => {imageInput.current!.click()}}>
+                    <img src={REST.BASE + '/api/storage/' + course!.photo?.id!} alt={course!.photo?.name!} style={{width: "100%", borderRadius: "8px"}}/>
                     <input type={"file"} style={{display: "none"}} ref={imageInput} onChange={handleOnChange}/>
-                    <span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
-                    Обновить фотографию
+                    <div style={{position: "absolute"}} className={"inputPhotoBtn"}><span style={{color: "rgb(113, 170, 235)", padding: "0 8px 0 0"}}><FontAwesomeIcon icon={faRotate}/></span>
+                        Обновить фотографию</div>
                 </div>
 
                 <div className={"inputGroup"} style={{padding: "0px 0 15px 0", display: "flex", width: "100%"}}>

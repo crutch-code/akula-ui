@@ -10,7 +10,6 @@ import {AdminCoursesPage} from "./pages/admin/AdminCoursesPage";
 import {AdminNewsPage} from "./pages/admin/AdminNewsPage";
 import {AdminStoragePage} from "./pages/admin/AdminStoragePage";
 import {AdminUsersPage} from "./pages/admin/AdminUsersPage";
-import {AdminAnalyticsPage} from "./pages/admin/AdminAnalyticsPage";
 import {LoginPage} from "./pages/LoginPage";
 import {SideBar} from "./components/SideBar";
 import {PostsPage} from "./pages/PostsPage";
@@ -59,14 +58,10 @@ export default function App() {
                         <Route path="/admin/courses/:cid/lessons" element={<AdminLessonsPage me={me}/>}/>
                         <Route path="/admin/courses/:cid/lessons/:lid" element={<AdminLessonPage me={me}/>}/>
                         <Route path="/admin/courses/:cid/lessons/:lid/tests" element={<AdminTestsPage me={me}/>}/>
-
                         <Route path="/admin/news" element={<AdminNewsPage me={me}/>}/>
                         <Route path="/admin/news/:id" element={<AdminOneNewsPage me={me}/>}/>
-
-                        <Route path="/admin/analytics" element={<AdminAnalyticsPage me={me}/>}/>
                         <Route path="/admin/users" element={<AdminUsersPage me={me}/>}/>
                         <Route path="/admin/users/:id" element={<AdminUserPage me={me}/>}/>
-
                         <Route path="/admin/storage" element={<AdminStoragePage me={me}/>}/>
 
                         <Route path="*" element={<PageNotFound me={me}/>}/>

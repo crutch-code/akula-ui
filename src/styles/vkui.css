@@ -539,19 +539,29 @@ input:focus-visible {
     color: rgb(113, 170, 235);
     cursor: pointer;
     padding: 8.5px 10px 8.5px 10px;
-    height: 29px;
+    /*height: 29px;*/
     border-radius: 8px;
 }
 .inputPhoto:hover {
     background-color: rgba(255, 255, 255, 0.10);
 }
+.inputPhoto .inputPhotoBtn {
+    display: none;
+}
+.inputPhoto:hover img {
+        -webkit-filter: brightness(90%);
+        filter: brightness(90%);
+}
+.inputPhoto:hover .inputPhotoBtn {
+     display: block;
+ }
 
-input[type='checkbox'] {
-    border: 1px solid red;
-}
-.hr {
-    margin: 5px 0 20px 0;
-    border-top: 1px solid rgb(54, 55, 56);
-    color: rgb(225, 227, 230);
-    height: 0;
-}
+    input[type='checkbox'] {
+        border: 1px solid red;
+    }
+    .hr {
+        margin: 5px 0 20px 0;
+        border-top: 1px solid rgb(54, 55, 56);
+        color: rgb(225, 227, 230);
+        height: 0;
+    }
