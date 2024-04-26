@@ -14,7 +14,7 @@ export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
     public static AKULA: string = "https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1";
     public static PAGE_SIZE: number = parseInt(process.env.REACT_PAGE_SIZE ?? "10");
-    public static MCE_API: string = "ogrpozowmgba715r5s18gjjia35w1j89rcbf9r6xod87a2na";
+    public static MCE_API: string = process.env.REACT_MCE_API ?? "";
 
     protected static get(url: string): any {//FIXME: remove
         fetch(REST.BASE + url, {method: "GET"})
@@ -807,6 +807,48 @@ export class REST {
 
     public static adminRemoveRole(rid: number, uid: number): Promise<any> {
         return fetch(REST.BASE + "/api/admin/roles/" + rid + "?uid=" + uid, {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminAddCourse(cid: number, uid: number): Promise<any> {
+        return fetch(REST.BASE + "/api/admin/course/" + cid + "?uid=" + uid, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    sessionStorage.removeItem("me");
+                    sessionStorage.removeItem("jwt");
+                    window.location.href = '/';
+                }
+                return response.json();
+            })
+            .then((data: any) => {
+                if (data.status === 'OK')
+                    return data.body;
+                throw data;
+            })
+            .catch((error) => console.error(error));
+    }
+
+    public static adminRemoveCourse(cid: number, uid: number): Promise<any> {
+        return fetch(REST.BASE + "/api/admin/course/" + cid + "?uid=" + uid, {
             method: "DELETE",
             headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
         })
