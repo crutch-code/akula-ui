@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 
 export function Button(props: any): ReactElement {
-    const text: string = props.text!;
+    const text = props.text!;
     const onClick = props.onClick;
     const href: string = props.href!;
     const disabled: boolean = props.disabled ?? false;
@@ -9,7 +9,7 @@ export function Button(props: any): ReactElement {
 
     if (onClick !== undefined) {
         return (<div className={className + " button" + (disabled ? " disabled" : "")}
-                     style={{marginBottom: "8px", cursor: disabled ? "not-allowed" : "pointer"}}
+                     style={{ cursor: disabled ? "not-allowed" : "pointer"}}
                      onClick={disabled ? (e) => { } : onClick}>
             {text}
         </div>)

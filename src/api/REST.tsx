@@ -14,7 +14,8 @@ export class REST {
     public static BASE: String = process.env.REACT_APP_BASE ?? "";
     public static AKULA: string = "https://sun1-83.userapi.com/s/v1/ig2/A4ZoqZ4pBe7yzmjMmKaipOECqc_rciQCzWkG3k0tu1YFBEtneBJfActGkdg7uLdaHTtAtAq8ZwscRIXgQWtKesk0.jpg?size=50x50&quality=95&crop=0,0,400,400&ava=1";
     public static PAGE_SIZE: number = parseInt(process.env.REACT_PAGE_SIZE ?? "10");
-    public static MCE_API: string = process.env.REACT_MCE_API ?? "";
+    public static MCE_API: string = process.env.REACT_MCE_API ?? "gwugrfimv8vunwoh3peunq9gfqstna5demu0xwup7axpra02";
+
 
     protected static get(url: string): any {//FIXME: remove
         fetch(REST.BASE + url, {method: "GET"})

@@ -42,6 +42,10 @@ export function AdminLessonsPage(props: any): ReactElement {
         });
     }
 
+    const deleteLesson = (id: bigint) => {
+
+    }
+
     if (loading) {
         return (<div className={"page_body"}>
             <section className={"page_block col-12"} style={{padding: 0}}>
@@ -128,6 +132,8 @@ export function AdminLessonsPage(props: any): ReactElement {
                           name={c.name} label="Урок"
                           image={REST.AKULA}
                           disabled={c.disabled}
+                          onClick={() => window.location.href = "/admin/courses/" + cid + "/lessons/" + c.id}
+                          deletionHandler={ () => deleteLesson(c.id)}
                 />
             )}
 

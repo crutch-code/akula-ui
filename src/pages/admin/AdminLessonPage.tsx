@@ -26,6 +26,7 @@ export function AdminLessonPage(props: any): ReactElement {
             setLesson(l)
             setLoading(false);
         });
+        console.log(REST.MCE_API)
     }, [cid, lid])
 
     if (loading) {
@@ -71,6 +72,8 @@ export function AdminLessonPage(props: any): ReactElement {
             setCanSave(false)
         );
     }
+
+
 
     return (<div className={"page_body"}>
         <section className={"page_block col-12"} style={{padding: 0}}>
@@ -127,7 +130,7 @@ export function AdminLessonPage(props: any): ReactElement {
                     }}>Содержимое:</label>
 
                     <Editor
-                        apiKey={REST.MCE_API}
+                        apiKey={"gwugrfimv8vunwoh3peunq9gfqstna5demu0xwup7axpra02"}
                         onInit={(evt, editor) => {
                         }}
                         initialValue={lesson!.content}

@@ -1,6 +1,8 @@
 import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import {AnswerType, QuestionType} from "../../types/QuestionType";
 import {Button} from "../Button";
+import DeleteIcon from "./icons/DeleteIcon";
+import {AnswerApi} from "../../api/AnswerApi";
 
 export function AddQuestionMultiple(props: any): ReactElement {
     const qIndex = props.index!;
@@ -23,6 +25,16 @@ export function AddQuestionMultiple(props: any): ReactElement {
             _index: answers.length + 1,
         }
         setAnswers((prev) => [...prev, newAnswer]);
+    }
+
+    const deleteAnswer = (i: number) => {
+        let target = question.answers.at(i)!
+
+        if(target?.id!){
+            AnswerApi.adminRemoveAnswer(target?.id).catch(e => console.log(e));
+        }
+        question.answers = question.answers.filter((_, ind) => ind !== i)
+        setAnswers((old) => old.filter((non, ind) => ind !== i ));
     }
 
     return (
@@ -60,7 +72,7 @@ export function AddQuestionMultiple(props: any): ReactElement {
                         fontSize: "13px",
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
-                    }}>{"Ответ " + a._index + ":"}</label>
+                    }}>{"Ответ " + `${i +1}` + ":"}</label>
                     <input type="checkbox" style={{marginRight: "8px"}} defaultChecked={a.correct ?? false}
                            name={"q" + qIndex} onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         a.correct = e.target.checked
@@ -71,6 +83,14 @@ export function AddQuestionMultiple(props: any): ReactElement {
                                a.content = e.target.value
                                question.answers = answers;
                            }}/>
+                    <Button
+                        className={"danger"}
+                        disabled ={false}
+                        style={{paddingTop: '1rem'}}
+                        text={<DeleteIcon/>}
+                        onClick={()=> deleteAnswer(i)}
+                    />
+
                 </div>
             )}
             <Button text={"Добавить вариант ответа"} onClick={() => addAnswer()}/>

@@ -1,6 +1,8 @@
 import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import {AnswerType, QuestionType} from "../../types/QuestionType";
 import {Button} from "../Button";
+import DeleteIcon from "./icons/DeleteIcon";
+import {AnswerApi} from "../../api/AnswerApi";
 
 export function AddQuestionSingle(props: any): ReactElement {
     const qIndex = props.index!;
@@ -9,7 +11,7 @@ export function AddQuestionSingle(props: any): ReactElement {
     const [answers, setAnswers] = useState<AnswerType[]>([]);
 
     useEffect(() => {
-        setAnswers(question?.answers.map((a, i) => {
+        setAnswers(question?.answers?.map((a, i) => {
             a._index = i + 1;
             return a;
         }) ?? []);
@@ -23,6 +25,19 @@ export function AddQuestionSingle(props: any): ReactElement {
             _index: answers.length + 1,
         }
         setAnswers((prev) => [...prev, newAnswer]);
+    }
+
+    const deleteAnswer = (i: number) => {
+        let target = question.answers.at(i)!
+        console.log('idx: ' + i)
+        console.log(question.answers.at(i))
+        console.log(question.answers)
+
+        if(target?.id!){
+            AnswerApi.adminRemoveAnswer(target?.id).catch(e => console.log(e));
+        }
+        question.answers = question.answers.filter((_, ind) => ind !== i)
+        setAnswers((old) => old.filter((non, ind) => ind !== i ));
     }
 
     return (
@@ -54,13 +69,13 @@ export function AddQuestionSingle(props: any): ReactElement {
 
             {answers.map((a, i) =>
                 <div key={i} className={"inputGroup"}
-                     style={{padding: "0 0 15px 0", display: "flex", width: "100%"}}>
+                     style={{padding: "0 0 15px 0", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%"}}>
                     <label style={{
                         color: "rgb(147, 147, 147)",
                         fontSize: "13px",
                         padding: "6px 10px 0 0",
                         whiteSpace: "nowrap"
-                    }}>{"Ответ " + a._index + ":"}</label>
+                    }}>{"Ответ " + `${i+1}` + ":"}</label>
                     <input type="radio" style={{marginRight: "8px"}} defaultChecked={a.correct ?? false}
                            name={"q" + qIndex} onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         a.correct = e.target.checked
@@ -71,6 +86,13 @@ export function AddQuestionSingle(props: any): ReactElement {
                                a.content = e.target.value
                                question.answers = answers;
                            }}/>
+                    <Button
+                        className={"danger"}
+                        disabled ={false}
+                        style={{paddingTop: '1rem'}}
+                        text={<DeleteIcon/>}
+                        onClick={()=> deleteAnswer(i)}
+                    />
                 </div>
             )}
             <Button text={"Добавить вариант ответа"} onClick={() => addAnswer()}/>
