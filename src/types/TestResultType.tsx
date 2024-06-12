@@ -1,6 +1,9 @@
-export type TestResultType = {
-    theme: string,
-    min_ball: number,
-    taked_ball: number,
+import {UserType} from "./UserType";
+import {TestType} from "./TestType";
 
+export type TestResultType = {
+    id: bigint,
+    uid: UserType,
+    tid: TestType,
+    points: number
 }

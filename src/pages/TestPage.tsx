@@ -7,6 +7,7 @@ import {QuestionSingle} from "../components/parts/QuestionSingle";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {QuestionMultiply} from "../components/parts/QuestionMultiply";
+import {QuestionComparison} from "../components/parts/QuestionComparison";
 
 export function TestPage(props: any): ReactElement {
     const {id} = useParams<string>();
@@ -24,6 +25,8 @@ export function TestPage(props: any): ReactElement {
         });
     }, [id]);
 
+    console.log(question)
+
     if (loading) {
         return (<div className={"page_body"}>
             <section className={"page_block col-12"}>
@@ -38,11 +41,18 @@ export function TestPage(props: any): ReactElement {
         answeredQuestion.answers = answers;
     }
 
+    const compCallback= (comparison: any) =>{
+        answeredQuestion.id = question!.id;
+        answeredQuestion.type = question!.type;
+        answeredQuestion.comparisons = comparison;
+    }
+
     const nextQuestion = (event: any) => {
         setLoading(true);
         if (answeredQuestion.id === undefined) {
             answeredQuestion = {id: question!.id, type: question!.type, answers: []};
         }
+        console.log(answeredQuestion)
         REST.nextQuestion(answeredQuestion).then(q => {
             if (question?.position === question?.amount) {
                 window.location.href = '/teach/' + cid + '/' + lid + '/' + id + '/result';
@@ -71,7 +81,8 @@ export function TestPage(props: any): ReactElement {
                     ? <QuestionSingle question={question} callback={callback}/>
                     : question?.type === "MULTIPLE"
                         ? <QuestionMultiply question={question} callback={callback}/>
-                        : question?.title
+                        : question?.type === "COMPARISON"?
+                            <QuestionComparison question={question} callback={compCallback}/> : 'undef'
                 }
             </div>
 

@@ -46,7 +46,7 @@ export function AdminUserPage(props: any): ReactElement {
 
     const onCourseChange = (cid: number, prev: boolean): boolean => {
         if(prev) {
-            REST.adminRemoveCourse(cid, parseInt(id as string));
+            // REST.adminRemoveCourse(cid, parseInt(id as string));
             return false;
         } else {
             REST.adminAddCourse(cid, parseInt(id as string));

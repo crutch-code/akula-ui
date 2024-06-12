@@ -54,10 +54,10 @@ export function TestResultPage(props: any) : ReactElement {
             </div>
 
             <div style={{padding: "15px", textAlign: "justify", fontSize: "15px"}}>
-                <div>Тема теста: <b>{result![0].theme}</b></div>
-                <div>Проходной балл: <b>{result![0].min_ball}</b></div>
-                <div>Набрано баллов: <b>{result![0].taked_ball}</b></div>
-                <div>Результат: {result![0].taked_ball >= result![0].min_ball ? <b style={{color: "green"}}>Тест сдан</b> : <b style={{color: "red"}}>Тест не сдан</b>}</div>
+                <div>Тема теста: <b>{result![0].tid.theme}</b></div>
+                <div>Проходной балл: <b>{result![0].tid.min_ball}</b></div>
+                <div>Набрано баллов: <b>{result![0].points}</b></div>
+                <div>Результат: {result![0].points >= result![0].tid.min_ball ? <b style={{color: "green"}}>Тест сдан</b> : <b style={{color: "red"}}>Тест не сдан</b>}</div>
             </div>
 
             <div className={"TeachListFooter"} style={{

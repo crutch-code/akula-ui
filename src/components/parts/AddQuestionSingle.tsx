@@ -11,8 +11,8 @@ export function AddQuestionSingle(props: any): ReactElement {
     const [answers, setAnswers] = useState<AnswerType[]>([]);
 
     useEffect(() => {
-        setAnswers(question?.answers?.map((a, i) => {
-            a._index = i + 1;
+        setAnswers(question?.answers?.map(a => {
+            a._key = a.id === BigInt(0) ? a.id : crypto.randomUUID();
             return a;
         }) ?? []);
     }, [question])
@@ -22,22 +22,18 @@ export function AddQuestionSingle(props: any): ReactElement {
             id: BigInt(0),
             content: '',
             correct: false,
-            _index: answers.length + 1,
+            _key: null
         }
+        newAnswer._key = crypto.randomUUID()
         setAnswers((prev) => [...prev, newAnswer]);
     }
 
-    const deleteAnswer = (i: number) => {
-        let target = question.answers.at(i)!
-        console.log('idx: ' + i)
-        console.log(question.answers.at(i))
-        console.log(question.answers)
-
-        if(target?.id!){
-            AnswerApi.adminRemoveAnswer(target?.id).catch(e => console.log(e));
+    const deleteAnswer = (target: AnswerType) => {
+        if (target.id!) {
+            AnswerApi.adminRemoveAnswer(target.id).catch(e => console.log(e));
         }
-        question.answers = question.answers.filter((_, ind) => ind !== i)
-        setAnswers((old) => old.filter((non, ind) => ind !== i ));
+        question.answers = question.answers.filter((a: AnswerType) => a._key !== target._key)
+        setAnswers(question.answers)
     }
 
     return (
@@ -67,34 +63,50 @@ export function AddQuestionSingle(props: any): ReactElement {
                 }}/>
             </div>
 
-            {answers.map((a, i) =>
-                <div key={i} className={"inputGroup"}
-                     style={{padding: "0 0 15px 0", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%"}}>
-                    <label style={{
-                        color: "rgb(147, 147, 147)",
-                        fontSize: "13px",
-                        padding: "6px 10px 0 0",
-                        whiteSpace: "nowrap"
-                    }}>{"Ответ " + `${i+1}` + ":"}</label>
-                    <input type="radio" style={{marginRight: "8px"}} defaultChecked={a.correct ?? false}
-                           name={"q" + qIndex} onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        a.correct = e.target.checked
-                        question.answers = answers;
-                    }}/>
-                    <input type="text" placeholder={"Вариант ответа"} style={{width: "100%"}} defaultValue={a.content}
-                           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                               a.content = e.target.value
-                               question.answers = answers;
-                           }}/>
-                    <Button
-                        className={"danger"}
-                        disabled ={false}
-                        style={{paddingTop: '1rem'}}
-                        text={<DeleteIcon/>}
-                        onClick={()=> deleteAnswer(i)}
-                    />
-                </div>
-            )}
+            {
+                answers.map((answer, i) => {
+
+                        return <div key={answer._key} className={"inputGroup"}
+                                    style={{
+                                        padding: "0 0 15px 0",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        width: "100%"
+                                    }}>
+                            <label style={{
+                                color: "rgb(147, 147, 147)",
+                                fontSize: "13px",
+                                padding: "6px 10px 0 0",
+                                whiteSpace: "nowrap"
+                            }}>{"Ответ " + `${i + 1}` + ":"}</label>
+                            <input type="radio" style={{marginRight: "8px"}}
+                                   defaultChecked={answer.correct ?? false}
+                                   name={"q" + qIndex}
+                                   onChange={
+                                       (e: ChangeEvent<HTMLInputElement>) => {
+                                           answer.correct = e.target.checked
+                                           question.answers = answers;
+                                       }
+                                   }
+                            />
+                            <input type="text" placeholder={"Вариант ответа"} style={{width: "100%"}}
+                                   defaultValue={answer.content}
+                                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                       answer.content = e.target.value
+                                       question.answers = answers;
+                                   }}/>
+                            <Button
+                                className={"danger"}
+                                disabled={false}
+                                style={{paddingTop: '1rem'}}
+                                text={<DeleteIcon/>}
+                                onClick={() => deleteAnswer(answer)}
+                            />
+                        </div>
+                    }
+                )
+            }
             <Button text={"Добавить вариант ответа"} onClick={() => addAnswer()}/>
         </div>
     )

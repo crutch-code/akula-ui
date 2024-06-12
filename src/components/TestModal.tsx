@@ -7,6 +7,7 @@ import {QuestionType} from "../types/QuestionType";
 import {AddQuestionSingle} from "./parts/AddQuestionSingle";
 import {TestType} from "../types/TestType";
 import {AddQuestionMultiple} from "./parts/AddQuestionMultiple";
+import {AddQuestionComparison} from "./parts/AddQuestionComparison";
 
 export function TestModal(props: any): ReactElement {
     const [visible, setVisible] = props.visibleState;
@@ -36,13 +37,15 @@ export function TestModal(props: any): ReactElement {
             title: '',
             position: questions.length,
             amount: 0,
-            answers: []
+            answers: [],
+            comparisons: [],
+            _key: null
         }
         setQuestions((prev) => [...prev, q])
     }
 
     const createTest = () => {
-        //TODO: [{"id":"0","type":"SINGLE","points":3,"title":"fdfgfh","position":0,"amount":0,"answers":[{"id":"0","content":"an2","correct":true,"_index":1},{"id":"0","content":"an1","correct":false,"_index":2}]},{"id":"0","type":"SINGLE","points":2,"title":"q2","position":1,"amount":0,"answers":[{"id":"0","content":"sadf","correct":true,"_index":1},{"id":"0","content":"dasf","correct":false,"_index":2}]}]
+        console.log(questions)
         let data = {
             id: test === null ? null : test.id,
             lid: lid,
@@ -56,26 +59,26 @@ export function TestModal(props: any): ReactElement {
                     type: q.type,
                     title: q.title,
                     points: q.points,
-                    answers: q.answers.map(a => {
+                    answers: q.answers?.map(a => {
                         return {
                             id: a.id === BigInt(0) ? null : a.id,
                             content: a.content,
                             correct: a.correct
                         }
                     }),
-                    comparisons: []//TODO: impl
+                    comparisons: q.comparisons?.map(comparison => {
+                        comparison.lid.isLeft = true
+                        comparison.rid.isLeft = false
+                        return{
+                            id: comparison.id === BigInt(0) ? null : comparison.id,
+                            lid: comparison.lid,
+                            rid: comparison.rid,
+                            qid: comparison.qid,
+                        }
+                    })
                 }
             })
-            /*
-            comparisons: [
-                        {
-                            id: null,
-                            lid: { id: null, content: '', isLeft: true },
-                            rid: { id: null, content: '', isLeft: false }
-                        }
-                    ]*/
         };
-        //console.log(JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v));
         REST.adminUpdateTest(data).then((t) => {
             setVisible(false);
         });
@@ -120,7 +123,7 @@ export function TestModal(props: any): ReactElement {
                             ? <AddQuestionSingle key={i} question={q} index={i} arr={[questions, setQuestions]}/>
                             : q.type === "MULTIPLE"
                                 ? <AddQuestionMultiple key={i} question={q} index={i}/>
-                                : <div key={i}>TODO: COMPARISON</div>
+                                : <AddQuestionComparison key={i} question={q} index={i}/>
                         }
                         <div className={"hr"}></div>
                     </>
@@ -132,7 +135,7 @@ export function TestModal(props: any): ReactElement {
                         <option value={"NO"} disabled={true}>Добавить вопрос</option>
                         <option value={"SINGLE"}>Одиночный</option>
                         <option value={"MULTIPLE"}>Множественный</option>
-                        <option value={"COMPARISON"} disabled={true}>Сопоставление</option>
+                        <option value={"COMPARISON"}>Сопоставление</option>
                     </select>
                 </div>
             </div>

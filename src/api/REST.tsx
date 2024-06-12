@@ -828,9 +828,15 @@ export class REST {
     }
 
     public static adminAddCourse(cid: number, uid: number): Promise<any> {
-        return fetch(REST.BASE + "/api/admin/course/" + cid + "?uid=" + uid, {
+        return fetch(REST.BASE + "/api/admin/membership/", {
             method: "PUT",
             headers: {"Content-Type": "application/json", 'Authorization': 'Bearer ' + sessionStorage.getItem("jwt")},
+            body: JSON.stringify( {
+                consumerType:"USER",
+                resourceType:"COURSE",
+                consumerId: uid,
+                resourceId: cid
+            })
         })
             .then((response) => {
                 if (response.status === 401) {

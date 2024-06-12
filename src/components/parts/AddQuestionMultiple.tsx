@@ -11,8 +11,8 @@ export function AddQuestionMultiple(props: any): ReactElement {
     const [answers, setAnswers] = useState<AnswerType[]>([]);
 
     useEffect(() => {
-        setAnswers(question?.answers.map((a, i) => {
-            a._index = i + 1;
+        setAnswers(question?.answers?.map(a => {
+            a._key = a.id === BigInt(0) ? a.id : crypto.randomUUID();
             return a;
         }) ?? []);
     }, [question])
@@ -22,19 +22,18 @@ export function AddQuestionMultiple(props: any): ReactElement {
             id: BigInt(0),
             content: '',
             correct: false,
-            _index: answers.length + 1,
+            _key: null
         }
+        newAnswer._key = crypto.randomUUID()
         setAnswers((prev) => [...prev, newAnswer]);
     }
 
-    const deleteAnswer = (i: number) => {
-        let target = question.answers.at(i)!
-
-        if(target?.id!){
-            AnswerApi.adminRemoveAnswer(target?.id).catch(e => console.log(e));
+    const deleteAnswer = (target: AnswerType) => {
+        if (target.id!) {
+            AnswerApi.adminRemoveAnswer(target.id).catch(e => console.log(e));
         }
-        question.answers = question.answers.filter((_, ind) => ind !== i)
-        setAnswers((old) => old.filter((non, ind) => ind !== i ));
+        question.answers = question.answers.filter((a: AnswerType) => a._key !== target._key)
+        setAnswers(question.answers)
     }
 
     return (
@@ -65,7 +64,7 @@ export function AddQuestionMultiple(props: any): ReactElement {
             </div>
 
             {answers.map((a, i) =>
-                <div key={i} className={"inputGroup"}
+                <div key={a._key} className={"inputGroup"}
                      style={{padding: "0 0 15px 0", display: "flex", width: "100%"}}>
                     <label style={{
                         color: "rgb(147, 147, 147)",
@@ -88,7 +87,7 @@ export function AddQuestionMultiple(props: any): ReactElement {
                         disabled ={false}
                         style={{paddingTop: '1rem'}}
                         text={<DeleteIcon/>}
-                        onClick={()=> deleteAnswer(i)}
+                        onClick={()=> deleteAnswer(a)}
                     />
 
                 </div>

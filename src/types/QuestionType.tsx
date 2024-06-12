@@ -7,6 +7,8 @@ export type QuestionType = {
     position: number
     amount: number
     answers: AnswerType[]
+    comparisons: ComparisonType[]
+    _key: any
 }
 
 export type AnswerType = {
@@ -14,5 +16,21 @@ export type AnswerType = {
     content: string
 
     correct: boolean | null,
-    _index: number | null,
+    // _index: number | null,
+    _key: any | null,
+}
+
+export type ComparisonType = {
+    id: bigint,
+    lid: OptionType,
+    rid: OptionType,
+    qid: bigint
+    _key: any
+}
+
+export type OptionType = {
+    id: bigint,
+    content: string,
+    isLeft: boolean
+    _key: any | null
 }
